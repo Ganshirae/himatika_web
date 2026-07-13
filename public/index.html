@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Official Website - Himatika Universitas Trilogi</title>
+    <link rel="shortcut icon" href="./image/Logo Himatika.PNG" type="image/x-icon">
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/11.5.0/firebase-app-compat.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/11.5.0/firebase-auth-compat.js"></script>
+    <script defer src="/__/firebase/11.5.0/firebase-database-compat.js"></script>
+    <script defer src="/__/firebase/11.5.0/firebase-firestore-compat.js"></script>
+    <script defer src="/__/firebase/11.5.0/firebase-functions-compat.js"></script>
+    <script defer src="/__/firebase/11.5.0/firebase-messaging-compat.js"></script>
+    <script defer src="/__/firebase/11.5.0/firebase-storage-compat.js"></script>
+    <script defer src="/__/firebase/11.5.0/firebase-analytics-compat.js"></script>
+    <script defer src="/__/firebase/11.5.0/firebase-remote-config-compat.js"></script>
+    <script defer src="/__/firebase/11.5.0/firebase-performance-compat.js"></script>
+    <!-- 
+      initialize the SDK after all desired features are loaded, set useEmulator to false
+      to avoid connecting the SDK to running emulators.
+    -->
+    <link rel="stylesheet" href="style/style.css">
+    <link rel='stylesheet'
+        href='https://cdn-uicons.flaticon.com/3.0.0/uicons-bold-straight/css/uicons-bold-straight.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/3.0.0/uicons-brands/css/uicons-brands.css'>
+    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+</head>
+
+<body>
+    <!-- Overlay untuk menu mobile -->
+    <div class="overlay"></div>
+
+    <!-- Header & Navigasi -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <img src="./image/Logo Himatika.png" alt="Logo Himatika Trilogi" class="logo-img"> Himatika Trilogi
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#home" class="nav-link">Beranda</a></li>
+                    <li><a href="#about" class="nav-link">Tentang Kami</a></li>
+                    <li><a href="#programs" class="nav-link">Program Kerja</a></li>
+                    <li><a href="#team" class="nav-link">Kepengurusan</a></li>
+                    <li><a href="#gallery" class="nav-link">Galeri</a></li>
+                    <li><a href="#contact" class="nav-link">Kontak</a></li>
+                </ul>
+                <div class="hamburger">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-background">
+            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2070&auto=format&fit=crop"
+                alt="Hero Background">
+        </div>
+        <div class="container">
+            <div class="hero-text">
+                <h1 class="hero-title">Himpunan Mahasiswa Teknik Informatika</h1>
+                <p class="hero-subtitle">Wadah aspirasi dan kreativitas mahasiswa untuk mengembangkan potensi dalam
+                    bidang teknologi dan keilmuan.</p>
+                <a href="#about" class="btn hero-btn">Kenali Kami</a>
+            </div>
+        </div>
+        <div class="scroll-down">
+            <span>Scroll Down</span>
+            <i class="fi fi-bs-angle-small-down"></i>
+        </div>
+    </section>
+
+    <!-- Tentang Kami -->
+    <section id="about" class="section about">
+        <div class="container">
+            <h2 class="section-title">Tentang Kami</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Membangun Generasi Teknologi yang Unggul</h3>
+                    <p>Himpunan Mahasiswa Teknik Informatika (HIMATIKA) merupakan organisasi kemahasiswaan yang mewadahi
+                        aspirasi dan berkomitmen untuk mengembangkan potensi mahasiswa dalam bidang teknologi informasi.
+                    </p>
+                    <p>Didirikan sejak tahun 2015, HIMATIKA telah konsisten menghasilkan berbagai kegiatan dan program
+                        yang bermanfaat bagi anggota dan masyarakat luas, serta aktif dalam membangun jejaring dengan
+                        industri dan stakeholder.</p>
+                    <!-- <a href="#" class="btn">Pelajari Lebih Lanjut</a> -->
+                </div>
+                <div class="about-img">
+                    <img src="./image/logohima.png" alt="Tentang Kami">
+                </div>
+            </div>
+            <div class="about-stats">
+                <div class="stat-item">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-title">Anggota Aktif</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">6</div>
+                    <div class="stat-title">Program Kerja</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">10+</div>
+                    <div class="stat-title">Tahun Berdiri</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Program Kerja -->
+    <section id="programs" class="section programs">
+        <div class="container">
+            <h2 class="section-title">Program Kerja</h2>
+            <div class="program-cards">
+                <div class="program-card">
+                    <div class="program-img">
+                        <img src="./image/workshop.webp" alt="Seminar Teknologi">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">Workshop Teknologi</h3>
+                        <p class="program-desc">Mengasah kemampuanmu di berbagai workshop teknologi yang seru! Di sini, kita akan belajar dan praktik langsung bareng para ahli. Cocok buat kamu yang pengin nambah skill baru di dunia teknologi.</p>
+                        <!-- <a href="#" class="read-more">Baca Selengkapnya <i class="fi fi-bs-arrow-right"></i></a> -->
+                    </div>
+                </div>
+                <div class="program-card">
+                    <div class="program-img">
+                        <img src="./image/texpo2.jpg" alt="Kompetisi Pemrograman">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">T - Expo</h3>
+                        <p class="program-desc">Ingin tahu lebih banyak tentang dunia teknologi? Kunjungi T-Expo! Ini adalah ajang pameran dari berbagai inovasi dan proyek keren melihat karya-karya mutakhir, dan dapat inspirasi baru.</p>
+                        <!-- <a href="#" class="read-more">Baca Selengkapnya <i class="fi fi-bs-arrow-right"></i></a> -->
+                    </div>
+                </div>
+                <div class="program-card">
+                    <div class="program-img">
+                        <img src="./image/tcamp2024.jpg" alt="Pelatihan Web Development">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">T - Camp</h3>
+                        <p class="program-desc">Pengalaman tak terlupakan di T-Camp! Ini bukan cuma acara biasa, tapi tempat kita berkumpul, berbagi ilmu, dan seru-seruan bareng untuk mempererat persahabatan, dan mengembangkan diri.</p>
+                        <!-- <a href="#" class="read-more">Baca Selengkapnya <i class="fi fi-bs-arrow-right"></i></a> -->
+                    </div>
+                </div>
+                <div class="program-card">
+                    <div class="program-img">
+                        <img src="./image/Company Visit MNC.jpg" alt="Hackathon">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">Company Visit</h3>
+                        <p class="program-desc">Mau tahu gimana rasanya kerja di perusahaan teknologi top? Ikutan aja Company Visit kami! Kamu bisa lihat langsung suasana kerja, ngobrol sama para profesional, dan dapat gambaran nyata tentang dunia kerja yang kamu impikan.</p>
+                        <!-- <a href="#" class="read-more">Baca Selengkapnya <i class="fi fi-bs-arrow-right"></i></a> -->
+                    </div>
+                </div>
+                <div class="program-card">
+                    <div class="program-img">
+                        <img src="./image/dukungan karir.jpg" alt="Hackathon">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">Dukungan Karir</h3>
+                        <p class="program-desc">Bingung mau mulai karir dari mana? Kami siap bantu! Lewat program Dukungan Karir, kamu akan dapat bimbingan, tips, dan trik seputar dunia kerja, mulai dari persiapan CV sampai wawancara. Kami akan bantu kamu menuju karir impian di bidang teknologi.</p>
+                        <!-- <a href="#" class="read-more">Baca Selengkapnya <i class="fi fi-bs-arrow-right"></i></a> -->
+                    </div>
+                </div>
+                <div class="program-card">
+                    <div class="program-img">
+                        <img src="./image/kolaborasi.png" alt="Hackathon">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">Kolaborasi Teknologi</h3>
+                        <p class="program-desc">Bersama-sama, kita bisa bikin hal-hal luar biasa! kami menggandeng berbagai pihak untuk menciptakan inovasi dan solusi yang bermanfaat. Ini adalah wadah bagi ide-ide brilian untuk bertemu dan terwujud, demi kemajuan teknologi yang lebih baik.</p>
+                        <!-- <a href="#" class="read-more">Baca Selengkapnya <i class="fi fi-bs-arrow-right"></i></a> -->
+                    </div>
+                </div>
+                <!-- <div class="program-card">
+                    <div class="program-img">
+                        <img src="./image/workshop.webp" alt="Hackathon">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">Aktivitas Olahraga</h3>
+                        <p class="program-desc">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi perferendis expedita quidem facere numquam amet enim, cupiditate, placeat officiis temporibus aut! Modi eveniet eaque inventore praesentium commodi veritatis possimus eligendi!</p>
+                        <a href="#" class="read-more">Baca Selengkapnya <i class="fi fi-bs-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="program-card">
+                    <div class="program-img">
+                        <img src="./image/workshop.webp" alt="Hackathon">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">Studi Banding</h3>
+                        <p class="program-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis aut placeat a tempore blanditiis laudantium hic mollitia incidunt, quisquam quaerat pariatur reprehenderit quibusdam itaque voluptates ipsa similique nesciunt voluptatum nemo.</p>
+                        <a href="#" class="read-more">Baca Selengkapnya <i class="fi fi-bs-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="program-card">
+                    <div class="program-img">
+                        <img src="./image/workshop.webp" alt="Hackathon">
+                    </div>
+                    <div class="program-content">
+                        <h3 class="program-title">Kemitraan Alumni</h3>
+                        <p class="program-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos maiores quia delectus tenetur quam labore voluptatum, neque qui at magni voluptatibus eum, eius nesciunt! At ad cum ipsum reprehenderit eligendi?</p>
+                        <a href="#" class="read-more">Baca Selengkapnya <i class="fi fi-bs-arrow-right"></i></a>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Kepengurusan -->
+    <section id="team" class="section team">
+        <div class="container">
+            <h2 class="section-title">Kepengurusan</h2>
+            <div class="team-slider">
+                <div class="team-container">
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="./image/fais.png" alt="Ketua">
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name">Musyaffa Salman Alfarizi</h3>
+                            <p class="member-role">Ketua</p>
+                            <!-- <p class="member-bio">Memimpin dan mengarahkan organisasi untuk mencapai visi dan misi yang telah ditetapkan.</p> -->
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="./image/yudis.png" alt="Wakil Ketua">
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name">Yudistira</h3>
+                            <p class="member-role">Wakil Ketua</p>
+                            <!-- <p class="member-bio">Mendukung ketua dalam tugasnya dan siap menggantikan saat diperlukan.</p> -->
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="./image/riska.png" alt="Kadiv Kominfo">
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name">Riska Febriyanti</h3>
+                            <p class="member-role">Sekretaris I</p>
+                            <!-- <p class="member-bio">Mengelola media sosial dan publikasi seluruh kegiatan himpunan.</p> -->
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="./image/nanda.png" alt="Kadiv Pendidikan">
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name">Ananda Tri Handayani</h3>
+                            <p class="member-role">Bendahara I</p>
+                            <!-- <p class="member-bio">Merancang dan melaksanakan program kerja edukatif seperti workshop dan seminar.</p> -->
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="./image/dimas.png" alt="Sekretaris">
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name">Dimas Srimuladi</h3>
+                            <p class="member-role">Koordinator Humas</p>
+                            <!-- <p class="member-bio">Bertanggung jawab atas administrasi, surat-menyurat, dan dokumentasi organisasi.</p> -->
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="./image/naya.png" alt="Kadiv Kominfo">
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name">Kurnia</h3>
+                            <p class="member-role">Koordinator Riset Keilmuan</p>
+                            <!-- <p class="member-bio">Mengelola media sosial dan publikasi seluruh kegiatan himpunan.</p> -->
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="./image/adi.png" alt="Kadiv Kominfo">
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name">Adi Rahmansyah</h3>
+                            <p class="member-role">Koordinator PM & B</p>
+                            <!-- <p class="member-bio">Mengelola media sosial dan publikasi seluruh kegiatan himpunan.</p> -->
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="./image/galang.png" alt="Bendahara">
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name">Galang Jenar Mahesadewa</h3>
+                            <p class="member-role">Koordinator BPSDM</p>
+                            <!-- <p class="member-bio">Mengelola keuangan organisasi dengan transparan dan akuntabel.</p> -->
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="./image/reno.png" alt="Kadiv Humas">
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name">Muhamad Syafareno</h3>
+                            <p class="member-role">Koordinator Logistik</p>
+                            <!-- <p class="member-bio">Menjalin hubungan baik dengan pihak eksternal, industri, dan alumni.</p> -->
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="./image/fadly.png" alt="Kadiv Kominfo">
+                        </div>
+                        <div class="member-info">
+                            <h3 class="member-name">Fadly Akbar Alamsyah</h3>
+                            <p class="member-role">Koordinator Media Kreatif</p>
+                            <!-- <p class="member-bio">Mengelola media sosial dan publikasi seluruh kegiatan himpunan.</p> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="team-nav">
+                <div class="team-nav-btn prev">❮</div>
+                <div class="team-nav-btn next">❯</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galeri -->
+    <section id="gallery" class="section gallery">
+        <div class="container">
+            <h2 class="section-title">Galeri</h2>
+            <!-- <div class="gallery-tabs">
+                <div class="gallery-tab active">Semua</div>
+                <div class="gallery-tab">Kegiatan</div>
+                <div class="gallery-tab">Acara</div>
+                <div class="gallery-tab">Workshop</div>
+            </div> -->
+            <div class="gallery-items">
+                <div class="gallery-item">
+                    <img src="./image/comvis JSC.jpg" alt="Gambar Kegiatan 1">
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h4>Company Visit JSC 2025</h4>
+                            <p>Company Visit ke salah satu perusahaan berkaitan dengan teknologi kota pintar</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="./image/t-camp.jpg" alt="Gambar Kegiatan 2">
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h4>T-Camp 2023</h4>
+                            <p>Kemah himpunan mahasiswa teknologi informasi</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="./image/Company Visit MNC.jpg" alt="Gambar Kegiatan 3">
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h4>Company Visit MNC Animation 2024</h4>
+                            <p>Penyampaian materi dari MNC Animation</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="./image/comvis mnc.jpg" alt="Gambar Kegiatan 4">
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h4>Company Visit MNC Animation 2024</h4>
+                            <p>Company Visit ke salah satu perusahaan berkaitan studio animation dan game</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="./image/tcamp2024.jpg" alt="Gambar Kegiatan 5">
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h4>T-Camp 2024</h4>
+                            <p>Kemah himpunan mahasiswa teknologi informasi</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="./image/office tour animation.jpg" alt="Gambar Kegiatan 6">
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h4>Company Visit MNC Animation 2024</h4>
+                            <p>Office tour ke dalam studio pembuatan animasi</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="gallery-item">
+                    <img src="./image/workshop.webp" alt="Gambar Kegiatan 5">
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h4>Gambar Kegiatan 5</h4>
+                            <p>Deskripsi singkat tentang gambar ini.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="./image/workshop.webp" alt="Gambar Kegiatan 6">
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h4>Gambar Kegiatan 6</h4>
+                            <p>Deskripsi singkat tentang gambar ini.</p>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Kontak -->
+    <section id="contact" class="section contact">
+        <div class="container">
+            <h2 class="section-title">Kontak</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Hubungi Kami</h3>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fi fi-bs-region-pin"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Alamat</h4>
+                            <p>Jl. TMP. Kalibata No.1, RT.4/RW.04, Duren Tiga, Kec. Pancoran, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12760, Jakarta Selatan, Indonesia</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fi fi-bs-phone-call"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Telepon</h4>
+                            <p><a href="tel:+62217980011">(021) 7980011</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fi fi-bs-envelope"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Email</h4>
+                            <p><a href="mailto:himatika@trilogi.ac.id">himatika@trilogi.ac.id</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <h3>Kirim Pesan</h3>
+                    <form>
+                        <div class="form-group full">
+                            <input type="text" class="form-control" placeholder="Nama" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Subjek" required>
+                        </div>
+                        <div class="form-group full">
+                            <textarea class="form-control" placeholder="Pesan" required></textarea>
+                        </div>
+                        <div class="form-group submit-btn">
+                            <button type="submit" class="btn">Kirim Pesan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <a href="#" class="footer-logo">HIMATIKA<span>.</span></a>
+                <div class="footer-about">
+                    <p>Himpunan Mahasiswa Teknik Informatika adalah organisasi yang berkomitmen untuk mengembangkan
+                        potensi mahasiswa dalam bidang teknologi informasi.</p>
+                </div>
+                <div class="footer-social">
+                    <a href="#" target="_blank"><i class="fi fi-brands-facebook"></i></a>
+                    <a href="#" target="_blank"><i class="fi fi-brands-twitter"></i></a>
+                    <a href="#" target="_blank"><i class="fi fi-brands-instagram"></i></a>
+                    <a href="#" target="_blank"><i class="fi fi-brands-github"></i></a>
+                </div>
+                <div class="footer-links">
+                    <h4 class="footer-title">Navigasi</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home"><i class="fas fa-chevron-right"></i> Beranda</a></li>
+                        <li><a href="#about"><i class="fas fa-chevron-right"></i> Tentang Kami</a></li>
+                        <li><a href="#programs"><i class="fas fa-chevron-right"></i> Program Kerja</a></li>
+                        <li><a href="#team"><i class="fas fa-chevron-right"></i> Kepengurusan</a></li>
+                        <li><a href="#gallery"><i class="fas fa-chevron-right"></i> Galeri</a></li>
+                        <li><a href="#contact"><i class="fas fa-chevron-right"></i> Kontak</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="copyright">&copy; 2025 Himpunan Mahasiswa Teknik Informatika Universitas Trilogi. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script untuk interaksi -->
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        const overlay = document.querySelector('.overlay');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            overlay.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            overlay.classList.remove('active');
+            hamburger.classList.remove('active');
+        });
+
+        // Scroll effect for header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            header.classList.toggle('scrolled', window.scrollY > 0);
+        });
+
+
+    </script>
+    <script>
+        // Pastikan script ini berjalan setelah seluruh dokumen dimuat
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // --- Script untuk Slider Kepengurusan ---
+            const teamContainer = document.querySelector('.team-container');
+            const prevBtn = document.querySelector('.team-nav .prev');
+            const nextBtn = document.querySelector('.team-nav .next');
+            const members = document.querySelectorAll('.team-member');
+
+            // Jika tidak ada elemen slider, hentikan eksekusi script
+            if (!teamContainer || !prevBtn || !nextBtn || members.length === 0) {
+                return;
+            }
+
+            let currentIndex = 0;
+            // Variabel memberWidth tetap dibutuhkan untuk kalkulasi tombol navigasi
+            let memberWidth = 0;
+
+            // Variabel containerMargin tidak lagi dibutuhkan dan bisa dihapus
+            // let containerMargin = 0; 
+
+            function updateSliderDimensions() {
+                // Menghitung lebar satu item member termasuk marginnya
+                const memberStyle = window.getComputedStyle(members[0]);
+                const margin = parseFloat(memberStyle.marginLeft) + parseFloat(memberStyle.marginRight);
+                memberWidth = members[0].offsetWidth + margin;
+
+                // Perhitungan containerMargin dihapus karena tidak diperlukan lagi
+            }
+
+            function updateSliderPosition() {
+                // **PERBAIKAN UTAMA DI SINI**
+                // Kita hanya perlu mengambil posisi 'offsetLeft' dari member saat ini.
+                // `offsetLeft` sudah memberikan jarak yang tepat dari awal kontainer.
+                const offset = members[currentIndex].offsetLeft;
+
+                // Geser kontainer ke kiri berdasarkan nilai offset yang benar
+                teamContainer.style.transform = `translateX(-${offset}px)`;
+
+                // Mengaktifkan/menonaktifkan tombol navigasi
+                updateNavButtons();
+            }
+
+            function updateNavButtons() {
+                // Menonaktifkan tombol 'prev' jika di awal
+                prevBtn.style.opacity = (currentIndex === 0) ? '0.5' : '1';
+                prevBtn.style.cursor = (currentIndex === 0) ? 'not-allowed' : 'pointer';
+
+                // Menonaktifkan tombol 'next' jika di akhir
+                // Kita perlu tahu berapa item yang terlihat untuk menentukan batas akhir
+                const itemsInView = Math.round(teamContainer.parentElement.offsetWidth / memberWidth);
+                const maxIndex = members.length - itemsInView;
+
+                // Pastikan maxIndex tidak negatif jika semua item terlihat
+                if (maxIndex < 0) {
+                    nextBtn.style.opacity = '0.5';
+                    nextBtn.style.cursor = 'not-allowed';
+                    return;
+                }
+
+                nextBtn.style.opacity = (currentIndex >= maxIndex) ? '0.5' : '1';
+                nextBtn.style.cursor = (currentIndex >= maxIndex) ? 'not-allowed' : 'pointer';
+            }
+
+            nextBtn.addEventListener('click', () => {
+                const itemsInView = Math.round(teamContainer.parentElement.offsetWidth / memberWidth);
+                // Batas maksimal untuk currentIndex adalah jumlah total item dikurangi jumlah item yang terlihat
+                const maxIndex = Math.max(0, members.length - itemsInView);
+                if (currentIndex < maxIndex) {
+                    currentIndex++;
+                    updateSliderPosition();
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateSliderPosition();
+                }
+            });
+
+            // Panggil fungsi saat ukuran window berubah agar slider tetap responsif
+            window.addEventListener('resize', () => {
+                updateSliderDimensions();
+                // Periksa ulang batas index saat resize
+                const itemsInView = Math.round(teamContainer.parentElement.offsetWidth / memberWidth);
+                const maxIndex = Math.max(0, members.length - itemsInView);
+                if (currentIndex > maxIndex) {
+                    currentIndex = maxIndex;
+                }
+                updateSliderPosition();
+            });
+
+            // Inisialisasi slider saat halaman pertama kali dimuat
+            updateSliderDimensions();
+            updateSliderPosition();
+
+        });
+    </script>
+</body>
+
+</html>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const loadEl = document.querySelector('#load');
+        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+        // // The Firebase SDK is initialized and available here!
+        //
+        // firebase.auth().onAuthStateChanged(user => { });
+        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
+        // firebase.firestore().doc('/foo/bar').get().then(() => { });
+        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
+        // firebase.messaging().requestPermission().then(() => { });
+        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
+        // firebase.analytics(); // call to activate
+        // firebase.analytics().logEvent('tutorial_completed');
+        // firebase.performance(); // call to activate
+        //
+        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+
+        try {
+            let app = firebase.app();
+            let features = [
+                'auth',
+                'database',
+                'firestore',
+                'functions',
+                'messaging',
+                'storage',
+                'analytics',
+                'remoteConfig',
+                'performance',
+            ].filter(feature => typeof app[feature] === 'function');
+            loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
+        } catch (e) {
+            console.error(e);
+            loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
+        }
+    });
+</script>
+</body>
+
+</html>
