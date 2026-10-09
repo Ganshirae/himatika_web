@@ -16,6 +16,7 @@ Website HIMATIKA sebelumnya merupakan website profil berbasis HTML/CSS statis ko
 3. **Showcase Program Kerja Terpusat**: Membangun katalog program kerja interaktif di halaman khusus (`/proker`) dengan status penayangan, filter divisi, dan panel rincian.
 4. **Sistem Transparansi Keuangan Internal (The Vault)**: Mengintegrasikan database **Supabase (PostgreSQL)** dengan sistem autentikasi tertutup (*Restricted Access*) untuk pencatatan dan pelaporan kas masuk/keluar khusus pengurus HIMATIKA.
 5. **Responsif Multi-Platform (100% Mobile & Desktop Ready)**: Menjamin pengalaman mulus di berbagai perangkat (Smartphone, Tablet, Laptop, Desktop Wide).
+6. **Platform Deployment**: Menggunakan **Vercel** sebagai infrastruktur hosting serverless & Edge Network resmi.
 
 ---
 

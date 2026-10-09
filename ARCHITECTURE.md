@@ -2,7 +2,7 @@
 > **Dokumen Arsitektur Sistem, Desain Basis Data, Logika Bisnis, dan Keamanan**  
 > **Framework:** Next.js (App Router, Server Components & Server Actions)  
 > **Backend-as-a-Service:** Supabase (PostgreSQL, Supabase Auth, Storage, RLS)  
-> **Deployment Target:** Vercel / Firebase Hosting + Supabase Cloud  
+> **Deployment Target:** Vercel (Edge Network) + Supabase Cloud  
 
 ---
 
