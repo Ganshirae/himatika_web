@@ -344,7 +344,7 @@ himatika_web/
 
 Status Kesiapan:
 * [x] **Daftar Divisi Resmi**: Sudah terkonfirmasi 8 entitas (Sekretaris, Bendahara, BPSDM, Humas, Riset dan Keilmuan, Pengembangan Minat dan Bakat, Sarana dan Logistik, Media Kreatif).
-* [ ] **Akun & Project Supabase**: Apakah proyek di [Supabase Dashboard](https://supabase.com/) sudah siap dibuat (atau ingin dipandu langkah pembuatannya)?
+* [x] **Konfigurasi Supabase MCP**: Token PAT telah dikonfigurasi di `mcp_config.json` *(Mode Standby / Menunggu konfirmasi eksekusi)*.
 * [ ] **Koleksi Video Teaser**: Ketersediaan stok klip video singkat kegiatan mahasiswa (format `.mp4`/`.mov`) untuk dikonversi menjadi background hero reel.
 
 *(Dokumen ini akan terus diperbarui seiring berjalannya proyek).*
