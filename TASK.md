@@ -8,7 +8,7 @@
 ## Ringkasan Progres Utama
 
 ```text
-[ ] FASE 0: Persiapan Lingkungan & Prasyarat Sistem
+[x] FASE 0: Persiapan Lingkungan & Prasyarat Sistem
 [ ] FASE 1: Inisialisasi Fondasi Next.js & Desain Sistem
 [ ] FASE 2: Komponen Global & Navigasi Sinematik
 [ ] FASE 3: Halaman Beranda (Cinematic Hero & Proker Showcase)
@@ -28,16 +28,17 @@
 
 - [x] **Task 0.1: Instalasi Node.js LTS**
   - [x] Instal Node.js versi LTS di sistem Windows via `winget install OpenJS.NodeJS.LTS`.
-  - [x] Verifikasi ketersediaan perintah: **Node.js v24.20.0** dan **NPM v11.19.0** aktif dan siap digunakan.
-- [ ] **Task 0.2: Konfirmasi Proyek Supabase**
-  - [ ] Konfirmasi nama proyek atau Project ID Supabase yang akan ditargetkan.
-  - [ ] Uji koneksi MCP Supabase menggunakan Access Token yang telah tersimpan di `mcp_config.json`.
-- [ ] **Task 0.3: Eksekusi Skema Basis Data di Supabase (Setelah Konfirmasi)**
-  - [ ] Jalankan DDL migrasi SQL: Buat enum `proker_status`, `finance_type`.
-  - [ ] Buat tabel `divisions`, `work_programs`, `finance_categories`, `finance_records`.
-  - [ ] Masukkan *seed data* resmi untuk 8 divisi HIMATIKA.
-  - [ ] Aktifkan *Row Level Security (RLS)* dan pasang kebijakan keamanan data.
-  - [ ] Buat bucket storage: `public-assets` (Publik) dan `vault-receipts` (Privat).
+- [x] **Task 0.2: Konfirmasi Proyek Supabase**
+  - [x] Konfirmasi nama proyek: **`Website_Himatika`** (ID: `urlpknogetgjfmwdbymk`).
+  - [x] Uji koneksi MCP Supabase: **Berhasil terhubung** (Status: `ACTIVE_HEALTHY`, URL: `https://urlpknogetgjfmwdbymk.supabase.co`).
+- [x] **Task 0.3: Eksekusi Skema Basis Data di Supabase**
+  - [x] Jalankan DDL migrasi SQL: Buat enum `proker_status`, `finance_type`.
+  - [x] Buat tabel `divisions`, `work_programs`, `finance_categories`, `finance_records`.
+  - [x] Masukkan *seed data* resmi untuk 8 divisi HIMATIKA (8 baris aktif).
+  - [x] Masukkan *seed data* kategori keuangan (8 kategori kas).
+  - [x] Buat database view `v_financial_summary` dan fungsi RPC `get_financial_summary()`.
+  - [x] Aktifkan *Row Level Security (RLS)* dan pasang kebijakan keamanan data (Public & Authenticated).
+  - [x] Buat bucket storage: `public-assets` (Publik) dan `vault-receipts` (Privat).
 
 ---
 
