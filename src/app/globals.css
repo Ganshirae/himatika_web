@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: var(--font-anton), sans-serif;
+  --font-mono: var(--font-mono), monospace;
+  --font-sans: var(--font-poppins), sans-serif;
+
+  --color-canvas: #050505;
+  --color-surface: #0c0c0e;
+  --color-surface-hover: #141418;
+  
+  --color-main: #f4f4f6;
+  --color-secondary: #a1a1aa;
+  --color-muted: #52525b;
+
+  --color-accent-blue: #0066ff;
+  --color-accent-cyan: #00e5ff;
+  --color-accent-green: #10b981;
+  --color-accent-red: #ef4444;
+
+  --color-border-hairline: rgba(255, 255, 255, 0.08);
+  --color-border-active: rgba(255, 255, 255, 0.25);
+  --color-border-cyan: rgba(0, 229, 255, 0.4);
+}
+
+:root {
+  --bg-canvas: #050505;
+  --bg-surface: #0c0c0e;
+  --bg-surface-hover: #141418;
+  --bg-overlay: rgba(5, 5, 5, 0.85);
+
+  --text-main: #f4f4f6;
+  --text-secondary: #a1a1aa;
+  --text-muted: #52525b;
+
+  --accent-blue: #0066ff;
+  --accent-cyan: #00e5ff;
+  --accent-green: #10b981;
+  --accent-red: #ef4444;
+
+  --border-hairline: rgba(255, 255, 255, 0.08);
+  --border-active: rgba(255, 255, 255, 0.25);
+  --border-cyan: rgba(0, 229, 255, 0.4);
+}
+
+/* Base Body Styles */
+html, body {
+  background-color: var(--bg-canvas);
+  color: var(--text-main);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Hairline border utility */
+.border-hairline {
+  border-color: var(--border-hairline);
+}
+
+/* Lenis Smooth Scroll CSS standards */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}

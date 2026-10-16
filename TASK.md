@@ -9,7 +9,7 @@
 
 ```text
 [x] FASE 0: Persiapan Lingkungan & Prasyarat Sistem
-[ ] FASE 1: Inisialisasi Fondasi Next.js & Desain Sistem
+[x] FASE 1: Inisialisasi Fondasi Next.js & Desain Sistem
 [ ] FASE 2: Komponen Global & Navigasi Sinematik
 [ ] FASE 3: Halaman Beranda (Cinematic Hero & Proker Showcase)
 [ ] FASE 4: Halaman Tentang Kami (Interactive Org Blueprint)
@@ -45,28 +45,27 @@
 ### FASE 1: Inisialisasi Fondasi Next.js & Desain Sistem
 > *Tujuan: Menginisialisasi arsitektur Next.js 14/15 App Router dan menyusun token desain.*
 
-- [ ] **Task 1.1: Scaffolding Project Next.js**
-  - [ ] Inisialisasi Next.js dengan TypeScript, Tailwind CSS, ESLint, dan App Router (`src/app/`).
-  - [ ] Bersihkan boilerplate default Next.js (`page.tsx`, `globals.css`).
-  - [ ] Pasang dependensi esensial:
-    ```bash
-    npm install @supabase/ssr @supabase/supabase-js gsap @studio-freight/lenis lucide-react clsx tailwind-merge
-    ```
-- [ ] **Task 1.2: Konfigurasi Tipografi & Google Fonts**
-  - [ ] Setup `next/font/google` untuk memuat font:
-    - `Anton` / `Anton SC` (Display Headline)
-    - `JetBrains Mono` (Technical Metadata & Data)
+- [x] **Task 1.1: Scaffolding Project Next.js**
+  - [x] Inisialisasi Next.js (App Router, TypeScript, Turbopack, Tailwind CSS).
+  - [x] Bersihkan boilerplate default Next.js (`page.tsx`, `globals.css`).
+  - [x] Pasang dependensi esensial (`@supabase/ssr`, `@supabase/supabase-js`, `gsap`, `lenis`, `lucide-react`, `clsx`, `tailwind-merge`).
+  - [x] Verifikasi build produksi awal: Sukses tanpa error (`npm run build`).
+- [x] **Task 1.2: Konfigurasi Tipografi & Google Fonts**
+  - [x] Setup `next/font/google` di `src/app/layout.tsx`:
+    - `Anton` (Display Headline)
+    - `JetBrains_Mono` (Technical Metadata & Data)
     - `Poppins` (Body Text & Content)
-  - [ ] Konfigurasi variabel CSS font di `layout.tsx` dan `tailwind.config.ts`.
-- [ ] **Task 1.3: Konfigurasi Design Tokens di Tailwind**
-  - [ ] Daftarkan palet warna *Dark Obsidian* (`#050505`, `#0c0c0e`, `#141418`).
-  - [ ] Daftarkan warna aksen (`#00e5ff`, `#0066ff`, `#10b981`, `#ef4444`).
-  - [ ] Daftarkan utility border hairline (`1px solid rgba(255,255,255,0.08)`).
-- [ ] **Task 1.4: Konfigurasi Integrasi Supabase Client**
-  - [ ] Buat file lingkungan `.env.local` (URL dan Anon Key Supabase).
-  - [ ] Tulis utilitas `src/lib/supabase/client.ts` untuk browser client.
-  - [ ] Tulis utilitas `src/lib/supabase/server.ts` untuk server components & actions.
-  - [ ] Tulis utilitas `src/lib/supabase/middleware.ts` untuk session refresh.
+  - [x] Konfigurasi variabel CSS font di `layout.tsx` (`--font-anton`, `--font-mono`, `--font-poppins`).
+- [x] **Task 1.3: Konfigurasi Design Tokens di Tailwind**
+  - [x] Daftarkan palet warna *Dark Obsidian* (`#050505`, `#0c0c0e`, `#141418`) di `@theme` `globals.css`.
+  - [x] Daftarkan warna aksen (`#00e5ff`, `#0066ff`, `#10b981`, `#ef4444`).
+  - [x] Daftarkan utility border hairline (`border-hairline`, `1px solid rgba(255,255,255,0.08)`).
+- [x] **Task 1.4: Konfigurasi Integrasi Supabase Client**
+  - [x] Buat file lingkungan `.env.local` (URL dan Anon Key Supabase).
+  - [x] Tulis utilitas `src/lib/supabase/client.ts` untuk browser client (`@supabase/ssr`).
+  - [x] Tulis utilitas `src/lib/supabase/server.ts` untuk server components & actions.
+  - [x] Tulis utilitas `src/lib/supabase/middleware.ts` & `src/middleware.ts` untuk session refresh dan route guard `/vault`.
+  - [x] Tulis utilitas `src/lib/utils.ts` (`cn` dan `formatRupiah`).
 
 ---
 

@@ -349,6 +349,7 @@ Status Kesiapan:
 * [x] **Koneksi Supabase MCP**: Terhubung ke proyek **`Website_Himatika`** (`urlpknogetgjfmwdbymk`).
 * [x] **Skema Basis Data Supabase**: 4 tabel (`divisions`, `work_programs`, `finance_categories`, `finance_records`), RLS security, 2 storage bucket (`public-assets`, `vault-receipts`), database view, dan RPC function berhasil dideploy.
 * [x] **Platform Hosting Terpilih**: Vercel (Edge Serverless).
-* [ ] **Koleksi Video Teaser**: Ketersediaan stok klip video kegiatan mahasiswa untuk background hero loop.
+* [x] **Fase 1 Selesai (Fondasi Next.js)**: App Router, Tailwind 4, Google Fonts (`Anton`, `JetBrains_Mono`, `Poppins`), Supabase SSR helpers, middleware route guard, dan build produksi diverifikasi sukses tanpa error.
+* [ ] **Langkah Selanjutnya**: Siap eksekusi **FASE 2 (Komponen Global & Navigasi Sinematik)**.
 
 *(Dokumen ini akan terus diperbarui seiring berjalannya proyek).*
