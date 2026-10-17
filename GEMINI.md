@@ -36,25 +36,28 @@
 
 ---
 
-## 3. Aturan Desain & Rekayasa Frontend (Anti AI-Slop)
+## 3. Aturan Desain & Rekayasa Frontend (Anti AI-Slop Enforced)
 
 1. **Larangan Desain Generik (Zero AI-Slop)**:
+   * ❌ **DILARANG**: Menggunakan warna biru cyan neon (`#00e5ff` / `#38bdf8`) yang membuat web terkesan "AI-slop". Gunakan **HIMATIKA Royal Blue (`#2563eb` / `#1d4ed8` / `#3b82f6`)** sesuai almamater resmi.
+   * ❌ **DILARANG**: Mengubah foto dokumentasi kegiatan menjadi hitam-putih (*monochrome/B&W*). Foto kegiatan **WAJIB** tampil berwarna asli (*full color*) beresolusi tinggi dengan kontras tajam.
+   * ❌ **DILARANG**: Menambahkan teks robotik/terminal yang memaksakan diri di tengah navbar seperti `SYS: ONLINE` atau jargon sci-fi. Area tengah navbar **WAJIB** berupa *Pure Negative Space* (murni kosong dan bersih).
    * ❌ **DILARANG**: Menggunakan card putih rounded pill dengan bayangan buram (*soft drop shadow*) ala Bootstrap generik.
-   * ❌ **DILARANG**: Memasang ilustrasi kartun vektor datar atau stok foto laptop di meja yang klise.
-   * ❌ **DILARANG**: Menggunakan animasi berlebihan yang membuat lag di perangkat ponsel.
+   * ❌ **DILARANG**: Memasang ilustrasi kartun vektor datar atau stok foto klise.
 2. **Standar Estetika yang Diwajibkan**:
-   * ✔️ **Palette**: Dark Obsidian (`#050505`, `#0c0c0e`), hairline border `1px solid rgba(255,255,255,0.08)`, dan aksen *Electric Cyan* (`#00e5ff`) serta *HIMATIKA Blue* (`#0066ff`).
+   * ✔️ **Palette**: Dark Obsidian (`#050505`, `#0c0c0e`), hairline border `1px solid rgba(255,255,255,0.08)`, dan aksen **HIMATIKA Royal Blue (`#2563eb`)**.
    * ✔️ **Tipografi**:
-     * Judul/Headline: `Anton SC` (All-caps, masif, tracking ketat).
+     * Judul/Headline: `Anton` (All-caps, masif, tracking ketat).
      * Data/Status/Nomor/Metadata: `JetBrains Mono` (Monospaced, uppercase, presisi).
      * Body Text: `Poppins` (Clean, abu-abu lembut `#a1a1aa`, nyaman dibaca).
-3. **Aturan Struktur Organisasi (About Us)**:
-   * Diagram kepengurusan **WAJIB** berupa **Interactive Blueprint / Node Tree Diagram** (alur jalur sirkuit/Git branch).
-   * **DILARANG** menampilkan deretan foto profil individu pengurus konvensional. Rincian nama pengurus ditampilkan melalui *slide-over drawer* saat node divisi diklik.
+3. **Aturan Struktur Organisasi (About Us - `/about`)**:
+   * Diagram kepengurusan **WAJIB** berupa **Interactive Blueprint / Node Tree Diagram** (jalur bus sirkuit SVG).
+   * **DILARANG KERAS** menampilkan deretan foto profil individu pengurus konvensional. Rincian nama pengurus, Tupoksi, dan staf ditampilkan melalui *slide-over drawer* (`DivisionDrawer.tsx`) saat node organisasi diklik.
 4. **Standar Responsivitas & Efisiensi Mobile**:
    * Semua ukuran teks judul wajib menggunakan formula CSS `clamp()` yang ada di [`DESIGN.md`](./DESIGN.md) agar tidak meluap (*overflow*) di layar HP.
-   * Video hero background wajib menyertakan atribut: `muted autoplay loop playsinline` dengan ukuran terkompresi < 3.5MB dan poster fallback.
-   * Navigasi mobile wajib berupa *fullscreen brutalist drawer* dengan teks menu vertikal masif.
+   * Navigasi mobile berupa *fullscreen brutalist drawer* dengan teks menu vertikal masif font `Anton`.
+5. **Autentikasi Internal (Portal Pengurus)**:
+   * Tombol akses internal menggunakan ikon profil **User (`<User />`)** di navbar kanan yang mengarahkan ke `/login` untuk pengurus terotorisasi (Bendahara & Medkraf). Subtitle "Dept. of Informatics" pada brand mark dihilangkan.
 
 ---
 

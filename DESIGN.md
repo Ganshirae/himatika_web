@@ -19,31 +19,34 @@ Menolak estetika website ormawa kampus pada umumnya yang serba putih, penuh *gra
 
 ## 2. Design Tokens & Fondasi Visual
 
-### 2.1 Palet Warna & Semantic Tokens
+### 2.1 Palet Warna & Semantic Tokens (Anti AI-Slop)
+
+> [!IMPORTANT]
+> Seluruh warna cyan neon buatan (`#00e5ff`) telah dieliminasi total demi menjaga integritas visual agar tidak terkesan murahan ("AI-slop"). Palet diselaraskan dengan warna biru almamater resmi HIMATIKA & Universitas Trilogi.
 
 ```css
 :root {
   /* Surface / Backgrounds */
   --bg-canvas: #050505;          /* Latar belakang utama (OLED True Black) */
-  --bg-surface: #0c0c0e;         /* Latar belakang card / modul */
+  --bg-surface: #0c0c0e;         /* Latar belakang card / modul / drawer */
   --bg-surface-hover: #141418;   /* State hover pada baris/kartu */
   --bg-overlay: rgba(5, 5, 5, 0.85); /* Backdrop modal/drawer dengan blur */
 
   /* Text & Foreground */
   --text-main: #f4f4f6;          /* Putih tajam untuk judul & konten utama */
-  --text-secondary: #a1a1aa;     /* Abu-abu netral untuk paragraf deskripsi */
-  --text-muted: #52525b;         /* Abu-abu redup untuk metadata & disabled */
+  --text-secondary: #a1a1aa;     /* Titanium Slate untuk paragraf deskripsi */
+  --text-muted: #71717a;         /* Abu-abu redup untuk metadata & micro-copy */
 
-  /* Accent Colors */
-  --accent-blue: #0066ff;        /* Biru primer identitas HIMATIKA */
-  --accent-cyan: #00e5ff;        /* Cyan neon untuk live indicator & hover state */
+  /* Accent Colors (HIMATIKA Official Palette) */
+  --accent-blue: #2563eb;        /* Royal Blue identitas HIMATIKA & Trilogi */
+  --accent-blue-hover: #3b82f6;  /* Blue glow interaktif untuk hover state */
   --accent-green: #10b981;       /* Hijau status: Terlaksana / Uang Masuk */
   --accent-red: #ef4444;         /* Merah status: Uang Keluar / Alert */
 
   /* Borders & Dividers */
-  --border-hairline: rgba(255, 255, 255, 0.08); /* Garis batas default */
+  --border-hairline: rgba(255, 255, 255, 0.08); /* Garis batas default 1px */
   --border-active: rgba(255, 255, 255, 0.25);   /* Garis batas fokus/aktif */
-  --border-cyan: rgba(0, 229, 255, 0.4);        /* Garis highlight aksen */
+  --border-blue: rgba(37, 99, 235, 0.4);        /* Garis highlight biru aksen */
 }
 ```
 
@@ -53,8 +56,8 @@ Menggunakan rumus fluid agar ukuran huruf proporsional otomatis di monitor 4K, l
 
 | Tingkatan | Font Family | Formula CSS `clamp()` | Karakter & Kegunaan |
 | :--- | :--- | :--- | :--- |
-| **Hero Display** | `Anton SC` | `clamp(2.75rem, 8vw, 7.5rem)` | All-Caps, Line-height: `0.9`, Judul utama halaman Beranda |
-| **Section Title** | `Anton SC` | `clamp(2rem, 5vw, 4.5rem)` | All-Caps, Judul tiap seksi (ABOUT, PROKER, THE VAULT) |
+| **Hero Display** | `Anton` | `clamp(2.75rem, 8vw, 7.5rem)` | All-Caps, Line-height: `0.9`, Judul utama halaman Beranda |
+| **Section Title** | `Anton` | `clamp(2rem, 5vw, 4.5rem)` | All-Caps, Judul tiap seksi (ABOUT, PROKER, THE VAULT) |
 | **Card Title** | `Poppins` SemiBold | `clamp(1.15rem, 2vw, 1.75rem)` | Judul nama Program Kerja & Divisi |
 | **Tech Label** | `JetBrains Mono` Medium | `clamp(0.7rem, 1vw, 0.875rem)` | Uppercase, Tracking: `0.15em`, Label nomor `01/06`, Badge status |
 | **Body Text** | `Poppins` Regular | `clamp(0.875rem, 1.1vw, 1.05rem)` | Line-height: `1.65`, Paragraf deskripsi panjang |
@@ -66,19 +69,19 @@ Menggunakan rumus fluid agar ukuran huruf proporsional otomatis di monitor 4K, l
   * Tablet: `padding: 0 2rem` (32px)
   * Mobile: `padding: 0 1.25rem` (20px)
 * **Hairline Border Rule**: Setiap modul dipisahkan oleh garis tipis solid `1px solid var(--border-hairline)`. Tidak ada box-shadow buram bergaya material design.
+* **Negative Space**: Komposisi ruang bernapas murni dipertahankan pada area sentral navbar dan jeda antar seksi.
 * **Aspect Ratios Media**:
-  * Hero Teaser Video: Full-screen `100vw` × `100vh` (Object-fit cover)
+  * Hero Slideshow: Full-screen `100vw` × `100vh` (Object-fit cover)
   * Proker Card Media: `16:9` (Landscape) atau `4:3`
   * Bukti Kuitansi Keuangan: `1:1` thumbnail dengan modal preview ukuran asli
 
 ### 2.4 Z-Index Layering Matrix
 ```text
-z-index: 999  -> Custom Cursor Pointer (Desktop only)
 z-index: 100  -> Mobile Fullscreen Navigation Drawer / Modal Drawers
-z-index: 50   -> Global Header Fixed Navbar
+z-index: 50   -> Global Header Fixed Navbar / Slide-over Division Drawer
 z-index: 10   -> Interactive Controls (Slider prev/next, Floating Action Button)
 z-index: 1    -> Main Content Stream
-z-index: 0    -> Background Looping Video & Canvas Grid Noise
+z-index: 0    -> Background Slideshow & Canvas Grid Noise
 ```
 
 ---
@@ -90,20 +93,18 @@ z-index: 0    -> Background Looping Video & Canvas Grid Noise
 ```text
 [ DESKTOP VIEWPORT ]
 +-----------------------------------------------------------------------------------------+
-| [HIMATIKA TRILOGI]      [SYS: 2026/2027 // DEPT. INFORMATICS]      [BERANDA] [PROKER] [TENTANG] [VAULT] |
+| [LOGO + HIMATIKA TRILOGI]         [ PURE NEGATIVE SPACE ]         [BERANDA] [PROKER] [TENTANG] [(User)] |
 +-----------------------------------------------------------------------------------------+
 ```
 
 * **Struktur**:
-  * **Sisi Kiri**: Teks `HIMATIKA TRILOGI` (Font `Anton SC` ukuran kecil `1.1rem`) + Logo monokrom SVG 24px.
-  * **Sisi Tengah**: Monospace status pill: `● ONLINE // PERIODE 2026-2027`. Titik hijau berkedip perlahan (*pulse effect*).
-  * **Sisi Kanan**: Menu navigasi: `BERANDA`, `PROKER`, `TENTANG KAMI`, dan tombol gated `[THE VAULT]`.
-* **Interaksi Hover (Scramble Text)**:
-  * Menggunakan plugin GSAP Scramble Text. Saat mouse melewati link menu (misal: "PROKER"), karakternya beracak cepat (`#$X_!`) selama 0.3 detik sebelum kembali ke teks asli.
+  * **Sisi Kiri**: Logo resmi HIMATIKA + Teks merek `HIMATIKA TRILOGI` (Font `Anton`). Teks merek dilengkapi animasi interaktif **ScrambleText** saat kursor mendekat. Subtitle "Dept. of Informatics" ditiadakan demi kesederhanaan visual.
+  * **Sisi Tengah**: **Pure Negative Space** (murni kosong dan bersih tanpa teks status robotik "SYS: ONLINE").
+  * **Sisi Kanan**: Menu navigasi publik: `BERANDA` (`/`), `PROKER` (`/proker`), `TENTANG` (`/about`), dan tombol ikon profil minimalis **User Profile (`<User />`)** yang mengarahkan ke Portal Pengurus (`/login`).
 * **Adaptasi Mobile**:
-  * Sisi tengah disembunyikan.
-  * Sisi kanan menampilkan tombol hamburger minimalis 2 garis tipis.
-  * Ketika ditekan: Layar ditutupi *fullscreen black overlay* dengan teks menu vertikal masif berukuran `3rem` font `Anton SC`.
+  * Menu navigasi desktop disembunyikan.
+  * Menampilkan tombol hamburger minimalis 2 garis tipis.
+  * Ketika ditekan: Membuka *fullscreen brutalist drawer* dengan menu vertikal raksasa font `Anton` beranimasi acak huruf.
 
 ---
 
@@ -111,72 +112,70 @@ z-index: 0    -> Background Looping Video & Canvas Grid Noise
 
 #### A. Hero Cinematic Section
 * **Latar Belakang**:
-  * Video loop kompresi tinggi `.webm` berdurasi 8-12 detik tanpa audio (`muted autoplay loop playsinline`).
-  * Lapisan *vignette* tipis di sekeliling layar dan overlay hitam transparan 40% agar teks di atasnya selalu terbaca tajam.
-  * *Fallback*: Jika koneksi HP lambat atau mode hemat daya aktif, tampilkan gambar poster bertekstur *grain/noise* gelap.
+  * Slideshow otomatis foto dokumentasi kegiatan asli HIMATIKA beresolusi tinggi dan **berwarna penuh (*full color*)** (bukan hitam-putih buatan).
+  * Dilengkapi efek transisi *Ken Burns zoom* perlahan dan vignette halus di tepi layar agar teks putih selalu terbaca tajam dan berwibawa.
 * **Tipografi Lockup**:
-  * Baris 1: `HIMPUNAN MAHASISWA` (Monospace `0.85rem`, tracking lebar)
-  * Baris 2: `TEKNIK INFORMATIKA` (Masif font `Anton SC`, `8vw`)
-  * Baris 3: `UNIVERSITAS TRILOGI` (Font `Anton SC`, warna abu-abu muda)
+  * Baris 1: `HIMPUNAN MAHASISWA` (Monospace `JetBrains Mono`, tracking lebar).
+  * Baris 2: `TEKNIK INFORMATIKA` (Masif font `Anton`, `clamp(3.5rem, 9vw, 8.5rem)`).
+  * Baris 3: `UNIVERSITAS TRILOGI` (Font `Anton`, diwarnai **Biru Tua HIMATIKA `#2563eb`** sesuai lambang universitas).
 * **Bottom Controls**:
-  * Indikator scroll di sudut kiri bawah: Tulisan `SCROLL TO EXPLORE` dengan garis penunjuk beranimasi ke bawah.
-  * Tombol audio toggle (opsional jika video memiliki ambient audio) di sudut kanan bawah.
+  * Indikator scroll di sudut kiri bawah: `SCROLL TO EXPLORE` dengan garis penunjuk animasi.
 
 #### B. Featured Showcase Slider (Program Kerja Pilihan)
-Terinspirasi dari slider portofolio Mikki:
-* **Layout**: Split komposisi 2 sisi:
-  * Sisi Kiri (55%): Preview video/gambar berputar dinamis dalam bingkai persegi panjang bersudut tegas.
-  * Sisi Kanan (45%):
-    * Counter Monospace besar: `01 / 04`
-    * Kategori Divisi: `[DIVISI RISET & KEILMUAN]`
-    * Judul Kegiatan: `INFORMATICS FESTIVAL 2026`
-    * Ringkasan 2 kalimat.
-    * Tombol garis outline: `LIHAT PROKER ->`
+* **Layout**: Split komposisi 2 sisi (55% visual preview + 45% metadata):
+  * **Sisi Kiri (55%)**: Foto dokumentasi asli kegiatan berwarna tajam (T-Camp, IT Expo, Workshop, Company Visit MNC).
+  * **Sisi Kanan (45%)**: Counter monospaced (`01 / 04`), nama divisi, judul kegiatan, deskripsi ringkas, dan tombol tautan detail.
 * **Navigasi Slider**:
-  * Progress bar tipis sepanjang 100px yang terisi secara dinamis saat slide berganti.
-  * Tombol navigasi arah panah kiri/kanan (`<` dan `>`) dengan efek hover lingkaran transparan.
-  * Mobile: Mendukung gestur swipe jari horizontal.
+  * Progress bar linear dinamis yang terisi halus saat slide berganti.
+  * Tombol navigasi panah kiri/kanan dengan hover styling.
+  * Dukungan sentuhan gestur **horizontal touch swipe** pada smartphone.
+
+#### C. Quick Metrics Blueprint
+* Menampilkan 4 metrik historis: Tahun Berdiri (`2015`), 8 Divisi Resmi (`08`), 24+ Program Kerja (`24+`), dan 500+ Kader & Alumni (`500+`).
 
 ---
 
-### 3.3 Halaman Tentang Kami: Interactive Org Chart (Blueprint Diagram)
+### 3.3 Halaman Tentang Kami: Interactive Org Blueprint (Tanpa Foto Individu)
 
-> **Catatan Kunci**: Mengeliminasi kartu foto individu untuk menghindari tampilan yang tidak seragam dan memberikan kesan sistem arsitektur komputer murni.
+> **Prinsip Fundamental**: Mengeliminasi kartu foto individu untuk menghindari tampilan yang tidak seragam dan memberikan kesan sistem arsitektur komputer murni.
 
 ```mermaid
 graph TD
-    classDef leader fill:#0f0f11,stroke:#00e5ff,stroke-width:1.5px,color:#f4f4f6;
-    classDef bph fill:#0f0f11,stroke:#ffffff,stroke-width:1px,color:#f4f4f6;
-    classDef div fill:#0a0a0c,stroke:rgba(255,255,255,0.15),stroke-width:1px,color:#a1a1aa;
+    classDef leader fill:#0c0c0e,stroke:#2563eb,stroke-width:2px,color:#f4f4f6;
+    classDef bph fill:#0c0c0e,stroke:#ffffff,stroke-width:1px,color:#f4f4f6;
+    classDef div fill:#0c0c0e,stroke:rgba(255,255,255,0.15),stroke-width:1px,color:#a1a1aa;
 
-    KAHIM["KAHIM & WAKAHIM<br/><small style='color:#00e5ff'>PRESIDIUM UTAMA</small>"]:::leader
+    KAHIM["KAHIM & WAKAHIM<br/><small style='color:#3b82f6'>PRESIDIUM UTAMA</small>"]:::leader
     
     KAHIM --> BPH_SEK["SEKRETARIS<br/><small>Administrasi & Kearsipan</small>"]:::bph
     KAHIM --> BPH_BEN["BENDAHARA<br/><small>Keuangan & Anggaran</small>"]:::bph
 
     KAHIM --> DIV_PSDM["BPSDM<br/><small>Pengembangan SDM</small>"]:::div
-    KAHIM --> DIV_HUMAS["HUMAS<br/><small>Relasi Publik</small>"]:::div
-    KAHIM --> DIV_RISET["RISET & KEILMUAN<br/><small>Akademik & Riset</small>"]:::div
-    KAHIM --> DIV_PMB["MINAT & BAKAT<br/><small>Hobi & Olahraga</small>"]:::div
-    KAHIM --> DIV_SARLOG["SARANA & LOGISTIK<br/><small>Inventaris & Ops</small>"]:::div
-    KAHIM --> DIV_MEDKRAF["MEDIA KREATIF<br/><small>Visual & Sosmed</small>"]:::div
+    KAHIM --> DIV_HUMAS["HUMAS<br/><small>Relasi Publik & Industri</small>"]:::div
+    KAHIM --> DIV_RISET["RISET & KEILMUAN<br/><small>Akademik & Riset AI</small>"]:::div
+    KAHIM --> DIV_PMB["MINAT & BAKAT<br/><small>IT Expo & Esports</small>"]:::div
+    KAHIM --> DIV_SARLOG["SARANA & LOGISTIK<br/><small>Inventaris & Fasilitas</small>"]:::div
+    KAHIM --> DIV_MEDKRAF["MEDIA KREATIF<br/><small>Desain & Multimedia</small>"]:::div
 ```
 
 #### Spesifikasi Visual Node Diagram:
-* **Gaya Garis**: Garis penghubung tipis abu-abu putus-putus (`dashed 1px rgba(255,255,255,0.15)`) menyerupai jalur sirkuit PCB (*motherboard*) atau diagram Git commit graph.
+* **Gaya Garis**: Jalur sirkuit bus (*motherboard circuit bus*) dengan connector dots biru menyala dan divider garis putus-putus presisi.
+* **Dual View Modes**: Pengguna dapat berganti antara tampilan **Circuit Bus** dan **Grid Matrix**.
 * **Kotak Node (Bagan)**:
-  * Bentuk: Persegi panjang dengan border tajam (`border-radius: 0px` atau maksimal `2px`).
-  * Status Normal: Background `#0c0c0e`, border tipis, teks abu-abu terang.
-  * Status Hover: Border menyala aksen cyan (`#00e5ff`), teks judul membesar sedikit, kursor berubah menjadi pointer.
-* **Mekanisme Interaksi Drawer (Slide-Over Panel)**:
-  * Ketika pengunjung mengklik salah satu kotak divisi (misalnya: **MEDIA KREATIF**):
-  * Layar tidak berpindah halaman. Dari sisi kanan layar meluncur panel hitam (*drawer* selebar 450px di desktop, atau *bottom sheet* di HP).
+  * Bentuk: Persegi panjang berpresisi sudut tegas dengan crosshairs pojok.
+  * Status Normal: Background `#0c0c0e`, border hairline tipis, teks abu-abu terang.
+  * Status Hover: Border menyala aksen biru HIMATIKA (`#2563eb`), teks judul membesar sedikit, kursor berubah menjadi pointer.
+* **Mekanisme Interaksi Drawer (Slide-Over Panel - `DivisionDrawer.tsx`)**:
+  * Ketika pengunjung mengklik salah satu node divisi (misal: **MEDIA KREATIF** atau **PRESIDIUM**):
+  * Layar tidak berpindah halaman. Dari sisi kanan meluncur panel hitam selebar 540px di desktop (atau fullscreen di ponsel).
   * Isi Drawer:
-    * Kode & Nama Lengkap Divisi: `[DIV_08] MEDIA KREATIF`.
-    * Deskripsi Tugas Pokok & Fungsi (Tupoksi) Divisi.
-    * Kepala Divisi: Nama & NIM.
-    * Daftar Staf/Anggota: Ditampilkan dalam bentuk tabel monospaced rapi bergaris tipis.
-    * Daftar Program Kerja yang dipegang oleh divisi tersebut (dengan link langsung ke katalog proker).
+    * Tag Level & Kode: `[INSPECTION PANEL // SPEC: MEDKRAF]`.
+    * Nama lengkap dan ringkasan peran.
+    * 01 // Tugas Pokok & Fungsi (Tupoksi) dalam format poin-poin bernomor.
+    * 02 // Struktur Pimpinan, nama koordinator, dan jumlah personel staf.
+    * 03 // Program Kerja naungan divisi terkait (dengan tautan langsung ke katalog proker).
+    * 04 // Bidang Fokus (#VISUAL DESIGN, #MULTIMEDIA, dll).
+    * Tombol tutup cepat via tombol `[ESC]` atau tombol klik.
 
 ---
 

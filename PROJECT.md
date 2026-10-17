@@ -1,7 +1,7 @@
 # PROJECT BLUEPRINT: HIMATIKA REVAMP 2026/2027
 > **Dokumen Arsitektur, Desain, & Spesifikasi Teknis Pembaruan Website Himpunan Mahasiswa Teknik Informatika (HIMATIKA)**  
-> **Status:** Draft Perencanaan & Brainstorming (Menunggu Eksekusi)  
-> **Target Release:** 2026/2027 Period  
+> **Status:** Fase 0 - Fase 4 Selesai (Aktif Dalam Pengembangan)  
+> **Target Release:** Periode 2026/2027  
 
 ---
 
@@ -11,11 +11,11 @@
 Website HIMATIKA sebelumnya merupakan website profil berbasis HTML/CSS statis konvensional dengan tampilan korporat kampus standar (terang/biru klasik). Proyek pembaruan ini bertujuan untuk melakukan **rebuild menyeluruh** (*total overhaul*) guna menciptakan identitas digital yang merepresentasikan mahasiswa Teknik Informatika: **futuristik, sinematik, berpresisi tinggi, dan berbasis teknologi terkini**.
 
 ### 1.2 Tujuan Utama (*Core Objectives*)
-1. **Elevasi Identitas Visual (*Awwwards Standard*)**: Mengadopsi bahasa desain *Cinematic Brutalist-Editorial* terinspirasi dari [mikkisindhunata.com](https://mikkisindhunata.com/) dengan palet *dark noir*, tipografi masif, dan animasi fluid.
-2. **Representasi Struktur Modern**: Menampilkan bagan struktur kepengurusan menggunakan **Interactive Node / Blueprint Diagram** (tanpa foto personal anggota), memberikan kesan teknikal dan rapi.
+1. **Elevasi Identitas Visual (*Awwwards Standard*)**: Mengadopsi bahasa desain *Cinematic Brutalist-Editorial* terinspirasi dari [mikkisindhunata.com](https://mikkisindhunata.com/) dengan kanvas *Dark Obsidian*, tipografi masif (`Anton`), foto kegiatan berwarna asli (*full color*), dan animasi *fluid motion*.
+2. **Representasi Struktur Modern**: Menampilkan bagan struktur kepengurusan menggunakan **Interactive Node / Blueprint Diagram** (tanpa foto personal anggota), memberikan kesan arsitektur komputasi yang profesional dan rapi.
 3. **Showcase Program Kerja Terpusat**: Membangun katalog program kerja interaktif di halaman khusus (`/proker`) dengan status penayangan, filter divisi, dan panel rincian.
-4. **Sistem Transparansi Keuangan Internal (The Vault)**: Mengintegrasikan database **Supabase (PostgreSQL)** dengan sistem autentikasi tertutup (*Restricted Access*) untuk pencatatan dan pelaporan kas masuk/keluar khusus pengurus HIMATIKA.
-5. **Responsif Multi-Platform (100% Mobile & Desktop Ready)**: Menjamin pengalaman mulus di berbagai perangkat (Smartphone, Tablet, Laptop, Desktop Wide).
+4. **Sistem Transparansi Keuangan Internal (The Vault / Portal Pengurus)**: Mengintegrasikan database **Supabase (PostgreSQL 17)** dengan sistem autentikasi (*Role-Based Access*) untuk pencatatan dan pelaporan kas masuk/keluar khusus pengurus HIMATIKA (Bendahara & Medkraf).
+5. **Responsif Multi-Platform (100% Mobile & Desktop Ready)**: Menjamin pengalaman mulus di berbagai perangkat (Smartphone 360px-414px, Tablet, Laptop, Desktop Wide).
 6. **Platform Deployment**: Menggunakan **Vercel** sebagai infrastruktur hosting serverless & Edge Network resmi.
 
 ---
@@ -23,30 +23,34 @@ Website HIMATIKA sebelumnya merupakan website profil berbasis HTML/CSS statis ko
 ## 2. Bahasa Desain & Analisis Referensi (`mikkisindhunata.com`)
 
 ### 2.1 Pilar Estetika
-* **Atmosphere**: *Cinematic Dark Noir & Cyber-Minimalism*. Kontras tinggi antara latar belakang hitam pekat dan tipografi putih bersih dengan aksen cyber.
+* **Atmosphere**: *Cinematic Dark Obsidian & Minimalist-Editorial*. Kontras tajam antara latar belakang hitam pekat dan tipografi putih bersih dengan aksen biru almamater resmi HIMATIKA.
 * **Layout**: *Edge-to-Edge Composition*. Memanfaatkan ruang layar secara optimal dengan pembatas garis transparan tipis (`1px border rgba(255,255,255,0.08)`).
+* **Negative Space**: Area tengah navbar dibiarkan murni kosong (*pure negative space*) untuk menghadirkan kesan mewah, teratur, dan tidak memaksakan teks terminal/AI-slop.
 * **Motion Experience**:
   * **Smooth Scroll**: Menggunakan engine Lenis untuk sensasi scroll berbobot dan melayang.
-  * **Text Scramble Effect**: Teks navigasi dan judul beranimasi acak/decoding karakter ala terminal saat kursor mendekat.
-  * **Split Text Reveals**: Animasi kemunculan judul huruf-demi-huruf saat elemen masuk ke viewport.
+  * **Text Scramble Effect**: Teks navigasi dan logo beranimasi acak/decoding karakter ala terminal saat kursor mendekat.
+  * **Interactive Drawer**: Panel inspeksi meluncur dari samping (*slide-over*) saat node organisasi diklik.
 
 ### 2.2 Hierarki Tipografi
 | Peran Tipografi | Font Family | Karakter & Kegunaan |
 | :--- | :--- | :--- |
-| **Headline / Display** | `Anton SC` / `Syne` | Huruf kapital, tebal, proporsi besar (`clamp(2.5rem, 7vw, 6rem)`). Memberikan kesan berani dan dramatis. |
-| **Technical Metadata** | `JetBrains Mono` / `B612 Mono` | Monospaced, tracking lebar. Digunakan untuk nomor urut (`01 / 06`), tanggal, label badge, dan data angka. |
+| **Headline / Display** | `Anton` (Google Fonts) | Huruf kapital, tebal, proporsi besar (`clamp(2.5rem, 7vw, 6rem)`). Memberikan kesan berani dan dramatis. "UNIVERSITAS TRILOGI" menggunakan aksen Biru HIMATIKA (`#2563eb`). |
+| **Technical Metadata** | `JetBrains Mono` | Monospaced, tracking lebar. Digunakan untuk nomor urut (`01 / 06`), tanggal, label badge, dan data angka. |
 | **Body Text** | `Poppins` / `Inter` | Bersih, keterbacaan tinggi, kontras abu-abu lembut (`#a1a1aa`) untuk deskripsi panjang. |
 
-### 2.3 Palet Warna (Color System)
+### 2.3 Palet Warna Resmi (Anti AI-Slop Color System)
+> [!IMPORTANT]
+> Seluruh warna cyan neon buatan (`#00e5ff`) telah dieliminasi total karena memberikan kesan generik "AI-slop". Palet resmi diselaraskan dengan warna biru almamater dan logo Universitas Trilogi.
+
 ```css
 :root {
-  --bg-primary: #050505;        /* Deep Obsidian Black */
-  --bg-secondary: #0f0f11;      /* Charcoal Card Background */
-  --text-primary: #f4f4f5;      /* Pure Crisp White */
-  --text-muted: #71717a;        /* Monospace Technical Gray */
-  --accent-cyan: #00e5ff;       /* Electric Cyber Cyan (Status Active / Highlights) */
-  --accent-blue: #0066ff;       /* HIMATIKA Identity Blue */
-  --border-subtle: rgba(255, 255, 255, 0.08); /* Minimalist Hairline Borders */
+  --bg-primary: #050505;        /* Deep Obsidian Canvas */
+  --bg-surface: #0c0c0e;        /* Elevated Card Background */
+  --text-main: #f4f4f6;         /* Pure Crisp Stark White */
+  --text-muted: #a1a1aa;        /* Monospace Technical Titanium Slate */
+  --accent-blue: #2563eb;       /* HIMATIKA Royal Blue (Official Almamater Blue) */
+  --accent-blue-hover: #3b82f6; /* Interactive Blue Glow */
+  --border-hairline: rgba(255, 255, 255, 0.08); /* 1px Hairline Precision Borders */
 }
 ```
 
@@ -343,14 +347,17 @@ himatika_web/
 
 ## 8. Status & Kemajuan Proyek Terkini
 
-Status Kesiapan:
-* [x] **Daftar Divisi Resmi**: Sudah terkonfirmasi 8 entitas resmi HIMATIKA.
+Status Kesiapan & Verifikasi Sistem:
+* [x] **Daftar Divisi Resmi**: Sudah terkonfirmasi dan terintegrasi 8 entitas resmi HIMATIKA + Presidium Utama.
 * [x] **Runtime Lokal**: Node.js LTS (`v24.20.0`) dan NPM (`v11.19.0`) aktif di mesin lokal.
 * [x] **Koneksi Supabase MCP**: Terhubung ke proyek **`Website_Himatika`** (`urlpknogetgjfmwdbymk`).
 * [x] **Skema Basis Data Supabase**: 4 tabel (`divisions`, `work_programs`, `finance_categories`, `finance_records`), RLS security, 2 storage bucket (`public-assets`, `vault-receipts`), database view, dan RPC function berhasil dideploy.
 * [x] **Platform Hosting Terpilih**: Vercel (Edge Serverless).
-* [x] **Fase 1 Selesai (Fondasi Next.js)**: App Router, Tailwind 4, Google Fonts (`Anton`, `JetBrains_Mono`, `Poppins`), Supabase SSR helpers, middleware route guard, dan build produksi diverifikasi sukses tanpa error.
-* [x] **Fase 3 Selesai (Halaman Beranda Sinematik)**: Hero Section dengan analog film grain & video loop background, massive display lockup Anton SC, Featured Showcase Slider proker split-screen dengan touch swipe & linear progress, serta Quick Metrics blueprint.
-* [ ] **Langkah Selanjutnya**: Siap eksekusi **FASE 4 (Halaman Tentang Kami: Interactive Org Blueprint / Node Tree Diagram Tanpa Foto)**.
+* [x] **FASE 0 Selesai (Environment & Database Setup)**: Database DDL, RLS, seed data 8 divisi & kategori kas, storage bucket.
+* [x] **FASE 1 Selesai (Fondasi Next.js & Desain Sistem)**: Next.js 16 (Turbopack, TypeScript, Tailwind 4), Google Fonts (`Anton`, `JetBrains_Mono`, `Poppins`), Supabase SSR helpers, middleware route guard.
+* [x] **FASE 2 Selesai (Komponen Global & Navigasi)**: `SmoothScroller` (Lenis), `ScrambleText`, `Header` (Pure negative space di tengah, user profile icon ke `/login`), `MobileDrawer` (Fullscreen brutalist), `Footer` (Technical dossier coordinates).
+* [x] **FASE 3 Selesai (Halaman Beranda Sinematik)**: Slideshow latar belakang foto kegiatan asli berwarna (*full color*), headline masif Anton dengan "UNIVERSITAS TRILOGI" aksen Biru HIMATIKA (`#2563eb`), Showcase Slider proker split-screen dengan sentuhan gestur swipe, dan Quick Metrics blueprint.
+* [x] **FASE 4 Selesai (Tentang Kami & Interactive Org Blueprint)**: Narasi editorial sejarah HIMATIKA sejak 2015, Visi & Misi spesifikasi teknis 4 pilar, 4 Nilai Dasar, Interactive Org Blueprint (SVG circuit bus & node tree tanpa foto personal anggota), dan slide-over `DivisionDrawer` interaktif.
+* [ ] **Langkah Selanjutnya**: Siap eksekusi **FASE 5 (Katalog Program Kerja Dedikasi `/proker` dengan Sticky Filter Status & Divisi)**.
 
-*(Dokumen ini akan terus diperbarui seiring berjalannya proyek).*
+*(Dokumen ini diperbarui secara berkala sebagai sumber kebenaran teknis proyek).*

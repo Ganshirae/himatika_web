@@ -99,19 +99,20 @@ himatika_web/
 │   │   ├── layout.tsx                # Global Root Layout (Lenis wrapper, Navbar, Footer)
 │   │   └── globals.css               # Styling global, font declaration, Tailwind base
 │   ├── components/                   # Komponen Reusable
-│   │   ├── common/                   # Navbar, Footer, CustomCursor, SmoothScroller
-│   │   ├── ui/                       # Primitive components (Button, Badge, Drawer, Modal)
-│   │   ├── home/                     # HeroVideo, ShowcaseSlider, TickerBar
-│   │   ├── diagram/                  # OrgChart, NodeBox, DivisionDrawer
-│   │   ├── proker/                   # ProkerCard, ProkerFilter, ProkerTimeline
-│   │   └── vault/                    # StatCard, TransactionTable, ReceiptViewer, CashFlowChart
-│   ├── lib/                          # Konfigurasi & Utility
+│   │   ├── common/                   # Navbar (Header), Footer, MobileDrawer, ScrambleText, SmoothScroller
+│   │   ├── home/                     # HeroSection (Slideshow), ShowcaseSlider, MetricsSection
+│   │   ├── diagram/                  # OrgBlueprint (SVG Circuit Bus & Matrix), DivisionDrawer (Slide-Over)
+│   │   ├── proker/                   # ProkerCard, ProkerFilter, ProkerTimeline (Fase 5)
+│   │   └── vault/                    # StatCard, TransactionTable, ReceiptViewer, CashFlowChart (Fase 6)
+│   ├── lib/                          # Konfigurasi, Utility & Dataset
+│   │   ├── data/
+│   │   │   ├── organization.ts       # Dataset resmi 8 divisi & presidium (Tupoksi, peran, proker)
+│   │   │   └── flagship-proker.ts    # Dataset proker unggulan untuk featured slider
 │   │   ├── supabase/
 │   │   │   ├── client.ts             # Client-side Supabase Browser Client
 │   │   │   ├── server.ts             # Server-side Supabase Server Client (RSC & Actions)
 │   │   │   └── middleware.ts         # Session refresher & route guard logic
-│   │   ├── motion/                   # GSAP helper & config
-│   │   └── utils.ts                  # Currency formatter (IDR), slugify, date helper
+│   │   └── utils.ts                  # Currency formatter (IDR), cn helper, date formatter
 │   ├── actions/                      # Next.js Server Actions (Backend Logic)
 │   │   ├── auth.actions.ts           # Login, logout, session check
 │   │   ├── proker.actions.ts         # Query & filter program kerja
@@ -124,6 +125,8 @@ himatika_web/
 ├── PROJECT.md                        # Blueprint Proyek
 ├── DESIGN.md                         # Spesifikasi Desain & UI/UX
 ├── ARCHITECTURE.md                   # Dokumen Arsitektur ini
+├── TASK.md                           # Masterplan & Checklist Pelacak Tugas
+├── GEMINI.md                         # Panduan Aturan & Protokol AI Agent
 └── package.json
 ```
 
