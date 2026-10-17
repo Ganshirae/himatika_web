@@ -144,34 +144,38 @@
   - [ ] Berikan efek hover zoom halus pada gambar cover proker.
 - [ ] **Task 5.3: Halaman Rincian Detail Proker (`/proker/[slug]`)**
   - [ ] Konfigurasi *Dynamic Route* dengan *Static Generation (generateStaticParams)* untuk kecepatan akses.
-  * Tampilkan rincian acara lengkap (deskripsi, sasaran, rundown/konten Markdown).
-  - [ ] Tampilkan galeri dokumentasi foto kegiatan (jika status telah *Completed*).
+  - [ ] Tampilkan rincian acara lengkap (deskripsi, sasaran, rundown/konten Markdown).
+  - [ ] Pasang tombol CTA Pendaftaran Interaktif (`[DAFTAR SEKARANG ->]` via link Google Form / Contact WhatsApp panitia) jika status `Upcoming`.
+  - [ ] Tampilkan galeri dokumentasi foto kegiatan jika status telah `Completed`.
 
 ---
 
-### FASE 6: The Vault - Portal Keuangan Kas Internal (`/vault`)
-> *Tujuan: Sistem transparansi pembukuan kas khusus pengurus HIMATIKA.*
+### FASE 6: Portal Pengurus (The Vault & Unified CMS) (`/vault`)
+> *Tujuan: Sistem kendali terpadu pengurus untuk transparansi kas, publikasi kegiatan, dan pembaruan struktur organisasi.*
 
 - [ ] **Task 6.1: Antarmuka Terminal Login (`/login`)**
-  - [ ] Bangun form login bertema *Security Clearance Level 1*.
+  - [ ] Selesaikan form login bertema *Security Clearance Level 1*.
   - [ ] Hubungkan form dengan Server Action `loginUser` (Supabase Auth).
   - [ ] Tangani penanganan pesan error (kredensial salah, akun dinonaktifkan) dengan gaya peringatan terminal.
 - [ ] **Task 6.2: Route Guard di Next.js Middleware**
   - [ ] Lindungi rute `/vault/*`: Arahkan pengunjung non-login ke `/login`.
   - [ ] Cegah caching browser pada halaman privat.
-- [ ] **Task 6.3: Dashboard Metrik Keuangan**
+- [ ] **Task 6.3: Dashboard Metrik Keuangan (The Vault)**
   - [ ] Panggil RPC `get_financial_summary()` untuk menampilkan:
     - Saldo Kas Aktif Saat Ini (Angka masif, warna aksen hijau)
     - Total Pemasukan Periode Ini
     - Total Pengeluaran Periode Ini
-- [ ] **Task 6.4: Tabel Buku Kas Interaktif**
+- [ ] **Task 6.4: Tabel Buku Kas Interaktif & Upload Kuitansi (Role Bendahara)**
   - [ ] Tampilkan riwayat transaksi per tanggal: Judul transaksi, kategori kas, tipe (Masuk/Keluar), nominal Rupiah, penginput.
-  - [ ] Fitur preview bukti kuitansi: Menampilkan modal gambar dari Supabase Private Storage via *Signed URL*.
-- [ ] **Task 6.5: Formulir Pencatatan Transaksi Baru (Role Bendahara)**
-  - [ ] Buat modal/form input transaksi: Judul, nominal, kategori, tanggal, catatan.
-  - [ ] Input drag-and-drop foto bukti kuitansi/struk transfer.
-  - [ ] Unggah file ke bucket `vault-receipts` dan simpan baris baru ke tabel `finance_records`.
-  - [ ] Panggil `revalidatePath('/vault')` agar saldo dan tabel langsung terbarui seketika.
+  - [ ] Fitur preview bukti kuitansi via *Signed URL* (Supabase Private Storage).
+  - [ ] Formulir input transaksi baru + drag-and-drop foto bukti kuitansi.
+- [ ] **Task 6.5: Modul Manajemen Program Kerja (CMS Proker)**
+  - [ ] Antarmuka Tambah & Edit Program Kerja: Judul, divisi, status (`Upcoming`/`Ongoing`/`Completed`), tanggal, link pendaftaran, dan upload poster/cover ke Supabase Storage.
+  - [ ] Kemampuan ubah status proker ke `Completed` beserta upload dokumentasi kegiatan.
+- [ ] **Task 6.6: Modul Manajemen Struktur & Divisi (CMS Organisasi)**
+  - [ ] Antarmuka pengubahan nama pimpinan (Kahim, Wakahim, Koordinator Divisi).
+  - [ ] Kelola daftar anggota dan alokasi personel staf tiap divisi.
+  - [ ] Edit tupoksi dan bidang fokus divisi yang langsung merefleksikan perubahan ke `/about`.
 
 ---
 
