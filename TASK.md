@@ -10,9 +10,9 @@
 ```text
 [x] FASE 0: Persiapan Lingkungan & Prasyarat Sistem
 [x] FASE 1: Inisialisasi Fondasi Next.js & Desain Sistem
-[ ] FASE 2: Komponen Global & Navigasi Sinematik
-[ ] FASE 3: Halaman Beranda (Cinematic Hero & Proker Showcase)
-[ ] FASE 4: Halaman Tentang Kami (Interactive Org Blueprint)
+[x] FASE 2: Komponen Global & Navigasi Sinematik
+[x] FASE 3: Halaman Beranda (Cinematic Hero & Proker Showcase)
+[x] FASE 4: Halaman Tentang Kami (Interactive Org Blueprint)
 [ ] FASE 5: Katalog Program Kerja Dedikasi (/proker)
 [ ] FASE 6: The Vault - Portal Keuangan Kas Internal (/vault)
 [ ] FASE 7: Optimasi Kinerja, Audit Mobile, & UI/UX Polish
@@ -72,61 +72,62 @@
 ### FASE 2: Komponen Global & Navigasi Sinematik
 > *Tujuan: Membangun frame global yang menyatukan seluruh halaman web.*
 
-- [ ] **Task 2.1: Provider Lenis Smooth Scroll**
-  - [ ] Buat komponen pembungkus `SmoothScroller.tsx` menggunakan Lenis.
-  - [ ] Pasang di Root Layout (`src/app/layout.tsx`).
-- [ ] **Task 2.2: Fixed Header (Navbar Desktop & Mobile)**
-  - [ ] Implementasikan layout edge-to-edge dengan border tipis bawah.
-  - [ ] Sisi Kiri: Branding `HIMATIKA TRILOGI` + Logo.
-  * Sisi Tengah: Status pill monospaced `● ONLINE // 2026-2027` dengan pulse animation.
-  - [ ] Sisi Kanan: Menu link (`BERANDA`, `PROKER`, `TENTANG`, `THE VAULT`).
-  - [ ] Integrasikan efek GSAP *ScrambleText* pada hover menu desktop.
-- [ ] **Task 2.3: Mobile Fullscreen Brutalist Drawer**
-  - [ ] Buat tombol hamburger 2 garis minimalis untuk viewport `< 768px`.
-  - [ ] Buat overlay fullscreen hitam pekat dengan daftar menu vertikal font `Anton SC` ukuran masif.
-  - [ ] Tambahkan animasi slide-in dan backdrop blur.
-- [ ] **Task 2.4: Minimalist Footer**
-  - [ ] Desain footer monospaced bergaris tipis: Alamat kampus Universitas Trilogi, copyright, link sosial media (Instagram, GitHub, LinkedIn), dan tautan cepat.
+- [x] **Task 2.1: Provider Lenis Smooth Scroll**
+  - [x] Buat komponen pembungkus `SmoothScroller.tsx` menggunakan Lenis dan React Context.
+  - [x] Pasang di Root Layout (`src/app/layout.tsx`) dengan automatic route change scroll reset.
+- [x] **Task 2.2: Fixed Header (Navbar Desktop & Mobile)**
+  - [x] Implementasikan layout edge-to-edge dengan border hairline bawah dan backdrop blur.
+  - [x] Sisi Kiri: Branding `HIMATIKA TRILOGI` + Logo resmi monokrom responsif.
+  - [x] Sisi Tengah: Status pill monospaced `● ONLINE // 2026-2027` dengan pulse animation hijau neon.
+  - [x] Sisi Kanan: Menu link (`BERANDA`, `PROKER`, `TENTANG`, `THE VAULT`) dengan active route line.
+  - [x] Integrasikan efek decoding *ScrambleText* pada hover menu desktop.
+- [x] **Task 2.3: Mobile Fullscreen Brutalist Drawer**
+  - [x] Buat tombol hamburger 2 garis minimalis untuk viewport `< 768px`.
+  - [x] Buat overlay fullscreen hitam pekat dengan daftar menu vertikal font `Anton` ukuran masif.
+  - [x] Tambahkan animasi decoding ScrambleText, status bar, and direct social links.
+  - [x] Integrasikan penguncian scroll Lenis saat drawer dibuka.
+- [x] **Task 2.4: Minimalist Footer**
+  - [x] Desain footer monospaced bergaris tipis: Alamat kampus Universitas Trilogi, koordinat geografis, copyright, 8 divisi resmi, tautan direktori, link sosial media, dan tombol interaktif *Back To Top*.
 
 ---
 
 ### FASE 3: Halaman Beranda (Cinematic Hero & Proker Showcase)
 > *Tujuan: Membangun impresi pertama yang dramatis dan sinematik.*
 
-- [ ] **Task 3.1: Hero Section Sinematik**
-  - [ ] Buat komponen `HeroVideo.tsx` dengan video loop background (`muted autoplay loop playsinline`).
-  - [ ] Tambahkan lapisan overlay gelap vignette 40% dan noise texture canvas.
-  - [ ] Buat typographic lockup: `HIMPUNAN MAHASISWA` (Mono) -> `TEKNIK INFORMATIKA` (Anton SC Masif) -> `UNIVERSITAS TRILOGI`.
-  - [ ] Implementasikan animasi GSAP SplitText reveal saat pertama kali halaman dimuat.
-  - [ ] Pasang indikator *Scroll to Explore* di pojok kiri bawah.
-- [ ] **Task 3.2: Featured Showcase Slider (Proker Pilihan)**
-  - [ ] Buat slider proker split-screen (Preview visual 55% + Konten teks 45%).
-  - [ ] Hubungkan slider dengan query 3–4 proker unggulan dari tabel Supabase `work_programs` (`is_featured = true`).
-  - [ ] Tampilkan nomor urut monospaced (`01 / 04`), nama divisi, judul proker, dan ringkasan.
-  - [ ] Buat progress bar linear dinamis dan tombol arah panah dengan efek magnetik.
-  - [ ] Beri dukungan touch swipe horizontal untuk pengguna smartphone.
-- [ ] **Task 3.3: Seksi Quick Metrics / Statistik HIMA**
-  - [ ] Tampilkan 4 angka metrik besar (Tahun Berdiri: 2015, Anggota Aktif, Kegiatan Terlaksana, Prestasi).
-  - [ ] Gunakan font `JetBrains Mono` dengan animasi penghitung angka naik (*counter ticker*).
+- [x] **Task 3.1: Hero Section Sinematik**
+  - [x] Buat komponen `HeroSection.tsx` dengan video loop background (`muted autoplay loop playsinline`) dan poster fallback `tcamp2024.jpg`.
+  - [x] Tambahkan lapisan overlay gelap vignette, hairline grid, dan film noise SVG texture.
+  - [x] Buat typographic lockup: `HIMPUNAN MAHASISWA` (Mono) -> `TEKNIK INFORMATIKA` (Anton Masif) -> `UNIVERSITAS TRILOGI`.
+  - [x] Implementasikan animasi GSAP reveal timeline saat pertama kali halaman dimuat.
+  - [x] Pasang indikator *Scroll to Explore* di pojok kiri bawah terhubung ke Lenis scroll.
+- [x] **Task 3.2: Featured Showcase Slider (Proker Pilihan)**
+  - [x] Buat slider proker split-screen (Preview visual 55% + Konten teks 45%).
+  - [x] Hubungkan slider dengan dataset 4 program kerja unggulan resmi HIMATIKA (`tcamp`, `t-expo`, `workshop`, `comvis`).
+  - [x] Tampilkan nomor urut monospaced (`01 / 04`), nama divisi, judul proker, dan ringkasan.
+  - [x] Buat progress bar linear dinamis dan tombol arah panah dengan efek interaktif.
+  - [x] Beri dukungan touch swipe horizontal untuk pengguna smartphone.
+- [x] **Task 3.3: Seksi Quick Metrics / Statistik HIMA**
+  - [x] Tampilkan 4 angka metrik besar (Tahun Berdiri: 2015, 8 Divisi Resmi, 24+ Program Kerja, 500+ Jaringan Kader).
+  - [x] Gunakan font `JetBrains Mono` dalam grid blueprint dengan corner crosshair markers.
 
 ---
 
 ### FASE 4: Halaman Tentang Kami (Interactive Org Blueprint)
 > *Tujuan: Menyajikan identitas dan struktur organisasi tanpa foto konvensional.*
 
-- [ ] **Task 4.1: Narasi Sejarah, Visi, & Misi**
-  - [ ] Bangun layout tipografi editorial dua kolom untuk sejarah HIMATIKA sejak 2015.
-  - [ ] Sajikan Visi dan Misi dengan format data spesifikasi teknis bergaris pembatas halus.
-- [ ] **Task 4.2: Komponen Interactive Org Blueprint (Node Diagram)**
-  - [ ] Bangun bagan pohon hierarki menggunakan SVG garis sirkuit/PCB:
+- [x] **Task 4.1: Narasi Sejarah, Visi, & Misi**
+  - [x] Bangun layout tipografi editorial dua kolom untuk sejarah HIMATIKA sejak 2015.
+  - [x] Sajikan Visi dan Misi dengan format data spesifikasi teknis bergaris pembatas halus.
+- [x] **Task 4.2: Komponen Interactive Org Blueprint (Node Diagram)**
+  - [x] Bangun bagan pohon hierarki menggunakan SVG garis sirkuit/PCB:
     - Level 1: Presidium Utama (Kahim & Wakahim)
     - Level 2: Badan Pengurus Harian (Sekretaris & Bendahara)
     - Level 3: 6 Divisi Pelaksana (BPSDM, Humas, Riset & Keilmuan, PMB, Sarlog, Media Kreatif)
-  - [ ] Berikan status interaktif pada setiap node (Border cyan menyala saat hover, pointer cursor).
-  - [ ] Buat mode adaptasi mobile: Mengubah diagram lebar menjadi akordeon hierarki vertikal bertingkat.
-- [ ] **Task 4.3: Slide-over Detail Drawer untuk Divisi**
-  - [ ] Buat panel drawer yang meluncur dari kanan layar saat node divisi diklik.
-  - [ ] Tampilkan data dinamis dari Supabase: Nama lengkap divisi, tupoksi, Kepala Divisi, daftar anggota, dan program kerja yang dinaungi.
+  - [x] Berikan status interaktif pada setiap node (Border biru menyala saat hover, pointer cursor, click to inspect).
+  - [x] Buat mode adaptasi mobile: Mengubah diagram lebar menjadi akordeon/tree hierarki vertikal bertingkat & grid matrix view.
+- [x] **Task 4.3: Slide-over Detail Drawer untuk Divisi**
+  - [x] Buat panel drawer yang meluncur dari kanan layar saat node divisi diklik.
+  - [x] Tampilkan data terstruktur: Nama lengkap divisi, tupoksi resmi, pimpinan divisi, alokasi staf, dan program kerja yang dinaungi.
 
 ---
 

@@ -13,14 +13,14 @@
   --color-secondary: #a1a1aa;
   --color-muted: #52525b;
 
-  --color-accent-blue: #0066ff;
-  --color-accent-cyan: #00e5ff;
+  --color-accent-blue: #1d4ed8;
+  --color-accent-cyan: #3b82f6;
   --color-accent-green: #10b981;
   --color-accent-red: #ef4444;
 
   --color-border-hairline: rgba(255, 255, 255, 0.08);
   --color-border-active: rgba(255, 255, 255, 0.25);
-  --color-border-cyan: rgba(0, 229, 255, 0.4);
+  --color-border-cyan: rgba(59, 130, 246, 0.3);
 }
 
 :root {
@@ -33,14 +33,14 @@
   --text-secondary: #a1a1aa;
   --text-muted: #52525b;
 
-  --accent-blue: #0066ff;
-  --accent-cyan: #00e5ff;
+  --accent-blue: #1d4ed8;
+  --accent-cyan: #3b82f6;
   --accent-green: #10b981;
   --accent-red: #ef4444;
 
   --border-hairline: rgba(255, 255, 255, 0.08);
   --border-active: rgba(255, 255, 255, 0.25);
-  --border-cyan: rgba(0, 229, 255, 0.4);
+  --border-cyan: rgba(59, 130, 246, 0.3);
 }
 
 /* Base Body Styles */
@@ -55,6 +55,34 @@ html, body {
 .border-hairline {
   border-color: var(--border-hairline);
 }
+
+/* IT Frequency / Equalizer Animations */
+@keyframes freq-1 {
+  0%, 100% { height: 4px; }
+  50% { height: 16px; }
+}
+@keyframes freq-2 {
+  0%, 100% { height: 14px; }
+  50% { height: 6px; }
+}
+@keyframes freq-3 {
+  0%, 100% { height: 8px; }
+  50% { height: 18px; }
+}
+@keyframes freq-4 {
+  0%, 100% { height: 16px; }
+  50% { height: 5px; }
+}
+@keyframes freq-5 {
+  0%, 100% { height: 6px; }
+  50% { height: 14px; }
+}
+
+.animate-freq-1 { animation: freq-1 1.2s ease-in-out infinite; }
+.animate-freq-2 { animation: freq-2 1.0s ease-in-out infinite 0.2s; }
+.animate-freq-3 { animation: freq-3 1.4s ease-in-out infinite 0.1s; }
+.animate-freq-4 { animation: freq-4 1.1s ease-in-out infinite 0.3s; }
+.animate-freq-5 { animation: freq-5 1.3s ease-in-out infinite 0.15s; }
 
 /* Lenis Smooth Scroll CSS standards */
 html.lenis, html.lenis body {
