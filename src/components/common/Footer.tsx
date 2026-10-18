@@ -56,7 +56,7 @@ export default function Footer() {
                     HIMATIKA TRILOGI
                   </span>
                   <span className="font-mono text-[9px] text-muted tracking-widest uppercase block">
-                    UNIVERSITAS TRILOGI // EST. 2015
+                    UNIVERSITAS TRILOGI • EST. 2015
                   </span>
                 </div>
               </Link>
@@ -71,7 +71,7 @@ export default function Footer() {
                 Jl. TMP. Kalibata No.1, Duren Tiga, Pancoran, Kota Jakarta Selatan, DKI Jakarta 12760
               </div>
               <div className="font-mono text-[10px] text-blue-400 tracking-wider">
-                COORDS: -6.2575° S, 106.8533° E // STATUS: DEPLOYED
+                JAKARTA SELATAN, INDONESIA
               </div>
             </div>
           </div>
@@ -79,7 +79,7 @@ export default function Footer() {
           {/* Kolom 2: Direktori Navigasi (2 cols) */}
           <div className="lg:col-span-2 space-y-4">
             <h4 className="font-mono text-xs text-muted tracking-widest uppercase">
-              [01 // DIREKTORI]
+              NAVIGASI
             </h4>
             <ul className="space-y-2.5 font-mono text-xs">
               <li>
@@ -124,7 +124,7 @@ export default function Footer() {
           {/* Kolom 3: 8 Divisi Kepengurusan (2 cols) */}
           <div className="lg:col-span-2 space-y-4">
             <h4 className="font-mono text-xs text-muted tracking-widest uppercase">
-              [02 // ENTIITAS]
+              DIVISI KAMI
             </h4>
             <ul className="space-y-2 font-mono text-[11px] text-muted">
               {DIVISIONS.map((divName) => (
@@ -138,7 +138,7 @@ export default function Footer() {
           {/* Kolom 4: Jaringan Eksternal & Sosmed (3 cols) */}
           <div className="lg:col-span-3 space-y-4">
             <h4 className="font-mono text-xs text-muted tracking-widest uppercase">
-              [03 // JARINGAN]
+              MEDIA SOSIAL
             </h4>
             <ul className="space-y-2.5 font-mono text-xs">
               {SOCIAL_LINKS.map((soc) => (
@@ -171,10 +171,6 @@ export default function Footer() {
           </div>
 
           <div className="flex items-center gap-6">
-            <span className="hidden md:inline text-muted/80">
-              STD: CINEMATIC BRUTALIST // VERCEL EDGE
-            </span>
-
             <button
               onClick={handleBackToTop}
               className="flex items-center gap-1.5 hover:text-blue-400 transition-colors border border-hairline px-2.5 py-1 bg-surface/50"

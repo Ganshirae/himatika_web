@@ -16,7 +16,9 @@ interface NavLinkItem {
 const NAV_LINKS: NavLinkItem[] = [
   { label: "BERANDA", href: "/" },
   { label: "PROKER", href: "/proker" },
+  { label: "STRUKTUR", href: "/struktur" },
   { label: "TENTANG", href: "/about" },
+  { label: "KONTAK", href: "/contact" },
 ];
 
 export default function Header() {

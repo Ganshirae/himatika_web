@@ -16,8 +16,10 @@ interface MobileDrawerProps {
 const navItems = [
   { num: "01", label: "BERANDA", href: "/" },
   { num: "02", label: "PROGRAM KERJA", href: "/proker" },
-  { num: "03", label: "TENTANG KAMI", href: "/about" },
-  { num: "04", label: "PORTAL PENGURUS", href: "/login", isAuth: true },
+  { num: "03", label: "STRUKTUR PENGURUS", href: "/struktur" },
+  { num: "04", label: "TENTANG KAMI", href: "/about" },
+  { num: "05", label: "HUBUNGI KAMI", href: "/contact" },
+  { num: "06", label: "PORTAL PENGURUS", href: "/login", isAuth: true },
 ];
 
 export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
@@ -103,7 +105,7 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
             >
               <div className="flex items-baseline gap-4">
                 <span className="font-mono text-xs text-muted tracking-widest group-hover:text-blue-400 transition-colors">
-                  {item.num} //
+                  {item.num}
                 </span>
                 <span
                   className={`font-display text-3xl sm:text-4xl tracking-tight transition-all duration-200 ${
@@ -134,7 +136,7 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
         <div className="flex items-center justify-between text-[11px] font-mono text-muted">
           <div className="flex items-center gap-2">
             <span className="inline-block w-2 h-2 rounded-full bg-blue-500" />
-            <span className="text-secondary">HIMATIKA TRILOGI // 2026-2027</span>
+            <span className="text-secondary">HIMATIKA TRILOGI • 2026-2027</span>
           </div>
           <span>JKT, ID</span>
         </div>

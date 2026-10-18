@@ -1,6 +1,6 @@
 # PROJECT BLUEPRINT: HIMATIKA REVAMP 2026/2027
 > **Dokumen Arsitektur, Desain, & Spesifikasi Teknis Pembaruan Website Himpunan Mahasiswa Teknik Informatika (HIMATIKA)**  
-> **Status:** Fase 0 - Fase 4 Selesai (Aktif Dalam Pengembangan)  
+> **Status:** Fase 0 - Fase 4.5 Selesai (Aktif Dalam Pengembangan — Fase 5 Dijadwalkan Besok)  
 > **Target Release:** Periode 2026/2027  
 
 ---
@@ -12,8 +12,8 @@ Website HIMATIKA sebelumnya merupakan website profil berbasis HTML/CSS statis ko
 
 ### 1.2 Tujuan Utama (*Core Objectives*)
 1. **Elevasi Identitas Visual (*Awwwards Standard*)**: Mengadopsi bahasa desain *Cinematic Brutalist-Editorial* terinspirasi dari [mikkisindhunata.com](https://mikkisindhunata.com/) dengan kanvas *Dark Obsidian*, tipografi masif (`Anton`), foto kegiatan berwarna asli (*full color*), dan animasi *fluid motion*.
-2. **Representasi Struktur Modern**: Menampilkan bagan struktur kepengurusan menggunakan **Interactive Node / Blueprint Diagram** (tanpa foto personal anggota), memberikan kesan arsitektur komputasi yang profesional dan rapi.
-3. **Showcase Program Kerja Terpusat**: Membangun katalog program kerja interaktif di halaman khusus (`/proker`) dengan status penayangan, filter divisi, dan panel rincian.
+2. **Representasi Struktur Modern**: Menampilkan bagan struktur kepengurusan di halaman khusus (`/struktur`) menggunakan **Interactive Circuit/Blueprint Diagram** dengan interaksi *3D Photo Flip & Glitch Reveal* saat cursor mengarah ke node pimpinan/koordinator, serta *Slide-over Drawer* untuk rincian tupoksi dan anggota.
+3. **Showcase Program Kerja Terpusat**: Membangun slider proker unggulan di beranda (`/`) dan katalog program kerja interaktif komprehensif di halaman khusus (`/proker`) dengan status penayangan, filter divisi, dan panel rincian.
 4. **Sistem Transparansi Keuangan Internal (The Vault / Portal Pengurus)**: Mengintegrasikan database **Supabase (PostgreSQL 17)** dengan sistem autentikasi (*Role-Based Access*) untuk pencatatan dan pelaporan kas masuk/keluar khusus pengurus HIMATIKA (Bendahara & Medkraf).
 5. **Responsif Multi-Platform (100% Mobile & Desktop Ready)**: Menjamin pengalaman mulus di berbagai perangkat (Smartphone 360px-414px, Tablet, Laptop, Desktop Wide).
 6. **Platform Deployment**: Menggunakan **Vercel** sebagai infrastruktur hosting serverless & Edge Network resmi.
@@ -23,24 +23,25 @@ Website HIMATIKA sebelumnya merupakan website profil berbasis HTML/CSS statis ko
 ## 2. Bahasa Desain & Analisis Referensi (`mikkisindhunata.com`)
 
 ### 2.1 Pilar Estetika
-* **Atmosphere**: *Cinematic Dark Obsidian & Minimalist-Editorial*. Kontras tajam antara latar belakang hitam pekat dan tipografi putih bersih dengan aksen biru almamater resmi HIMATIKA.
+* **Atmosphere**: *Cinematic Dark Obsidian & Minimalist-Editorial*. Kontras tajam antara latar belakang hitam pekat dan tipografi putih bersih dengan aksen biru almamater resmi HIMATIKA (`#2563eb`).
 * **Layout**: *Edge-to-Edge Composition*. Memanfaatkan ruang layar secara optimal dengan pembatas garis transparan tipis (`1px border rgba(255,255,255,0.08)`).
 * **Negative Space**: Area tengah navbar dibiarkan murni kosong (*pure negative space*) untuk menghadirkan kesan mewah, teratur, dan tidak memaksakan teks terminal/AI-slop.
 * **Motion Experience**:
   * **Smooth Scroll**: Menggunakan engine Lenis untuk sensasi scroll berbobot dan melayang.
   * **Text Scramble Effect**: Teks navigasi dan logo beranimasi acak/decoding karakter ala terminal saat kursor mendekat.
+  * **Photo 3D Flip-Glitch Reveal**: Foto koordinator divisi muncul saat hover di diagram `/struktur`.
   * **Interactive Drawer**: Panel inspeksi meluncur dari samping (*slide-over*) saat node organisasi diklik.
 
 ### 2.2 Hierarki Tipografi
 | Peran Tipografi | Font Family | Karakter & Kegunaan |
 | :--- | :--- | :--- |
 | **Headline / Display** | `Anton` (Google Fonts) | Huruf kapital, tebal, proporsi besar (`clamp(2.5rem, 7vw, 6rem)`). Memberikan kesan berani dan dramatis. "UNIVERSITAS TRILOGI" menggunakan aksen Biru HIMATIKA (`#2563eb`). |
-| **Technical Metadata** | `JetBrains Mono` | Monospaced, tracking lebar. Digunakan untuk nomor urut (`01 / 06`), tanggal, label badge, dan data angka. |
-| **Body Text** | `Poppins` / `Inter` | Bersih, keterbacaan tinggi, kontras abu-abu lembut (`#a1a1aa`) untuk deskripsi panjang. |
+| **Technical Metadata** | `JetBrains Mono` | Monospaced, tracking lebar. Digunakan untuk nomor urut (`01 / 05`), tanggal, label badge, dan data angka. |
+| **Body Text** | `Poppins` / `Inter` | Bersih, keterbacaan tinggi, kontras abu-abu lembut (`#a1a1aa`) untuk deskripsi panjang (100% bebas dari AI-slop). |
 
 ### 2.3 Palet Warna Resmi (Anti AI-Slop Color System)
 > [!IMPORTANT]
-> Seluruh warna cyan neon buatan (`#00e5ff`) telah dieliminasi total karena memberikan kesan generik "AI-slop". Palet resmi diselaraskan dengan warna biru almamater dan logo Universitas Trilogi.
+> Seluruh warna cyan neon buatan (`#00e5ff`) telah dieliminasi total karena memberikan kesan generik "AI-slop". Palet resmi diselaraskan dengan warna biru almamater dan logo Universitas Trilogi (`#2563eb`).
 
 ```css
 :root {
@@ -60,12 +61,14 @@ Website HIMATIKA sebelumnya merupakan website profil berbasis HTML/CSS statis ko
 
 ```mermaid
 flowchart TD
-    User["Pengunjung / Mahasiswa"] --> Home["1. Menu Home (Cinematic Landing)"]
-    User --> About["2. About Us + Diagram Struktur (No Photo)"]
-    User --> Proker["3. Katalog Program Kerja (/proker)"]
+    User["Pengunjung / Mahasiswa"] --> Home["1. Menu Beranda (/)"]
+    User --> About["2. Tentang Kami (/about)"]
+    User --> Struktur["3. Struktur Pengurus (/struktur)"]
+    User --> Proker["4. Katalog Program Kerja (/proker)"]
+    User --> Contact["5. Hubungi Kami (/contact)"]
     
-    Pengurus["Pengurus HIMATIKA"] --> Login["Login Terminal (/auth)"]
-    Login --> Vault["4. The Vault: Keuangan Kas Internal (/vault)"]
+    Pengurus["Pengurus HIMATIKA"] --> Login["Portal Pengurus (/login)"]
+    Login --> Vault["6. The Vault: Keuangan Kas Internal (/vault)"]
 
     subgraph DataLayer ["Supabase Backend"]
         DB_Proker["Tabel: work_programs"]
@@ -78,66 +81,46 @@ flowchart TD
     Vault <--> DB_Storage
 ```
 
-### 3.1 Halaman Beranda (Menu Home)
-* **Navbar Minimalis Melayang**: Posisikan di tepi atas, transparan, menyebar kiri (`HIMATIKA TRILOGI`), tengah (`STATUS: ACTIVE 2026/2027`), dan kanan (Menu Tautan). Efek *text scramble* saat hover.
+### 3.1 Halaman Beranda (`/`)
+* **Navbar Minimalis Melayang**: Posisikan di tepi atas, transparan, menyebar kiri (`HIMATIKA TRILOGI`), tengah (Pure Negative Space), dan kanan (Menu Tautan + Tombol User Profil ke `/login`). Efek *text scramble* saat hover.
 * **Hero Section Sinematik**:
-  * Teks raksasa: `HIMATIKA TRILOGI` & `DEPT. OF INFORMATICS`.
-  * Background video looping gerak lambat (dokumentasi makrab, coding session, seminar) dalam format kompresi `.webm` ringan berbobot < 3MB.
-  * Indikator scroll bawah beranimasi garis linear.
-* **Featured Showcase Slider**: Slider 3-4 program kerja unggulan dengan nomor urut besar (`PROG // 01`), progress bar tipis, dan tombol interaktif yang responsif swipe di mobile.
+  * Teks raksasa: `HIMPUNAN MAHASISWA TEKNIK INFORMATIKA UNIVERSITAS TRILOGI`.
+  * Top HUD: `HIMATIKA UNIVERSITAS TRILOGI`.
+  * Subtext manusiawi ramah mahasiswa: *"Ruang belajar, berkarya, dan berkembang bersama bagi mahasiswa Teknik Informatika Universitas Trilogi."*
+  * Background video looping gerak lambat dalam format kompresi ringan.
+  * Tombol navigasi scroll bawah: `EKSPLORASI`.
+* **Featured Showcase Slider**: Slider 5 program kerja unggulan resmi dengan nomor urut (`01 / 05` s.d. `05 / 05`), progress bar linear dinamis, styling khusus badge biru untuk proker berkategori `KOLABORASI SEMUA DIVISI`, dan dukungan swipe layar sentuh.
+* **Banner Struktur Organisasi**: Seksi editorial pengantar dengan tombol CTA langsung ke halaman `/struktur`.
 
-### 3.2 Halaman Tentang Kami & Struktur Organisasi (About Us)
-* **Kilas Sejarah & Nilai**: Sejarah pendirian (2015), Visi, dan Misi disajikan dalam layout dua kolom tipografi bergaya editorial.
-* **Interactive Node/Blueprint Diagram (Tanpa Foto Anggota)**:
-  * Menggantikan deretan kartu foto konvensional dengan **diagram silsilah/hierarki interaktif** mirip bagan arsitektur software / branch Git.
-  * **Hierarki Resmi Kepengurusan HIMATIKA**:
-    * **Top Level**: `Ketua Himpunan` & `Wakil Ketua Himpunan`
-    * **Badan Pengurus Harian (BPH)**:
-      * ⚖️ `Sekretaris` (Administrasi, persuratan, dan tata kelola arsip)
-      * 💰 `Bendahara` (Pengelolaan kas, anggaran proker, dan pelaporan keuangan)
-    * **Divisi Operasional & Departemen**:
-      * 👥 `Badan Pengembangan Sumber Daya Manusia (BPSDM)` (Kaderisasi, pengembangan anggota, kepemimpinan)
-      * 🌐 `Humas` (Hubungan masyarakat, relasi eksternal, kolaborasi ormawa/industri)
-      * 🔬 `Riset dan Keilmuan` (Penelitian teknologi, workshop akademik, coding/kompetisi)
-      * 🏆 `Pengembangan Minat dan Bakat` (Wadah minat non-akademik, olahraga, esports, seni)
-      * 📦 `Sarana dan Logistik` (Pengelolaan inventaris, perlengkapan teknis, kebutuhan acara)
-      * 🎨 `Media Kreatif` (Desain grafis, publikasi medsos, branding visual, dokumentasi)
+### 3.2 Halaman Tentang Kami (`/about`)
+* **Hero Identitas Resmi**: Logo HIMATIKA berukuran besar (hingga 320px) berdampingan natural dengan narasi pendirian ormawa. Bebas dari bingkai luar dan crosshair.
+* **Visi Kami**: Kutipan editorial terkurasi: *"Menjadikan HIMATIKA Universitas Trilogi sebagai ruang tumbuh bagi mahasiswa Teknik Informatika yang unggul, berintegritas, inovatif, dan siap berkontribusi di industri teknologi."*
+* **Empat Misi Utama**: Disajikan dalam kartu modular dengan bahasa lugas dan membumi (Akademik & Riset, Kepemimpinan & Solidaritas, Kemitraan Aktif, Inovasi & Kontribusi Nyata).
+* **Bridging CTA Box**: Menghubungkan pengunjung ke `/proker` dan `/struktur`.
 
-```mermaid
-graph TD
-    KAHIM["Ketua & Wakil Ketua Himpunan"] --> BPH["Badan Pengurus Harian (BPH)"]
-    BPH --> SEK["Sekretaris"]
-    BPH --> BEN["Bendahara"]
-    
-    KAHIM --> DIV["Divisi Pelaksana"]
-    DIV --> BPSDM["BPSDM<br/>(Badan Pengembangan SDM)"]
-    DIV --> HUMAS["Humas<br/>(Hubungan Masyarakat)"]
-    DIV --> RISET["Riset & Keilmuan"]
-    DIV --> PMB["Pengembangan Minat & Bakat"]
-    DIV --> SARLOG["Sarana & Logistik"]
-    DIV --> MEDKRAF["Media Kreatif"]
-```
+### 3.3 Halaman Khusus Struktur Pengurus (`/struktur`)
+* **Halaman Mandiri**: Terpisah dari `/about` untuk memberikan fokus penuh pada diagram hierarki kepengurusan.
+* **Interactive Blueprint / Circuit Diagram**:
+  * Menghubungkan Presidium Utama (Kahim & Wakahim), BPH (Sekretaris & Bendahara), dan 6 Divisi Pelaksana.
+  * **Interaksi Hover 3D Flip & Glitch Reveal**: Saat kursor mengarah ke salah satu node diagram, foto koordinator/kadiv langsung muncul dengan animasi 3D perspective flip dan scanline sweep biru elektrik.
+  * **Slide-over Division Drawer**: Mengklik node mana pun membuka panel drawer samping yang memuat rincian tupoksi, susunan anggota pengurus, dan daftar proker terkait.
+  * Seluruh kartu tetap 100% stabil (tidak berputar membalikkan teks) dan dapat diklik di mana saja.
 
-  * **Fitur Interaktif**: Mengklik/tap pada node divisi akan memunculkan laci detail (*drawer*) yang menampilkan deskripsi tugas pokok & fungsi (tupoksi), nama kepala divisi, dan daftar anggota aktif.
-  * **Responsif**: Di layar desktop berbentuk bagan pohon horizontal/blueprint; di layar smartphone bertransformasi menjadi akordeon hierarkis rapi yang mudah di-tap.
+### 3.4 Halaman Khusus Program Kerja (`/proker`) [FASE 5 - TARGET BESOK]
+* **Katalog Komprehensif**: Menampilkan semua program kerja HIMATIKA dari arsip lama (Workshop Teknologi, T-Expo, T-Camp, Company Visit, Dukungan Karir, Kolaborasi Teknologi) ditambah proker divisi aktif.
+* **Sticky Filter Bar**: Filter status (`Semua`, `Upcoming`, `Ongoing`, `Completed`) dan filter divisi/kategori (termasuk `KOLABORASI SEMUA DIVISI`).
+* **Detail Card & Dynamic Route (`/proker/[slug]`)**: Menampilkan tanggal pelaksanaan, sasaran peserta, deskripsi tujuan, galeri dokumentasi foto, dan tombol pendaftaran.
 
-### 3.3 Halaman Khusus Program Kerja (`/proker`)
-* **Katalog Komprehensif**: Menampilkan semua program kerja HIMATIKA sepanjang periode kepengurusan.
-* **Filter Kategori**:
-  * Berdasarkan status: `Semua`, `Akan Datang (Upcoming)`, `Sedang Berjalan (Ongoing)`, `Terlaksana (Completed)`.
-  * Berdasarkan divisi penanggung jawab.
-* **Detail Card & Drawer**:
-  * Menampilkan tanggal pelaksanaan, sasaran peserta, deskripsi tujuan, serta lampiran dokumentasi kegiatan (setelah terlaksana).
-  * Data terhubung secara dinamis dari tabel Supabase `work_programs`.
+### 3.5 Halaman Kontak (`/contact`)
+* Rincian kontak resmi (Alamat Kampus Trilogi Kalibata, Telepon Prodi, Email resmi `himatika@trilogi.ac.id`, Jam respons operasional).
+* Formulir pesan langsung terhubung ke email pengurus.
 
-### 3.4 Modul Keuangan Internal (The Vault / `/vault`)
+### 3.6 Modul Keuangan Internal (The Vault / `/vault`) [FASE 6]
 * **Akses Terbatas (*Restricted Access*)**:
-  * Halaman login bertema *Security Clearance Terminal*.
-  * Menggunakan **Supabase Auth** (email/password terdaftar untuk pengurus himpunan).
-* **Keamanan Data (Row Level Security - RLS)**:
-  * Pengunjung umum tidak memiliki hak akses baca (`SELECT`) ke tabel keuangan.
+  * Halaman login `/login` untuk pengurus terdaftar (Bendahara & Medkraf).
+  * Terproteksi Supabase Auth + Next.js Middleware Route Guard.
 * **Dashboard Finansial**:
-  * **Summary Metrics**: Saldo Kas Aktif, Total Pemasukan Periode Ini, Total Pengeluaran Periode Ini.
+  * Saldo Kas Aktif, Total Pemasukan, Total Pengeluaran, pencatatan transaksi kas baru, dan upload bukti kuitansi privat.
   * **Tabel Transaksi Kas**: Daftar arus kas masuk/keluar per tanggal, nama kegiatan/keperluan, nominal, dan penanggung jawab input.
   * **Verifikasi Bukti Kuitansi**: Dukungan upload dan preview foto nota/kuitansi digital yang disimpan di Supabase Storage (Private Bucket).
 

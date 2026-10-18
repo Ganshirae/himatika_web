@@ -92,19 +92,19 @@ z-index: 0    -> Background Slideshow & Canvas Grid Noise
 
 ```text
 [ DESKTOP VIEWPORT ]
-+-----------------------------------------------------------------------------------------+
-| [LOGO + HIMATIKA TRILOGI]         [ PURE NEGATIVE SPACE ]         [BERANDA] [PROKER] [TENTANG] [(User)] |
-+-----------------------------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------------------------------------+
+| [LOGO + HIMATIKA TRILOGI]      [ PURE NEGATIVE SPACE ]      [BERANDA] [PROKER] [STRUKTUR] [TENTANG] [KONTAK] [(User)] |
++-----------------------------------------------------------------------------------------------------------------------+
 ```
 
 * **Struktur**:
   * **Sisi Kiri**: Logo resmi HIMATIKA + Teks merek `HIMATIKA TRILOGI` (Font `Anton`). Teks merek dilengkapi animasi interaktif **ScrambleText** saat kursor mendekat. Subtitle "Dept. of Informatics" ditiadakan demi kesederhanaan visual.
   * **Sisi Tengah**: **Pure Negative Space** (murni kosong dan bersih tanpa teks status robotik "SYS: ONLINE").
-  * **Sisi Kanan**: Menu navigasi publik: `BERANDA` (`/`), `PROKER` (`/proker`), `TENTANG` (`/about`), dan tombol ikon profil minimalis **User Profile (`<User />`)** yang mengarahkan ke Portal Pengurus (`/login`).
+  * **Sisi Kanan**: Menu navigasi publik: `BERANDA` (`/`), `PROKER` (`/proker`), `STRUKTUR` (`/struktur`), `TENTANG` (`/about`), `KONTAK` (`/contact`), dan tombol ikon profil minimalis **User Profile (`<User />`)** yang mengarahkan ke Portal Pengurus (`/login`).
 * **Adaptasi Mobile**:
   * Menu navigasi desktop disembunyikan.
   * Menampilkan tombol hamburger minimalis 2 garis tipis.
-  * Ketika ditekan: Membuka *fullscreen brutalist drawer* dengan menu vertikal raksasa font `Anton` beranimasi acak huruf.
+  * Ketika ditekan: Membuka *fullscreen brutalist drawer* dengan menu vertikal raksasa font `Anton` beranimasi acak huruf tanpa notasi slash.
 
 ---
 
@@ -112,32 +112,42 @@ z-index: 0    -> Background Slideshow & Canvas Grid Noise
 
 #### A. Hero Cinematic Section
 * **Latar Belakang**:
-  * Slideshow otomatis foto dokumentasi kegiatan asli HIMATIKA beresolusi tinggi dan **berwarna penuh (*full color*)** (bukan hitam-putih buatan).
-  * Dilengkapi efek transisi *Ken Burns zoom* perlahan dan vignette halus di tepi layar agar teks putih selalu terbaca tajam dan berwibawa.
+  * Video loop background sinematik (`muted autoplay loop playsinline`) dengan poster fallback kegiatan asli HIMATIKA beresolusi tinggi dan **berwarna penuh (*full color*)**.
+  * Dilengkapi lapisan overlay vignette halus di tepi layar agar teks putih selalu terbaca tajam dan berwibawa.
+* **Top HUD & Subtext**:
+  * Top HUD: `HIMATIKA UNIVERSITAS TRILOGI` (Font Mono, tracking rapi).
+  * Subtext manusiawi ramah mahasiswa: *"Ruang belajar, berkarya, dan berkembang bersama bagi mahasiswa Teknik Informatika Universitas Trilogi."*
 * **Tipografi Lockup**:
   * Baris 1: `HIMPUNAN MAHASISWA` (Monospace `JetBrains Mono`, tracking lebar).
   * Baris 2: `TEKNIK INFORMATIKA` (Masif font `Anton`, `clamp(3.5rem, 9vw, 8.5rem)`).
-  * Baris 3: `UNIVERSITAS TRILOGI` (Font `Anton`, diwarnai **Biru Tua HIMATIKA `#2563eb`** sesuai lambang universitas).
+  * Baris 3: `UNIVERSITAS TRILOGI` (Font `Anton`, diwarnai **Biru Almamater HIMATIKA `#2563eb`** sesuai lambang universitas).
 * **Bottom Controls**:
-  * Indikator scroll di sudut kiri bawah: `SCROLL TO EXPLORE` dengan garis penunjuk animasi.
+  * Indikator scroll di sudut kiri bawah: `EKSPLORASI` dengan garis penunjuk animasi terhubung ke Lenis scroll.
 
-#### B. Featured Showcase Slider (Program Kerja Pilihan)
+#### B. Featured Showcase Slider (5 Program Kerja Unggulan)
 * **Layout**: Split komposisi 2 sisi (55% visual preview + 45% metadata):
-  * **Sisi Kiri (55%)**: Foto dokumentasi asli kegiatan berwarna tajam (T-Camp, IT Expo, Workshop, Company Visit MNC).
-  * **Sisi Kanan (45%)**: Counter monospaced (`01 / 04`), nama divisi, judul kegiatan, deskripsi ringkas, dan tombol tautan detail.
+  * **Sisi Kiri (55%)**: Preview foto dokumentasi asli kegiatan berwarna tajam (T-Camp, IT Expo, Tech Workshop, Company Visit MNC, dan Kolaborasi Komunitas).
+    * Khusus logo `kolaborasi.png` yang berlatar putih: disajikan di dalam container berlatar putih bersih dengan `object-contain` dan tanpa dark vignette.
+  * **Sisi Kanan (45%)**: Counter monospaced (`01 / 05` s.d. `05 / 05`), badge divisi/kategori (dengan badge biru lembut khusus untuk `KOLABORASI SEMUA DIVISI`), judul kegiatan, deskripsi ringkas, dan tombol `LIHAT DETAIL PROGRAM →`.
 * **Navigasi Slider**:
   * Progress bar linear dinamis yang terisi halus saat slide berganti.
   * Tombol navigasi panah kiri/kanan dengan hover styling.
   * Dukungan sentuhan gestur **horizontal touch swipe** pada smartphone.
 
-#### C. Quick Metrics Blueprint
-* Menampilkan 4 metrik historis: Tahun Berdiri (`2015`), 8 Divisi Resmi (`08`), 24+ Program Kerja (`24+`), dan 500+ Kader & Alumni (`500+`).
+#### C. Seksi Pengantar Struktur Organisasi
+* Seksi editorial pengantar dengan judul *"KENALI PENGURUS & BIDANG KERJA"* dan tombol CTA langsung ke halaman `/struktur`.
 
 ---
 
-### 3.3 Halaman Tentang Kami: Interactive Org Blueprint (Tanpa Foto Individu)
+### 3.3 Halaman Tentang Kami (`/about`) & Struktur Pengurus (`/struktur`)
 
-> **Prinsip Fundamental**: Mengeliminasi kartu foto individu untuk menghindari tampilan yang tidak seragam dan memberikan kesan sistem arsitektur komputer murni.
+#### A. Halaman Tentang Kami (`/about`)
+* **Hero Identitas**: Logo HIMATIKA mandiri berukuran besar (hingga 320px) berdampingan natural dengan narasi pendirian ormawa tanpa bingkai kotak/crosshair luar yang mengurung.
+* **Visi Kami**: Teks terkurasi: *"Menjadikan HIMATIKA Universitas Trilogi sebagai ruang tumbuh bagi mahasiswa Teknik Informatika yang unggul, berintegritas, inovatif, dan siap berkontribusi di industri teknologi."*
+* **Empat Pilar Misi**: Disajikan dalam kartu modular dengan bahasa lugas mahasiswa (Akademik & Riset, Kepemimpinan & Solidaritas, Kemitraan Aktif, Inovasi & Kontribusi Nyata), tanpa status bar operasional pabrik.
+
+#### B. Halaman Khusus Struktur Pengurus (`/struktur`)
+* **Halaman Mandiri**: Terpisah secara bersih untuk memberikan ruang lega pada diagram hierarki organisasi.
 
 ```mermaid
 graph TD
@@ -158,24 +168,21 @@ graph TD
     KAHIM --> DIV_MEDKRAF["MEDIA KREATIF<br/><small>Desain & Multimedia</small>"]:::div
 ```
 
-#### Spesifikasi Visual Node Diagram:
+#### Spesifikasi Visual & Interaksi Node Diagram:
 * **Gaya Garis**: Jalur sirkuit bus (*motherboard circuit bus*) dengan connector dots biru menyala dan divider garis putus-putus presisi.
-* **Dual View Modes**: Pengguna dapat berganti antara tampilan **Circuit Bus** dan **Grid Matrix**.
-* **Kotak Node (Bagan)**:
-  * Bentuk: Persegi panjang berpresisi sudut tegas dengan crosshairs pojok.
-  * Status Normal: Background `#0c0c0e`, border hairline tipis, teks abu-abu terang.
-  * Status Hover: Border menyala aksen biru HIMATIKA (`#2563eb`), teks judul membesar sedikit, kursor berubah menjadi pointer.
+* **Interaksi Hover 3D Photo Flip & Glitch Reveal**:
+  * Saat kursor mengarah ke kartu pimpinan/koordinator, foto resmi pengurus (`fais.png`, `yudis.png`, dll.) muncul seketika dengan animasi 3D perspective flip (`rotateY(-90deg) -> 0deg`) dan scanline sweep biru elektrik.
+  * Kartu tetap 100% stabil (tidak membalikkan teks) dan seluruh area kartu dapat diklik langsung untuk membuka panel inspeksi.
 * **Mekanisme Interaksi Drawer (Slide-Over Panel - `DivisionDrawer.tsx`)**:
-  * Ketika pengunjung mengklik salah satu node divisi (misal: **MEDIA KREATIF** atau **PRESIDIUM**):
-  * Layar tidak berpindah halaman. Dari sisi kanan meluncur panel hitam selebar 540px di desktop (atau fullscreen di ponsel).
-  * Isi Drawer:
-    * Tag Level & Kode: `[INSPECTION PANEL // SPEC: MEDKRAF]`.
-    * Nama lengkap dan ringkasan peran.
-    * 01 // Tugas Pokok & Fungsi (Tupoksi) dalam format poin-poin bernomor.
-    * 02 // Struktur Pimpinan, nama koordinator, dan jumlah personel staf.
-    * 03 // Program Kerja naungan divisi terkait (dengan tautan langsung ke katalog proker).
-    * 04 // Bidang Fokus (#VISUAL DESIGN, #MULTIMEDIA, dll).
-    * Tombol tutup cepat via tombol `[ESC]` atau tombol klik.
+  * Mengklik node divisi membuka panel drawer samping selebar 540px di desktop (atau fullscreen di ponsel).
+  * Isi Drawer (Bebas Notasi AI-Slop):
+    * Tag Header: `DETAIL BIDANG [DIVISI]`.
+    * Nama lengkap divisi dan ringkasan peran ramah mahasiswa.
+    * Tugas Pokok & Fungsi (Tupoksi) dalam format poin-poin terstruktur.
+    * Struktur pimpinan dengan foto koordinator dan susunan `{count} Anggota`.
+    * Daftar Program Kerja naungan divisi terkait.
+    * Bidang Fokus Utama (#VISUAL DESIGN, #MULTIMEDIA, dll).
+    * Tombol tutup cepat via tombol `[ESC]` atau tombol backdrop.
 
 ---
 

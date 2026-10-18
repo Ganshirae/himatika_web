@@ -1,3 +1,9 @@
+export interface LeaderInfo {
+  name: string;
+  role: string;
+  image: string;
+}
+
 export interface OrgNode {
   id: string;
   code: string;
@@ -9,6 +15,8 @@ export interface OrgNode {
   tupoksi: string[];
   leaderTitle: string;
   leaderName: string;
+  leaderImage?: string;
+  leaders?: LeaderInfo[];
   members: { role: string; count: number }[];
   activeProkers: {
     title: string;
@@ -27,15 +35,28 @@ export const ORG_NODES: OrgNode[] = [
     level: 1,
     levelName: "PRESIDIUM UTAMA",
     shortDesc:
-      "Pucuk pimpinan eksekutif tertinggi yang bertanggung jawab atas penentuan arah strategis, pengawasan seluruh divisi, dan representasi resmi HIMATIKA Universitas Trilogi.",
+      "Pimpinan organisasi yang bertanggung jawab atas arah kebijakan, koordinasi seluruh bidang kerja, dan representasi resmi HIMATIKA Universitas Trilogi.",
     tupoksi: [
-      "Memegang kekuasaan eksekutif tertinggi dan bertanggung jawab secara umum atas seluruh agenda HIMATIKA.",
+      "Memimpin jalannya organisasi dan bertanggung jawab atas seluruh program kerja HIMATIKA.",
       "Menentukan arah kebijakan strategis organisasi serta mengoordinasikan seluruh badan dan divisi kepengurusan.",
-      "Mewakili HIMATIKA dalam forum internal Universitas Trilogi maupun eksternal antar-perguruan tinggi nasional.",
-      "Memastikan ketercapaian visi, misi, dan nilai dasar organisasi sepanjang periode kepengurusan.",
+      "Mewakili HIMATIKA dalam forum internal Universitas Trilogi maupun eksternal antar-perguruan tinggi.",
+      "Menjaga ketercapaian visi, misi, dan nilai kekeluargaan organisasi sepanjang periode kepengurusan.",
     ],
-    leaderTitle: "Presidium Kabinet",
-    leaderName: "Ketua & Wakil Ketua Himpunan",
+    leaderTitle: "Presidium Utama",
+    leaderName: "Musyaffa Salman Alfarizi & Yudistira",
+    leaderImage: "/image/fais.png",
+    leaders: [
+      {
+        name: "Musyaffa Salman Alfarizi",
+        role: "Ketua Himpunan",
+        image: "/image/fais.png",
+      },
+      {
+        name: "Yudistira",
+        role: "Wakil Ketua Himpunan",
+        image: "/image/yudis.png",
+      },
+    ],
     members: [
       { role: "Ketua Himpunan", count: 1 },
       { role: "Wakil Ketua Himpunan", count: 1 },
@@ -58,9 +79,9 @@ export const ORG_NODES: OrgNode[] = [
       },
     ],
     focusAreas: [
-      "KEBIJAKAN STRATEGIS",
-      "ORGANIZATIONAL GOVERNANCE",
-      "STRATEGIC LEADERSHIP",
+      "KEPEMIMPINAN ORGANISASI",
+      "ARAH STRATEGIS",
+      "KOORDINASI TIM",
     ],
   },
   {
@@ -71,15 +92,23 @@ export const ORG_NODES: OrgNode[] = [
     level: 2,
     levelName: "BADAN PENGURUS HARIAN",
     shortDesc:
-      "Pengelola sentral tata kelola administrasi organisasi, kearsipan persuratan legal, perizinan proposal, dan basis data keanggotaan himpunan.",
+      "Pengelola administrasi persuratan, pengarsipan dokumen, pendataan anggota, dan koordinasi perizinan kegiatan organisasi.",
     tupoksi: [
-      "Bertanggung jawab atas tata kelola administrasi surat-menyurat, arsip data, dan notulensi organisasi.",
-      "Menyusun dan menegakkan standarisasi format proposal, laporan kegiatan (LPJ), dan persuratan resmi himpunan.",
-      "Mengelola basis data keanggotaan aktif serta dokumentasi legalitas kepengurusan.",
-      "Mengkoordinasikan alur birokrasi perizinan kegiatan dengan pihak Program Studi dan Dekanat.",
+      "Mengelola administrasi surat-menyurat, arsip data, dan notulensi rapat organisasi.",
+      "Menyusun format proposal kegiatan, laporan pertanggungjawaban (LPJ), dan persuratan resmi himpunan.",
+      "Mengelola data keanggotaan aktif serta dokumentasi legalitas kepengurusan.",
+      "Mengkoordinasikan alur perizinan kegiatan dengan pihak Program Studi dan Dekanat.",
     ],
-    leaderTitle: "Sekretaris Umum",
-    leaderName: "Koordinator Administrasi",
+    leaderTitle: "Sekretaris I",
+    leaderName: "Riska Febriyanti",
+    leaderImage: "/image/riska.png",
+    leaders: [
+      {
+        name: "Riska Febriyanti",
+        role: "Sekretaris I",
+        image: "/image/riska.png",
+      },
+    ],
     members: [
       { role: "Sekretaris I (Administrasi & Persuratan)", count: 1 },
       { role: "Sekretaris II (Kearsipan & Notulensi)", count: 1 },
@@ -96,7 +125,7 @@ export const ORG_NODES: OrgNode[] = [
         status: "completed",
       },
     ],
-    focusAreas: ["TATA KELOLA ADMINISTRASI", "LEGALITAS", "KARSIPAN DIGITAL"],
+    focusAreas: ["ADMINISTRASI ORGANISASI", "KARSIPAN DIGITAL", "PERIZINAN KEGIATAN"],
   },
   {
     id: "node-bph-ben",
@@ -106,32 +135,40 @@ export const ORG_NODES: OrgNode[] = [
     level: 2,
     levelName: "BADAN PENGURUS HARIAN",
     shortDesc:
-      "Pengendali sistem sirkulasi kas himpunan, perancangan rencana anggaran biaya (RAB), dan penjamin transparansi finansial melalui The Vault.",
+      "Pengelola keuangan himpunan, perancangan anggaran biaya kegiatan, dan penyusunan laporan kas yang transparan.",
     tupoksi: [
-      "Mengelola sirkulasi keuangan kas himpunan, perencanaan anggaran biaya (RAB), dan pencatatan buku kas masuk/keluar.",
-      "Menerapkan transparansi pembukuan melalui portal The Vault yang dapat diaudit secara berkala.",
-      "Memverifikasi keabsahan bukti transaksi pengeluaran dan pemasukan pada setiap kepanitiaan kegiatan.",
-      "Menyusun laporan arus kas bulanan serta laporan pertanggungjawaban keuangan semesteran.",
+      "Mengelola pemasukan dan pengeluaran kas himpunan serta perencanaan rencana anggaran biaya (RAB).",
+      "Mencatat pembukuan keuangan secara rapi, terbuka, dan dapat diakses pengurus.",
+      "Memeriksa bukti transaksi pemasukan dan pengeluaran pada setiap kegiatan himpunan.",
+      "Menyusun laporan keuangan rutin dan laporan pertanggungjawaban kas periode aktif.",
     ],
-    leaderTitle: "Bendahara Umum",
-    leaderName: "Koordinator Keuangan",
+    leaderTitle: "Bendahara I",
+    leaderName: "Ananda Tri Handayani",
+    leaderImage: "/image/nanda.png",
+    leaders: [
+      {
+        name: "Ananda Tri Handayani",
+        role: "Bendahara I",
+        image: "/image/nanda.png",
+      },
+    ],
     members: [
       { role: "Bendahara I (Arus Kas Masuk & Verifikasi)", count: 1 },
       { role: "Bendahara II (Pengeluaran & Anggaran Event)", count: 1 },
     ],
     activeProkers: [
       {
-        title: "Audit & Transparansi Kas (The Vault Portal)",
+        title: "Transparansi Kas & Pembukuan HIMA",
         slug: "the-vault-transparansi-kas",
         status: "ongoing",
       },
       {
-        title: "Rancangan Anggaran Biaya (RAB) Terintegrasi",
+        title: "Rancangan Anggaran Biaya (RAB) Kegiatan",
         slug: "rab-terintegrasi-2026",
         status: "completed",
       },
     ],
-    focusAreas: ["MANAJEMEN KAS", "TRANSPARANSI KEUANGAN", "AUDIT FINANSIAL"],
+    focusAreas: ["MANAJEMEN KAS", "TRANSPARANSI KEUANGAN", "ANGGARAN KEGIATAN"],
   },
   {
     id: "node-bpsdm",
@@ -141,15 +178,23 @@ export const ORG_NODES: OrgNode[] = [
     level: 3,
     levelName: "DIVISI PELAKSANA",
     shortDesc:
-      "Divisi kaderisasi dan pembinaan karakter, bertugas mencetak kader mahasiswa Teknik Informatika yang loyal, beretika rekayasa tinggi, dan memiliki kapabilitas kepemimpinan.",
+      "Divisi kaderisasi dan pengembangan karakter anggota, berfokus pada pembinaan kepemimpinan, etika berorganisasi, serta solidaritas mahasiswa Teknik Informatika.",
     tupoksi: [
-      "Merancang dan mengeksekusi kurikulum kaderisasi mahasiswa baru Teknik Informatika secara berkelanjutan.",
-      "Menyelenggarakan pelatihan kepemimpinan, team-building, dan peningkatan kapasitas manajerial anggota.",
-      "Melakukan evaluasi kinerja berkala pengurus serta memelihara iklim keharmonisan internal organisasi.",
-      "Mengembangkan program pendampingan (mentorship) antar-angkatan mahasiswa Teknik Informatika.",
+      "Merancang dan melaksanakan alur kaderisasi mahasiswa baru Teknik Informatika.",
+      "Menyelenggarakan pelatihan kepemimpinan, team-building, dan pengembangan kapasitas anggota.",
+      "Mengevaluasi kinerja pengurus serta menjaga suasana kekeluargaan di internal organisasi.",
+      "Mengembangkan program pendampingan (mentorship) antar-angkatan mahasiswa.",
     ],
-    leaderTitle: "Kepala Divisi BPSDM",
-    leaderName: "Koordinator Divisi",
+    leaderTitle: "Koordinator BPSDM",
+    leaderName: "Galang Jenar Mahesadewa",
+    leaderImage: "/image/galang.png",
+    leaders: [
+      {
+        name: "Galang Jenar Mahesadewa",
+        role: "Koordinator BPSDM",
+        image: "/image/galang.png",
+      },
+    ],
     members: [
       { role: "Ketua Divisi", count: 1 },
       { role: "Staff Divisi Kaderisasi & Monitoring", count: 4 },
@@ -171,7 +216,7 @@ export const ORG_NODES: OrgNode[] = [
         status: "upcoming",
       },
     ],
-    focusAreas: ["KADERISASI", "KEPEMIMPINAN", "MENTORSHIP & BONDING"],
+    focusAreas: ["KADERISASI", "KEPEMIMPINAN", "KEKELUARGAAN & MENTORSHIP"],
   },
   {
     id: "node-humas",
@@ -181,15 +226,23 @@ export const ORG_NODES: OrgNode[] = [
     level: 3,
     levelName: "DIVISI PELAKSANA",
     shortDesc:
-      "Garda terdepan diplomasi eksternal, menjembatani kemitraan strategis dengan ekosistem industri teknologi, instansi profesional, alumni, dan ormawa lintas kampus.",
+      "Penghubung komunikasi eksternal organisasi dengan industri teknologi, instansi profesional, ikatan alumni, dan himpunan mahasiswa lainnya.",
     tupoksi: [
-      "Membangun dan memelihara hubungan kemitraan strategis dengan industri teknologi, instansi, dan ikatan alumni.",
-      "Menjadi narahubung utama kegiatan eksternal, studi banding antar-himpunan, dan diplomasi ormawa.",
-      "Memfasilitasi peluang kerja sama sponsorship, magang industri, dan lowongan kerja bagi anggota.",
-      "Menyusun program komunikasi publik dan respon terhadap isu-isu seputar teknologi informasi.",
+      "Membangun dan memelihara hubungan kerja sama dengan dunia industri, instansi, dan ikatan alumni.",
+      "Menjadi narahubung utama kegiatan eksternal, kunjungan industri, dan studi banding antar-kampus.",
+      "Memfasilitasi peluang sponsorship acara, lowongan kerja, serta program magang bagi mahasiswa.",
+      "Mengelola komunikasi publik dan penyampaian informasi himpunan kepada masyarakat luas.",
     ],
-    leaderTitle: "Kepala Divisi Humas",
-    leaderName: "Koordinator Divisi",
+    leaderTitle: "Koordinator Humas",
+    leaderName: "Dimas Srimuladi",
+    leaderImage: "/image/dimas.png",
+    leaders: [
+      {
+        name: "Dimas Srimuladi",
+        role: "Koordinator Humas",
+        image: "/image/dimas.png",
+      },
+    ],
     members: [
       { role: "Ketua Divisi", count: 1 },
       { role: "Staff Eksternal & Hubungan Industri", count: 4 },
@@ -211,7 +264,7 @@ export const ORG_NODES: OrgNode[] = [
         status: "ongoing",
       },
     ],
-    focusAreas: ["DIPLOMASI EKSTERNAL", "JEJARING INDUSTRI", "KOMUNIKASI PUBLIK"],
+    focusAreas: ["HUBUNGAN EKSTERNAL", "KEMITRAAN INDUSTRI", "KOMUNIKASI PUBLIK"],
   },
   {
     id: "node-riset",
@@ -221,15 +274,23 @@ export const ORG_NODES: OrgNode[] = [
     level: 3,
     levelName: "DIVISI PELAKSANA",
     shortDesc:
-      "Pusat pengembangan akademik, riset rekayasa perangkat lunak, kecerdasan buatan, dan inkubasi delegasi kompetisi IT bergengsi tingkat nasional.",
+      "Pusat kegiatan akademik, eksplorasi pemrograman, riset teknologi kecerdasan buatan, serta pembinaan mahasiswa dalam kompetisi IT.",
     tupoksi: [
-      "Mendorong atmosfer akademik dan budaya riset di bidang rekayasa software, AI, keamanan siber, dan cloud computing.",
-      "Mengadakan coding bootcamp berkala, workshop teknis praktis, dan study club algoritma pemecahan masalah.",
-      "Membimbing, melatih, dan mendelegasikan mahasiswa dalam kompetisi IT (Gemastik, Hackathon, ICPC).",
-      "Mengelola repository riset dan materi belajar terbuka (open knowledge) untuk mahasiswa Teknik Informatika.",
+      "Membangun budaya riset dan belajar bersama di bidang rekayasa software, AI, dan teknologi digital.",
+      "Mengadakan workshop teknologi berkala, coding bootcamp, dan kelompok belajar (study club) intensif.",
+      "Membimbing, melatih, dan mengirimkan delegasi mahasiswa ke kompetisi IT tingkat nasional.",
+      "Menyediakan materi belajar terbuka dan dokumentasi teknologi bagi mahasiswa Teknik Informatika.",
     ],
-    leaderTitle: "Kepala Divisi Riset",
-    leaderName: "Koordinator Divisi",
+    leaderTitle: "Koordinator Riset Keilmuan",
+    leaderName: "Kurnia",
+    leaderImage: "/image/naya.png",
+    leaders: [
+      {
+        name: "Kurnia",
+        role: "Koordinator Riset Keilmuan",
+        image: "/image/naya.png",
+      },
+    ],
     members: [
       { role: "Ketua Divisi", count: 1 },
       { role: "Staff Riset & Fasilitator Keilmuan", count: 5 },
@@ -252,9 +313,9 @@ export const ORG_NODES: OrgNode[] = [
       },
     ],
     focusAreas: [
-      "SOFTWARE ENGINEERING",
+      "SOFTWARE & WEB",
       "ARTIFICIAL INTELLIGENCE",
-      "KOMPETISI TEKNOLOGI",
+      "KOMPETISI IT",
     ],
   },
   {
@@ -265,15 +326,23 @@ export const ORG_NODES: OrgNode[] = [
     level: 3,
     levelName: "DIVISI PELAKSANA",
     shortDesc:
-      "Fasilitator aspirasi dan bakat non-akademik mahasiswa di ranah esports, turnamen olahraga, seni digital, dan penyelenggara festival tahunan TRILOGI IT EXPO.",
+      "Wadah minat dan bakat non-akademik mahasiswa di bidang esports, olahraga, seni digital, serta penanggung jawab festival TRILOGI IT EXPO.",
     tupoksi: [
-      "Mewadahi dan menyalurkan potensi non-akademik mahasiswa di bidang esports kompetitif, olahraga, dan seni digital.",
-      "Mengorganisasi festival teknologi tahunan berskala besar (Trilogi IT Expo & Innovation Fest).",
-      "Menyelenggarakan kompetisi olahraga dan esports internal untuk mempererat solidaritas angkatan.",
-      "Mempersiapkan tim kontingen perwakilan Teknik Informatika dalam ajang pekan olahraga universitas.",
+      "Menampung dan menyalurkan minat bakat mahasiswa di bidang turnamen esports, olahraga, dan seni digital.",
+      "Mengorganisasi penyelenggaraan festival tahunan Trilogi IT Expo & Innovation Fest.",
+      "Mengadakan kegiatan olahraga dan fun games internal untuk mempererat kebersamaan mahasiswa.",
+      "Menyiapkan perwakilan kontingen mahasiswa Teknik Informatika dalam ajang kompetisi olahraga kampus.",
     ],
-    leaderTitle: "Kepala Divisi PMB",
-    leaderName: "Koordinator Divisi",
+    leaderTitle: "Koordinator PM & B",
+    leaderName: "Adi Rahmansyah",
+    leaderImage: "/image/adi.png",
+    leaders: [
+      {
+        name: "Adi Rahmansyah",
+        role: "Koordinator PM & B",
+        image: "/image/adi.png",
+      },
+    ],
     members: [
       { role: "Ketua Divisi", count: 1 },
       { role: "Staff Divisi Olahraga & Event Creator", count: 4 },
@@ -305,15 +374,23 @@ export const ORG_NODES: OrgNode[] = [
     level: 3,
     levelName: "DIVISI PELAKSANA",
     shortDesc:
-      "Pengendali kesiapan infrastruktur fisik, manajemen inventaris perangkat keras laboratorium himpunan, kesekretariatan, dan rantai pasok logistik seluruh kegiatan.",
+      "Penanggung jawab perlengkapan acara, inventaris fasilitas himpunan, serta pemeliharaan ruang sekretariat bersama.",
     tupoksi: [
-      "Mengelola inventaris aset fisik, perangkat keras kesekretariatan, dan fasilitas laboratorium HIMA.",
-      "Menyediakan pengadaan logistik, perlengkapan teknis, dan kebutuhan operasional untuk seluruh program kerja.",
-      "Menjaga keteraturan, kebersihan, dan kenyamanan ruang sekretariat HIMATIKA sebagai sentral kerja tim.",
-      "Melakukan audit rutin kondisi aset serta pemeliharaan sarana prasarana penunjang kegiatan.",
+      "Mendata dan memelihara aset fisik, perangkat keras, dan inventaris fasilitas himpunan.",
+      "Menyiapkan pengadaan perlengkapan dan kebutuhan logistik untuk kelancaran seluruh kegiatan.",
+      "Menjaga kerapian, kebersihan, dan kenyamanan ruang sekretariat HIMATIKA.",
+      "Melakukan pengecekan rutin berkala terhadap kondisi peralatan penunjang operasional himpunan.",
     ],
-    leaderTitle: "Kepala Divisi Sarlog",
-    leaderName: "Koordinator Divisi",
+    leaderTitle: "Koordinator Logistik",
+    leaderName: "Muhamad Syafareno",
+    leaderImage: "/image/reno.png",
+    leaders: [
+      {
+        name: "Muhamad Syafareno",
+        role: "Koordinator Logistik",
+        image: "/image/reno.png",
+      },
+    ],
     members: [
       { role: "Ketua Divisi", count: 1 },
       { role: "Staff Inventaris & Logistik Operasional", count: 3 },
@@ -335,7 +412,7 @@ export const ORG_NODES: OrgNode[] = [
         status: "ongoing",
       },
     ],
-    focusAreas: ["MANAJEMEN INVENTARIS", "LOGISTIK ACARA", "FASILITAS SEKRETARIAT"],
+    focusAreas: ["INVENTARIS HIMPUNAN", "LOGISTIK ACARA", "RUANG SEKRETARIAT"],
   },
   {
     id: "node-medkraf",
@@ -345,15 +422,23 @@ export const ORG_NODES: OrgNode[] = [
     level: 3,
     levelName: "DIVISI PELAKSANA",
     shortDesc:
-      "Pengrajin identitas visual, perancang konten grafis, pengelola media sosial resmi, dan sutradara dokumentasi sinematik seluruh peristiwa HIMATIKA.",
+      "Pengelola konten kreatif, media sosial resmi, desain visual, serta dokumentasi kegiatan HIMATIKA Universitas Trilogi.",
     tupoksi: [
-      "Merancang identitas visual, grafis, dan estetika seluruh publikasi resmi HIMATIKA Universitas Trilogi.",
-      "Mengelola akun media sosial resmi (Instagram @himatikatrilogi, LinkedIn, YouTube, TikTok).",
-      "Menjalankan liputan multimedia, dokumentasi foto & video beresolusi tinggi, serta pembuatan konten teknologi edukatif.",
-      "Memelihara konsistensi brand guidelines himpunan dalam setiap materi komunikasi digital.",
+      "Merancang desain grafis dan identitas visual untuk seluruh publikasi resmi himpunan.",
+      "Mengelola saluran media sosial resmi (Instagram, LinkedIn, YouTube, dan TikTok) secara konsisten.",
+      "Menjalankan dokumentasi foto dan video pada setiap agenda kegiatan himpunan.",
+      "Membuat konten kreatif informatif dan edukasi seputar teknologi bagi mahasiswa.",
     ],
-    leaderTitle: "Kepala Divisi Medkraf",
-    leaderName: "Koordinator Divisi",
+    leaderTitle: "Koordinator Media Kreatif",
+    leaderName: "Fadly Akbar Alamsyah",
+    leaderImage: "/image/fadly.png",
+    leaders: [
+      {
+        name: "Fadly Akbar Alamsyah",
+        role: "Koordinator Media Kreatif",
+        image: "/image/fadly.png",
+      },
+    ],
     members: [
       { role: "Ketua Divisi", count: 1 },
       { role: "Staff Desain Grafis & Videografer", count: 4 },
@@ -375,6 +460,6 @@ export const ORG_NODES: OrgNode[] = [
         status: "upcoming",
       },
     ],
-    focusAreas: ["DESAIN GRAFIS & BRANDING", "MULTIMEDIA PRODUCTION", "SOSIAL MEDIA MGMT"],
+    focusAreas: ["DESAIN GRAFIS", "DOKUMENTASI & MULTIMEDIA", "MEDIA SOSIAL"],
   },
 ];

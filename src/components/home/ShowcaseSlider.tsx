@@ -75,7 +75,7 @@ export default function ShowcaseSlider({ prokers = FLAGSHIP_PROKERS }: ShowcaseS
           <div>
             <div className="font-mono text-xs text-blue-400 tracking-widest uppercase mb-1 flex items-center gap-2">
               <Layers className="w-3.5 h-3.5" />
-              <span>SHOWCASE // 01</span>
+              <span>PROGRAM UNGGULAN</span>
             </div>
             <h2 className="font-display text-3xl sm:text-5xl text-main uppercase tracking-tight">
               PROGRAM KERJA UNGGULAN
@@ -84,7 +84,7 @@ export default function ShowcaseSlider({ prokers = FLAGSHIP_PROKERS }: ShowcaseS
 
           <div className="flex items-center gap-4">
             <span className="font-mono text-xs text-muted tracking-wider hidden sm:inline">
-              PROGRAM: {currentProker.number} OF {String(total).padStart(2, "0")}
+              {currentProker.number} / {String(total).padStart(2, "0")}
             </span>
             <Link
               href="/proker"
@@ -101,9 +101,11 @@ export default function ShowcaseSlider({ prokers = FLAGSHIP_PROKERS }: ShowcaseS
           
           {/* Sisi Kiri: Media Preview (7 Cols) */}
           <div className="lg:col-span-7 flex flex-col justify-between">
-            <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] border border-hairline bg-canvas overflow-hidden group">
+            <div className={`relative w-full aspect-[16/10] sm:aspect-[16/9] border border-hairline overflow-hidden group ${
+              currentProker.coverImage.includes("kolaborasi") ? "bg-white" : "bg-canvas"
+            }`}>
               
-              {/* Proker Banner Image (Full Color) */}
+              {/* Proker Banner Image */}
               <Image
                 key={currentProker.id}
                 src={currentProker.coverImage}
@@ -111,11 +113,17 @@ export default function ShowcaseSlider({ prokers = FLAGSHIP_PROKERS }: ShowcaseS
                 fill
                 sizes="(max-width: 1024px) 100vw, 55vw"
                 priority
-                className="object-cover transition-all duration-700 group-hover:scale-105"
+                className={`transition-all duration-700 group-hover:scale-105 ${
+                  currentProker.coverImage.includes("kolaborasi")
+                    ? "object-contain p-6 sm:p-10"
+                    : "object-cover"
+                }`}
               />
 
-              {/* Subtle Bottom Vignette */}
-              <div className="absolute inset-0 bg-gradient-to-t from-canvas/80 via-transparent to-transparent pointer-events-none" />
+              {/* Subtle Bottom Vignette (hanya untuk foto dokumentasi) */}
+              {!currentProker.coverImage.includes("kolaborasi") && (
+                <div className="absolute inset-0 bg-gradient-to-t from-canvas/80 via-transparent to-transparent pointer-events-none" />
+              )}
 
               {/* Status Badges Overlay */}
               <div className="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none">
@@ -148,7 +156,11 @@ export default function ShowcaseSlider({ prokers = FLAGSHIP_PROKERS }: ShowcaseS
                   {currentProker.number}{" "}
                   <span className="text-muted text-base font-normal">/ {String(total).padStart(2, "0")}</span>
                 </span>
-                <span className="font-mono text-[11px] text-muted tracking-widest uppercase border border-hairline px-2 py-1 bg-surface">
+                <span className={`font-mono text-[11px] tracking-widest uppercase border px-2.5 py-1 ${
+                  currentProker.divisionName === "KOLABORASI SEMUA DIVISI"
+                    ? "border-blue-500/50 bg-blue-500/10 text-blue-400 font-medium"
+                    : "border-hairline bg-surface text-muted"
+                }`}>
                   {currentProker.divisionName}
                 </span>
               </div>
@@ -168,7 +180,7 @@ export default function ShowcaseSlider({ prokers = FLAGSHIP_PROKERS }: ShowcaseS
                 href="/proker"
                 className="inline-flex items-center gap-2 px-5 py-3 border border-hairline hover:border-blue-500 bg-surface hover:bg-surface-hover text-main font-mono text-xs tracking-wider transition-all duration-200 group"
               >
-                <span>LIHAT DOKUMENTASI LENGKAP</span>
+                <span>LIHAT DETAIL PROGRAM</span>
                 <ArrowRight className="w-4 h-4 text-blue-400 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
@@ -187,7 +199,7 @@ export default function ShowcaseSlider({ prokers = FLAGSHIP_PROKERS }: ShowcaseS
               {/* Prev / Next Directional Buttons */}
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[11px] text-muted tracking-wider">
-                  NAVIGASI SLIDER
+                  PROGRAM KERJA
                 </span>
 
                 <div className="flex items-center gap-2">

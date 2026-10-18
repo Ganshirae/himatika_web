@@ -11,9 +11,11 @@
 [x] FASE 0: Persiapan Lingkungan & Prasyarat Sistem
 [x] FASE 1: Inisialisasi Fondasi Next.js & Desain Sistem
 [x] FASE 2: Komponen Global & Navigasi Sinematik
-[x] FASE 3: Halaman Beranda (Cinematic Hero & Proker Showcase)
-[x] FASE 4: Halaman Tentang Kami (Interactive Org Blueprint)
-[ ] FASE 5: Katalog Program Kerja Dedikasi (/proker)
+[x] FASE 3: Halaman Beranda (Cinematic Hero & Proker Showcase 5 Item)
+[x] FASE 4: Halaman Tentang Kami (/about) & Halaman Dedikasi Struktur (/struktur)
+[x] AUDIT: Pembersihan Menyeluruh "AI Slop" & Humanisasi Copywriting Seluruh Web
+[x] FITUR: Integrasi Proker "Kolaborasi Teknologi & Komunitas" & Tag "Kolaborasi Semua Divisi"
+[ ] FASE 5: Katalog Program Kerja Dedikasi (/proker) [DIJADWALKAN BESOK]
 [ ] FASE 6: The Vault - Portal Keuangan Kas Internal (/vault)
 [ ] FASE 7: Optimasi Kinerja, Audit Mobile, & UI/UX Polish
 [ ] FASE 8: Deployment & Peluncuran Produksi
@@ -79,7 +81,7 @@
   - [x] Implementasikan layout edge-to-edge dengan border hairline bawah dan backdrop blur.
   - [x] Sisi Kiri: Branding `HIMATIKA TRILOGI` + Logo resmi monokrom responsif.
   - [x] Sisi Tengah: Status pill monospaced `● ONLINE // 2026-2027` dengan pulse animation hijau neon.
-  - [x] Sisi Kanan: Menu link (`BERANDA`, `PROKER`, `TENTANG`, `THE VAULT`) dengan active route line.
+  - [x] Sisi Kanan: Menu link (`BERANDA`, `PROKER`, `TENTANG`, `KONTAK`) dengan active route line dan tombol User Profile icon (`<User />`) ke `/login`.
   - [x] Integrasikan efek decoding *ScrambleText* pada hover menu desktop.
 - [x] **Task 2.3: Mobile Fullscreen Brutalist Drawer**
   - [x] Buat tombol hamburger 2 garis minimalis untuk viewport `< 768px`.
@@ -100,51 +102,101 @@
   - [x] Buat typographic lockup: `HIMPUNAN MAHASISWA` (Mono) -> `TEKNIK INFORMATIKA` (Anton Masif) -> `UNIVERSITAS TRILOGI`.
   - [x] Implementasikan animasi GSAP reveal timeline saat pertama kali halaman dimuat.
   - [x] Pasang indikator *Scroll to Explore* di pojok kiri bawah terhubung ke Lenis scroll.
-- [x] **Task 3.2: Featured Showcase Slider (Proker Pilihan)**
+- [x] **Task 3.2: Featured Showcase Slider (5 Proker Unggulan)**
   - [x] Buat slider proker split-screen (Preview visual 55% + Konten teks 45%).
-  - [x] Hubungkan slider dengan dataset 4 program kerja unggulan resmi HIMATIKA (`tcamp`, `t-expo`, `workshop`, `comvis`).
-  - [x] Tampilkan nomor urut monospaced (`01 / 04`), nama divisi, judul proker, dan ringkasan.
-  - [x] Buat progress bar linear dinamis dan tombol arah panah dengan efek interaktif.
-  - [x] Beri dukungan touch swipe horizontal untuk pengguna smartphone.
+  - [x] Hubungkan slider dengan dataset 5 program kerja unggulan resmi HIMATIKA:
+    1. `T-CAMP 2026: KADERISASI & LEADERSHIP` (`/image/tcamp2024.jpg`) — Tag: `KOLABORASI SEMUA DIVISI`
+    2. `TRILOGI IT EXPO & INNOVATION FEST` (`/image/t-expo.jpg`) — Tag: `PENGEMBANGAN MINAT & BAKAT`
+    3. `TECH WORKSHOP & CODING BOOTCAMP` (`/image/workshop.webp`) — Tag: `RISET & KEILMUAN`
+    4. `INDUSTRIAL IMMERSION & COMPANY VISIT` (`/image/Company Visit MNC.jpg`) — Tag: `HUBUNGAN MASYARAKAT`
+    5. `KOLABORASI TEKNOLOGI & KOMUNITAS` (`/image/kolaborasi.png`) — Tag: `KOLABORASI SEMUA DIVISI`
+  - [x] Tampilkan nomor urut monospaced ringkas (`01 / 05` hingga `05 / 05`), judul proker, dan ringkasan.
+  - [x] Wadah latar putih bersih khusus untuk logo `kolaborasi.png` dengan `object-contain`.
+  - [x] Styling khusus badge biru lembut untuk proker berkategori `KOLABORASI SEMUA DIVISI`.
+  - [x] Tombol `LIHAT DETAIL PROGRAM →` dan progress bar linear dinamis.
+  - [x] Dukungan touch swipe horizontal untuk pengguna smartphone.
 - [x] **Task 3.3: Seksi Quick Metrics / Statistik HIMA**
-  - [x] Tampilkan 4 angka metrik besar (Tahun Berdiri: 2015, 8 Divisi Resmi, 24+ Program Kerja, 500+ Jaringan Kader).
-  - [x] Gunakan font `JetBrains Mono` dalam grid blueprint dengan corner crosshair markers.
+  - [x] *(Dihapus/Deprecated sesuai permintaan pengguna untuk layout beranda yang lebih minimalis, fokus langsung ke Proker & Blueprint)*.
 
 ---
 
-### FASE 4: Halaman Tentang Kami (Interactive Org Blueprint)
-> *Tujuan: Menyajikan identitas dan struktur organisasi tanpa foto konvensional.*
+### FASE 4: Halaman Tentang Kami (`/about`) & Halaman Dedikasi Struktur (`/struktur`)
+> *Tujuan: Menyajikan identitas resmi, visi, misi, dan struktur diagram kepengurusan interaktif.*
 
-- [x] **Task 4.1: Narasi Sejarah, Visi, & Misi**
-  - [x] Bangun layout tipografi editorial dua kolom untuk sejarah HIMATIKA sejak 2015.
-  - [x] Sajikan Visi dan Misi dengan format data spesifikasi teknis bergaris pembatas halus.
-- [x] **Task 4.2: Komponen Interactive Org Blueprint (Node Diagram)**
-  - [x] Bangun bagan pohon hierarki menggunakan SVG garis sirkuit/PCB:
-    - Level 1: Presidium Utama (Kahim & Wakahim)
-    - Level 2: Badan Pengurus Harian (Sekretaris & Bendahara)
-    - Level 3: 6 Divisi Pelaksana (BPSDM, Humas, Riset & Keilmuan, PMB, Sarlog, Media Kreatif)
-  - [x] Berikan status interaktif pada setiap node (Border biru menyala saat hover, pointer cursor, click to inspect).
-  - [x] Buat mode adaptasi mobile: Mengubah diagram lebar menjadi akordeon/tree hierarki vertikal bertingkat & grid matrix view.
-- [x] **Task 4.3: Slide-over Detail Drawer untuk Divisi**
-  - [x] Buat panel drawer yang meluncur dari kanan layar saat node divisi diklik.
-  - [x] Tampilkan data terstruktur: Nama lengkap divisi, tupoksi resmi, pimpinan divisi, alokasi staf, dan program kerja yang dinaungi.
+- [x] **Task 4.1: Halaman Tentang Kami Ringkas & Terkurasi (`/about`)**
+  - [x] Desain "Opsi 1" terverifikasi: Logo resmi HIMATIKA mandiri (besar hingga 320px) berdampingan natural dengan teks identitas.
+  - [x] Menghilangkan bingkai kotak luar dan crosshair di sekeliling logo.
+  - [x] Mengatasi jarak/gap berlebih dengan flex layout `items-center gap-8 lg:gap-12 max-w-6xl`.
+  - [x] Visi Kami: *"Menjadikan HIMATIKA Universitas Trilogi sebagai ruang tumbuh bagi mahasiswa Teknik Informatika yang unggul, berintegritas, inovatif, dan siap berkontribusi di industri teknologi."* (Bebas buzzword klise AI).
+  - [x] Empat pilar Misi Utama ditulis ulang secara membumi (Akademik & Riset, Kepemimpinan & Solidaritas, Kemitraan Aktif, Inovasi & Kontribusi Nyata).
+  - [x] Menghapus status bar operasional pabrik dari kartu misi.
+  - [x] Kotak konversi Program Kerja & Struktur ke `/proker` dan `/struktur`.
+- [x] **Task 4.2: Halaman Baru Struktur Pengurus & Diagram Interaktif (`/struktur`)**
+  - [x] Buat halaman rute baru `/struktur` (`src/app/struktur/page.tsx`).
+  - [x] Tambahkan link navigasi `STRUKTUR` pada desktop header (`Header.tsx`) dan mobile drawer (`MobileDrawer.tsx`).
+  - [x] Integrasikan foto asli seluruh koordinator/kadiv dari arsip kepengurusan (`fais.png`, `yudis.png`, `riska.png`, `nanda.png`, `galang.png`, `dimas.png`, `naya.png`, `adi.png`, `reno.png`, `fadly.png`).
+  - [x] **Interaksi Hover 3D Flip & Glitch:** Pada saat cursor mengarah ke kartu, foto muncul dengan 3D perspective flip (`rotateY(-90deg) -> 0deg`) dan scanline sweep biru elektrik.
+  - [x] Kartu tetap 100% stabil (tidak berputar membalikkan teks) dan dapat diklik di mana saja untuk membuka drawer rincian.
+  - [x] Menghapus instruksi bantuan kursor yang tidak perlu demi estetika minimalis dan bersih.
+- [x] **Task 4.3: Slide-over Detail Drawer untuk Divisi (`DivisionDrawer.tsx`)**
+  - [x] Panel drawer meluncur dari kanan layar saat node divisi diklik.
+  - [x] Menampilkan foto pimpinan divisi, tugas pokok dan fungsi (TUPOKSI) yang telah di-humanisasi, susunan anggota pengurus (`{count} Anggota`), dan daftar proker terkait.
+  - [x] Menghapus notasi slash dan label sci-fi (`04 // FOCUS DOMAIN` diganti menjadi `BIDANG FOKUS UTAMA`).
 
 ---
 
-### FASE 5: Katalog Program Kerja Dedikasi (`/proker`)
-> *Tujuan: Menyediakan arsip dan jadwal kegiatan yang komprehensif.*
+### FASE 4.5: Audit Menyeluruh Copywriting & Eliminasi "AI Slop"
+> *Tujuan: Menghapus seluruh jargon robotik, sintaks slash ganda (//), dan bahasa birokratis kaku di seluruh website.*
+
+- [x] **Task 4.5.1: Audit Beranda (`/`)**
+  - [x] `PORTAL RESMI 2026/2027` -> `HIMATIKA UNIVERSITAS TRILOGI`.
+  - [x] Subtext hero disederhanakan menjadi bahasa ramah mahasiswa.
+  - [x] `SCROLL KE BAWAH` -> `EKSPLORASI`.
+  - [x] `SHOWCASE // 01` -> `PROGRAM UNGGULAN`.
+  - [x] `PROGRAM: 01 OF 04` -> `01 / 05`.
+  - [x] `NAVIGASI SLIDER` -> `PROGRAM KERJA`.
+- [x] **Task 4.5.2: Audit Tentang Kami (`/about`)**
+  - [x] `IDENTITAS RESMI ORGANISASI // UNIVERSITAS TRILOGI` -> `TENTANG HIMATIKA TRILOGI`.
+  - [x] Visi & 4 Misi dibersihkan dari kata *episentrum*, *adaptif terhadap disrupsi*, *civitas akademika*, *komputasi solutif*.
+  - [x] Dihapus: `// ARAH & TUJUAN UTAMA`, `// LANGKAH REALISASI`, `STANDAR OPERASIONAL`, `AKTIF BERJALAN`.
+- [x] **Task 4.5.3: Audit Struktur & Drawer (`/struktur`)**
+  - [x] `HIMATIKA UNIVERSITAS TRILOGI // PERIODE AKTIF` -> `PERIODE AKTIF 2026/2027`.
+  - [x] `RINCIAN DIVISI //` -> `DETAIL BIDANG`.
+  - [x] `{count} Personel` -> `{count} Anggota`.
+  - [x] Normalisasi seluruh deskripsi & tupoksi Presidium, BPH, dan 6 Divisi di `src/lib/data/organization.ts`.
+- [x] **Task 4.5.4: Audit Kontak (`/contact` & `ContactSection.tsx`)**
+  - [x] `ADA PERTANYAAN? // HUBUNGI KAMI` -> `ADA PERTANYAAN?`.
+  - [x] `KONTAK & HUBUNGI KAMI` -> `HUBUNGI KAMI`.
+  - [x] Menghapus badge `RESPON CEPAT` dari formulir.
+- [x] **Task 4.5.5: Audit Footer & Mobile Drawer**
+  - [x] Menghapus koordinat GPS dan status militer `COORDS: ... // STATUS: DEPLOYED` -> `JAKARTA SELATAN, INDONESIA`.
+  - [x] `[01 // DIREKTORI]`, `[02 // ENTIITAS]`, `[03 // JARINGAN]` -> `NAVIGASI`, `DIVISI KAMI`, `MEDIA SOSIAL`.
+  - [x] Menghapus metadata internal `STD: CINEMATIC BRUTALIST // VERCEL EDGE`.
+  - [x] Menghapus slash pada penomoran drawer mobile (`01 //` -> `01`).
+
+---
+
+### FASE 5: Katalog Program Kerja Dedikasi (`/proker`) [DIJADWALKAN BESOK]
+> *Tujuan: Menyediakan arsip dan jadwal kegiatan yang komprehensif, mencakup 6 proker web lama + agenda divisi.*
 
 - [ ] **Task 5.1: Sticky Filter Bar**
   - [ ] Buat bar filter status: `[Semua]`, `[Upcoming]`, `[Ongoing]`, `[Completed]`.
-  - [ ] Buat filter divisi berdasarkan 8 entitas kepengurusan.
+  - [ ] Buat filter divisi berdasarkan 8 entitas kepengurusan + filter `KOLABORASI SEMUA DIVISI`.
   - [ ] Implementasikan query string URL (`/proker?status=upcoming&division=RISET`) agar state filter dapat di-bookmark.
 - [ ] **Task 5.2: Brutalist Proker Card Grid**
   - [ ] Susun layout grid 2 kolom (Desktop) dan 1 kolom (Mobile).
-  - [ ] Tampilkan metadata badge: Status kegiatan, tanggal pelaksanaan, divisi pelaksana.
-  - [ ] Berikan efek hover zoom halus pada gambar cover proker.
+  - [ ] Tampilkan 6 proker utama dari arsip lama:
+    1. `T-Camp` (Kaderisasi & Karakter - Kolaborasi Semua Divisi)
+    2. `T-Expo` (Trilogi IT Expo & Innovation Fest - PMB)
+    3. `Workshop Teknologi` (Coding Bootcamp & AI - Riset)
+    4. `Company Visit` (Kunjungan Industri MNC/JSC - Humas)
+    5. `Dukungan Karir` (Alumni Sharing & CV Workshop - Humas/BPSDM)
+    6. `Kolaborasi Teknologi` (Kerja Sama Ormawa & Komunitas GDSC - Kolaborasi Semua Divisi)
+  - [ ] Tampilkan metadata badge: Status kegiatan, tanggal pelaksanaan, divisi pelaksana (dengan styling khusus untuk proker kolaboratif).
+  - [ ] Efek hover zoom halus pada gambar cover proker.
 - [ ] **Task 5.3: Halaman Rincian Detail Proker (`/proker/[slug]`)**
-  - [ ] Konfigurasi *Dynamic Route* dengan *Static Generation (generateStaticParams)* untuk kecepatan akses.
-  - [ ] Tampilkan rincian acara lengkap (deskripsi, sasaran, rundown/konten Markdown).
+  - [ ] Konfigurasi *Dynamic Route* dengan *Static Generation (generateStaticParams)* untuk kecepatan akses instan.
+  - [ ] Tampilkan rincian acara lengkap (deskripsi naratif, sasaran peserta, dokumentasi foto, rundown/konten Markdown).
   - [ ] Pasang tombol CTA Pendaftaran Interaktif (`[DAFTAR SEKARANG ->]` via link Google Form / Contact WhatsApp panitia) jika status `Upcoming`.
   - [ ] Tampilkan galeri dokumentasi foto kegiatan jika status telah `Completed`.
 

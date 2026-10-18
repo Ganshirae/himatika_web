@@ -145,7 +145,7 @@ export default function HeroSection() {
         <div className="flex items-center gap-2 text-secondary">
           <span className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
           <span className="tracking-widest uppercase text-muted">
-            PORTAL RESMI 2026/2027
+            HIMATIKA UNIVERSITAS TRILOGI
           </span>
         </div>
 
@@ -202,7 +202,7 @@ export default function HeroSection() {
           className="mt-8 pt-8 border-t border-hairline/60 flex flex-col sm:flex-row sm:items-center justify-between gap-6"
         >
           <p className="font-sans text-sm sm:text-base text-secondary max-w-lg leading-relaxed">
-            Wadah kolaborasi dan eksplorasi mahasiswa Teknik Informatika Universitas Trilogi dalam rekayasa perangkat lunak dan teknologi.
+            Ruang belajar, berkarya, dan berkembang bersama bagi mahasiswa Teknik Informatika Universitas Trilogi.
           </p>
 
           <div className="flex items-center gap-3 font-mono text-xs shrink-0">
@@ -236,7 +236,7 @@ export default function HeroSection() {
         >
           <ArrowDown className="w-3.5 h-3.5 text-blue-400 animate-bounce" />
           <span className="text-[11px] tracking-wider uppercase group-hover:text-blue-400">
-            SCROLL KE BAWAH
+            EKSPLORASI
           </span>
         </button>
 

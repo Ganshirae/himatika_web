@@ -18,11 +18,11 @@ export const FLAGSHIP_PROKERS: FeaturedProker[] = [
     title: "T-CAMP 2026: KADERISASI & LEADERSHIP",
     slug: "t-camp-2026",
     divisionCode: "BPSDM",
-    divisionName: "BADAN PENGEMBANGAN SDM",
+    divisionName: "KOLABORASI SEMUA DIVISI",
     status: "upcoming",
     executionDate: "NOVEMBER 2026",
     shortDesc:
-      "Program kaderisasi tahunan dan latihan kepemimpinan mahasiswa Teknik Informatika dengan fokus pada solidaritas, etika rekayasa perangkat lunak, dan budaya riset kolaboratif.",
+      "Program kaderisasi dan latihan kepemimpinan mahasiswa Teknik Informatika untuk mempererat solidaritas, etika berorganisasi, dan kebersamaan angkatan.",
     coverImage: "/image/tcamp2024.jpg",
   },
   {
@@ -61,7 +61,20 @@ export const FLAGSHIP_PROKERS: FeaturedProker[] = [
     status: "completed",
     executionDate: "SEPTEMBER 2026",
     shortDesc:
-      "Studi ekskursi dan kunjungan industri ke perusahaan teknologi nasional (MNC Group, Jakarta Smart City) untuk memperluas jejaring profesional dan wawasan rekayasa industri.",
+      "Kunjungan industri ke perusahaan teknologi nasional (seperti MNC Group dan Jakarta Smart City) untuk memperluas wawasan karir dan dunia kerja profesional.",
     coverImage: "/image/Company Visit MNC.jpg",
+  },
+  {
+    id: "proker-05",
+    number: "05",
+    title: "KOLABORASI TEKNOLOGI & KOMUNITAS",
+    slug: "kolaborasi-teknologi",
+    divisionCode: "KOLABORASI",
+    divisionName: "KOLABORASI SEMUA DIVISI",
+    status: "ongoing",
+    executionDate: "PERIODE AKTIF",
+    shortDesc:
+      "Inisiatif kerja sama HIMATIKA bersama himpunan mahasiswa kampus lain dan komunitas developer luar (seperti GDSC) untuk mengadakan workshop bareng, sharing session, dan karya kolaborasi.",
+    coverImage: "/image/kolaborasi.png",
   },
 ];

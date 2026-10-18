@@ -78,13 +78,17 @@ himatika_web/
 ├── src/
 │   ├── app/                          # Next.js App Router
 │   │   ├── (public)/                 # Route Group Publik (Tanpa Autentikasi)
-│   │   │   ├── page.tsx              # Beranda (Hero sinematik, featured proker slider)
+│   │   │   ├── page.tsx              # Beranda (Hero sinematik, featured 5-proker slider)
 │   │   │   ├── about/
-│   │   │   │   └── page.tsx          # Tentang Kami & Interactive Blueprint Diagram
-│   │   │   └── proker/
-│   │   │       ├── page.tsx          # Katalog seluruh program kerja + Filter
-│   │   │       └── [slug]/
-│   │   │           └── page.tsx      # Rincian detail program kerja
+│   │   │   │   └── page.tsx          # Tentang Kami (Visi, Misi, Identitas Organisasi)
+│   │   │   ├── struktur/
+│   │   │   │   └── page.tsx          # Halaman Mandiri Struktur & Circuit Blueprint Diagram
+│   │   │   ├── proker/
+│   │   │   │   ├── page.tsx          # Katalog seluruh program kerja + Filter
+│   │   │   │   └── [slug]/
+│   │   │   │       └── page.tsx      # Rincian detail program kerja
+│   │   │   └── contact/
+│   │   │       └── page.tsx          # Hubungi Kami & Formulir Pesan
 │   │   ├── (auth)/                   # Route Group Autentikasi
 │   │   │   ├── login/
 │   │   │   │   └── page.tsx          # Terminal Login Clearance Level 1
@@ -100,14 +104,14 @@ himatika_web/
 │   │   └── globals.css               # Styling global, font declaration, Tailwind base
 │   ├── components/                   # Komponen Reusable
 │   │   ├── common/                   # Navbar (Header), Footer, MobileDrawer, ScrambleText, SmoothScroller
-│   │   ├── home/                     # HeroSection (Slideshow), ShowcaseSlider, MetricsSection
-│   │   ├── diagram/                  # OrgBlueprint (SVG Circuit Bus & Matrix), DivisionDrawer (Slide-Over)
+│   │   ├── home/                     # HeroSection, ShowcaseSlider (5 Proker), ContactSection
+│   │   ├── diagram/                  # OrgBlueprint (SVG Circuit Bus), DivisionDrawer (Slide-Over)
 │   │   ├── proker/                   # ProkerCard, ProkerFilter, ProkerTimeline (Fase 5)
 │   │   └── vault/                    # StatCard, TransactionTable, ReceiptViewer, CashFlowChart (Fase 6)
 │   ├── lib/                          # Konfigurasi, Utility & Dataset
 │   │   ├── data/
 │   │   │   ├── organization.ts       # Dataset resmi 8 divisi & presidium (Tupoksi, peran, proker)
-│   │   │   └── flagship-proker.ts    # Dataset proker unggulan untuk featured slider
+│   │   │   └── flagship-proker.ts    # Dataset 5 proker unggulan (termasuk Kolaborasi Komunitas)
 │   │   ├── supabase/
 │   │   │   ├── client.ts             # Client-side Supabase Browser Client
 │   │   │   ├── server.ts             # Server-side Supabase Server Client (RSC & Actions)

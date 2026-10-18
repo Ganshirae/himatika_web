@@ -38,24 +38,34 @@
 
 ## 3. Aturan Desain & Rekayasa Frontend (Anti AI-Slop Enforced)
 
-1. **Larangan Desain Generik (Zero AI-Slop)**:
+1. **Larangan Desain & Copywriting Generik (Zero AI-Slop & Humanized Copy)**:
    * ❌ **DILARANG**: Menggunakan warna biru cyan neon (`#00e5ff` / `#38bdf8`) yang membuat web terkesan "AI-slop". Gunakan **HIMATIKA Royal Blue (`#2563eb` / `#1d4ed8` / `#3b82f6`)** sesuai almamater resmi.
    * ❌ **DILARANG**: Mengubah foto dokumentasi kegiatan menjadi hitam-putih (*monochrome/B&W*). Foto kegiatan **WAJIB** tampil berwarna asli (*full color*) beresolusi tinggi dengan kontras tajam.
-   * ❌ **DILARANG**: Menambahkan teks robotik/terminal yang memaksakan diri di tengah navbar seperti `SYS: ONLINE` atau jargon sci-fi. Area tengah navbar **WAJIB** berupa *Pure Negative Space* (murni kosong dan bersih).
-   * ❌ **DILARANG**: Menggunakan card putih rounded pill dengan bayangan buram (*soft drop shadow*) ala Bootstrap generik.
-   * ❌ **DILARANG**: Memasang ilustrasi kartun vektor datar atau stok foto klise.
+   * ❌ **DILARANG**: Menggunakan notasi garis miring ganda (`//`) bergaya sci-fi pada copy publik (contoh terlarang: `[01 // DIREKTORI]`, `SHOWCASE // 01`, `ADA PERTANYAAN? // HUBUNGI KAMI`). Gunakan penamaan bersih dan berbobot seperti `NAVIGASI`, `PROGRAM UNGGULAN`, `HUBUNGI KAMI`.
+   * ❌ **DILARANG**: Menambahkan teks robotik, status militer, atau koordinat palsu (contoh terlarang: `SYS: ONLINE`, `COORDS: -6.255 // STATUS: DEPLOYED`, `STD: CINEMATIC BRUTALIST`). Area tengah navbar **WAJIB** berupa *Pure Negative Space* (murni kosong dan bersih).
+   * ❌ **DILARANG**: Menulis teks dengan gaya birokratis AI-slop atau buzzword korporat kaku (seperti *episentrum*, *adaptif terhadap disrupsi*, *civitas akademika*, *komputasi solutif*, *standar operasional*). Gunakan Bahasa Indonesia yang hangat, membumi, dan berkarakter mahasiswa.
+   * ❌ **DILARANG**: Menggunakan istilah "Kabinet" atau "Kabinet Aktif". Gunakan identitas resmi organisasi: **HIMATIKA UNIVERSITAS TRILOGI** atau **HIMATIKA TRILOGI**.
+   * ❌ **DILARANG**: Menggunakan card putih rounded pill dengan bayangan buram (*soft drop shadow*) ala Bootstrap generik atau stok foto klise.
+
 2. **Standar Estetika yang Diwajibkan**:
    * ✔️ **Palette**: Dark Obsidian (`#050505`, `#0c0c0e`), hairline border `1px solid rgba(255,255,255,0.08)`, dan aksen **HIMATIKA Royal Blue (`#2563eb`)**.
    * ✔️ **Tipografi**:
      * Judul/Headline: `Anton` (All-caps, masif, tracking ketat).
-     * Data/Status/Nomor/Metadata: `JetBrains Mono` (Monospaced, uppercase, presisi).
+     * Data/Status/Nomor/Metadata: `JetBrains Mono` (Monospaced, uppercase, presisi, format `01 / 05`).
      * Body Text: `Poppins` (Clean, abu-abu lembut `#a1a1aa`, nyaman dibaca).
-3. **Aturan Struktur Organisasi (About Us - `/about`)**:
-   * Diagram kepengurusan **WAJIB** berupa **Interactive Blueprint / Node Tree Diagram** (jalur bus sirkuit SVG).
-   * **DILARANG KERAS** menampilkan deretan foto profil individu pengurus konvensional. Rincian nama pengurus, Tupoksi, dan staf ditampilkan melalui *slide-over drawer* (`DivisionDrawer.tsx`) saat node organisasi diklik.
+   * ✔️ **Program Kolaboratif Lintas Divisi**: Untuk proker yang diadakan pimpinan/himpunan di mana seluruh divisi berkontribusi (seperti T-Camp, Kolaborasi Komunitas), gunakan label tag resmi: `KOLABORASI SEMUA DIVISI` dengan aksen badge biru almamater lembut.
+   * ✔️ **Penanganan Aset Berlatar Putih**: Untuk logo atau poster berlatar belakang putih murni (seperti `kolaborasi.png`), gunakan wadah latar putih bersih dengan `object-contain` dan nonaktifkan efek dark vignette agar logo tampil tajam tanpa kusam.
+
+3. **Aturan Struktur Organisasi & Halaman Khusus (`/struktur`)**:
+   * Struktur kepengurusan memiliki halaman rute tersendiri yang mandiri di [`/struktur`](file:///C:/Users/Haerul/himatika_web/src/app/struktur/page.tsx) (bukan di dalam `/about`).
+   * Menggunakan **Interactive Circuit/Blueprint Diagram** dengan visual bus sirkuit SVG.
+   * Foto koordinator divisi muncul secara interaktif melalui efek **3D Photo Flip & Glitch Reveal** saat kursor mengarah ke kartu, sementara kartu tetap stabil (tidak membalikkan teks) dan dapat diklik di mana saja.
+   * Rincian tugas pokok & fungsi (Tupoksi) serta susunan staf ditampilkan melalui *slide-over drawer* (`DivisionDrawer.tsx`) saat node organisasi diklik.
+
 4. **Standar Responsivitas & Efisiensi Mobile**:
    * Semua ukuran teks judul wajib menggunakan formula CSS `clamp()` yang ada di [`DESIGN.md`](./DESIGN.md) agar tidak meluap (*overflow*) di layar HP.
-   * Navigasi mobile berupa *fullscreen brutalist drawer* dengan teks menu vertikal masif font `Anton`.
+   * Navigasi mobile berupa *fullscreen brutalist drawer* dengan teks menu vertikal masif font `Anton` tanpa notasi slash.
+
 5. **Autentikasi Internal (Portal Pengurus)**:
    * Tombol akses internal menggunakan ikon profil **User (`<User />`)** di navbar kanan yang mengarahkan ke `/login` untuk pengurus terotorisasi (Bendahara & Medkraf). Subtitle "Dept. of Informatics" pada brand mark dihilangkan.
 
