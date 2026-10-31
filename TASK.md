@@ -1,7 +1,7 @@
 # TASK MASTERPLAN & EXECUTION CHECKLIST: HIMATIKA REVAMP
 > **Dokumen Panduan Kerja Bertahap, Rincian Tiket Tugas, dan Pelacak Progres**  
 > **Basis Rujukan:** [`PROJECT.md`](./PROJECT.md), [`DESIGN.md`](./DESIGN.md), [`ARCHITECTURE.md`](./ARCHITECTURE.md)  
-> **Status:** Siap Dieksekusi (*Awaiting Green Light*)  
+> **Status:** FASE 0 s/d FASE 5 TUNTAS (100% Terverifikasi) — Siap Lanjut FASE 6 (The Vault)  
 
 ---
 
@@ -15,7 +15,7 @@
 [x] FASE 4: Halaman Tentang Kami (/about) & Halaman Dedikasi Struktur (/struktur)
 [x] AUDIT: Pembersihan Menyeluruh "AI Slop" & Humanisasi Copywriting Seluruh Web
 [x] FITUR: Integrasi Proker "Kolaborasi Teknologi & Komunitas" & Tag "Kolaborasi Semua Divisi"
-[x] FASE 5: Katalog Program Kerja Dedikasi (/proker)
+[x] FASE 5: Program Kerja Dedikasi (/proker & /proker/[slug])
 [ ] FASE 6: The Vault - Portal Keuangan Kas Internal (/vault)
 [ ] FASE 7: Optimasi Kinerja, Audit Mobile, & UI/UX Polish
 [ ] FASE 8: Deployment & Peluncuran Produksi
@@ -105,7 +105,7 @@
 - [x] **Task 3.2: Featured Showcase Slider (5 Proker Unggulan)**
   - [x] Buat slider proker split-screen (Preview visual 55% + Konten teks 45%).
   - [x] Hubungkan slider dengan dataset 5 program kerja unggulan resmi HIMATIKA:
-    1. `T-CAMP 2026: KADERISASI & LEADERSHIP` (`/image/tcamp2024.jpg`) — Tag: `KOLABORASI SEMUA DIVISI`
+    1. `T-CAMP 2026: SOLIDARITAS & KEPEMIMPINAN` (`/image/tcamp2024.jpg`) — Tag: `KOLABORASI SEMUA DIVISI`
     2. `TRILOGI IT EXPO & INNOVATION FEST` (`/image/t-expo.jpg`) — Tag: `PENGEMBANGAN MINAT & BAKAT`
     3. `TECH WORKSHOP & CODING BOOTCAMP` (`/image/workshop.webp`) — Tag: `RISET & KEILMUAN`
     4. `INDUSTRIAL IMMERSION & COMPANY VISIT` (`/image/Company Visit MNC.jpg`) — Tag: `HUBUNGAN MASYARAKAT`
@@ -176,13 +176,13 @@
 
 ---
 
-### FASE 5: Katalog Program Kerja Dedikasi (`/proker`) [DIJADWALKAN BESOK]
+### FASE 5: Program Kerja Dedikasi (`/proker` & `/proker/[slug]`) [SELESAI - 100% TERVERIFIKASI]
 > *Tujuan: Menyediakan arsip dan jadwal kegiatan yang komprehensif, mencakup 6 proker web lama + agenda divisi.*
 
 - [x] **Task 5.1: Sticky Filter Bar**
-  - [ ] Buat bar filter status: `[Semua]`, `[Upcoming]`, `[Ongoing]`, `[Completed]`.
-  - [ ] Buat filter divisi berdasarkan 8 entitas kepengurusan + filter `KOLABORASI SEMUA DIVISI`.
-  - [ ] Implementasikan query string URL (`/proker?status=upcoming&division=RISET`) agar state filter dapat di-bookmark.
+  - [x] Buat bar filter status: `[Semua]`, `[Upcoming]`, `[Ongoing]`, `[Completed]`.
+  - [x] Buat filter divisi berdasarkan 8 entitas kepengurusan + filter `KOLABORASI SEMUA DIVISI`.
+  - [x] Implementasikan query string URL (`/proker?status=upcoming&division=RISET`) agar state filter dapat di-bookmark.
 - [x] **Task 5.2: Brutalist Proker Card Grid**
   - [x] Susun layout grid 2 kolom (Desktop) dan 1 kolom (Mobile).
   - [x] Tampilkan 6 proker utama dari arsip lama:
@@ -194,11 +194,11 @@
     6. `Kolaborasi Teknologi` (Kerja Sama Ormawa & Komunitas GDSC - Kolaborasi Semua Divisi)
   - [x] Tampilkan metadata badge: Status kegiatan, tanggal pelaksanaan, divisi pelaksana (dengan styling khusus untuk proker kolaboratif).
   - [x] Efek hover zoom halus pada gambar cover proker.
-- [ ] **Task 5.3: Halaman Rincian Detail Proker (`/proker/[slug]`)**
+- [x] **Task 5.3: Halaman Rincian Detail Proker (`/proker/[slug]`)**
   - [x] Konfigurasi *Dynamic Route* dengan *Static Generation (generateStaticParams)* untuk kecepatan akses instan.
   - [x] Tampilkan rincian acara lengkap (deskripsi naratif, sasaran peserta, dokumentasi foto, rundown/konten Markdown).
-  - [ ] Pasang tombol CTA Pendaftaran Interaktif (`[DAFTAR SEKARANG ->]` via link Google Form / Contact WhatsApp panitia) jika status `Upcoming`.
-  - [ ] Tampilkan galeri dokumentasi foto kegiatan jika status telah `Completed`.
+  - [x] Pasang tombol CTA Pendaftaran Interaktif (`[DAFTAR SEKARANG ->]` via link Google Form / Contact WhatsApp panitia) jika status `Upcoming`.
+  - [x] Tampilkan galeri dokumentasi foto kegiatan jika status telah `Completed`.
 
 ---
 
@@ -262,7 +262,11 @@
 
 ---
 
-## Pertanyaan Optimalisasi untuk Anda:
-Agar langkah kerja di atas berjalan paling mulus, ada **2 hal praktis** yang dapat Anda pertimbangkan:
-1. **Instalasi Node.js**: Karena di komputer Anda saat ini Node.js belum terpasang di sistem PATH, apakah Anda mengizinkan saya untuk menginstalnya sekarang via `winget` (`winget install OpenJS.NodeJS.LTS`)?
-2. **Platform Hosting**: Untuk deploy nantinya, apakah Anda ingin menggunakan **Vercel** (paling direkomendasikan & instan untuk Next.js) atau tetap menggunakan **Firebase Hosting** yang sudah ada di repo lama?
+## Status Milestone & Catatan Transisi Kerja
+* [x] **Fase 0 s/d Fase 5 Tuntas 100%**: Lingkungan kerja, database Supabase, navigasi global, beranda sinematik, halaman tentang kami, struktur organisasi sirkuit blueprint, serta daftar program kerja dedikasi (`/proker`) beserta halaman dinamis (`/proker/[slug]`) dengan galeri lightbox telah selesai diimplementasikan, dibersihkan dari AI-slop, dan terverifikasi build tanpa error (`200 OK`).
+* [ ] **Target Berikutnya**: **FASE 6: The Vault - Portal Keuangan Kas Internal (`/vault`) & Terminal Login (`/login`)**.
+  - Setup form login bertema Security Clearance Terminal.
+  - Supabase Auth integration via Server Actions (`@supabase/ssr`).
+  - Middleware Route Guard untuk melindungi `/vault/*`.
+  - Dashboard ringkasan keuangan (RPC `get_financial_summary()`), buku kas interaktif, dan upload bukti kuitansi ke private bucket `vault-receipts`.
+

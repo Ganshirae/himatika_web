@@ -178,9 +178,9 @@ export const ORG_NODES: OrgNode[] = [
     level: 3,
     levelName: "DIVISI PELAKSANA",
     shortDesc:
-      "Divisi kaderisasi dan pengembangan karakter anggota, berfokus pada pembinaan kepemimpinan, etika berorganisasi, serta solidaritas mahasiswa Teknik Informatika.",
+      "Divisi pengembangan sumber daya manusia dan karakter anggota, berfokus pada pembinaan kepemimpinan, etika berorganisasi, serta solidaritas mahasiswa Teknik Informatika.",
     tupoksi: [
-      "Merancang dan melaksanakan alur kaderisasi mahasiswa baru Teknik Informatika.",
+      "Merancang dan melaksanakan alur pembinaan karakter mahasiswa baru Teknik Informatika.",
       "Menyelenggarakan pelatihan kepemimpinan, team-building, dan pengembangan kapasitas anggota.",
       "Mengevaluasi kinerja pengurus serta menjaga suasana kekeluargaan di internal organisasi.",
       "Mengembangkan program pendampingan (mentorship) antar-angkatan mahasiswa.",
@@ -197,11 +197,11 @@ export const ORG_NODES: OrgNode[] = [
     ],
     members: [
       { role: "Ketua Divisi", count: 1 },
-      { role: "Staff Divisi Kaderisasi & Monitoring", count: 4 },
+      { role: "Staff Divisi Pembinaan Karakter & Monitoring", count: 4 },
     ],
     activeProkers: [
       {
-        title: "T-CAMP 2026: Kaderisasi & Leadership",
+        title: "T-CAMP 2026: Solidaritas & Kepemimpinan",
         slug: "t-camp-2026",
         status: "upcoming",
       },
@@ -216,7 +216,7 @@ export const ORG_NODES: OrgNode[] = [
         status: "upcoming",
       },
     ],
-    focusAreas: ["KADERISASI", "KEPEMIMPINAN", "KEKELUARGAAN & MENTORSHIP"],
+    focusAreas: ["PEMBINAAN KARAKTER", "KEPEMIMPINAN", "KEKELUARGAAN & MENTORSHIP"],
   },
   {
     id: "node-humas",

@@ -116,7 +116,7 @@ export function ProkerCatalogClient({ initialProkers }: ProkerCatalogClientProps
           </h1>
 
           <p className="max-w-3xl text-zinc-400 font-sans text-base sm:text-lg leading-relaxed mb-8">
-            Daftar lengkap program kerja, kegiatan kaderisasi, lokakarya teknologi, dan agenda kemahasiswaan HIMATIKA Universitas Trilogi. Dirancang untuk mengasah potensi, mempererat kebersamaan, dan memberi dampak nyata.
+            Daftar lengkap program kerja, kegiatan pembinaan karakter, lokakarya teknologi, dan agenda kemahasiswaan HIMATIKA Universitas Trilogi. Dirancang untuk mengasah potensi, mempererat kebersamaan, dan memberi dampak nyata.
           </p>
 
           {/* Quick Metrics Bar */}

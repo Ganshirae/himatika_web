@@ -11,7 +11,7 @@ import { useLenisScroll } from "@/components/common/SmoothScroller";
 const HERO_SLIDES = [
   {
     image: "/image/tcamp2024.jpg",
-    title: "T-CAMP KADERISASI",
+    title: "T-CAMP SOLIDARITAS",
     category: "BPSDM",
   },
   {

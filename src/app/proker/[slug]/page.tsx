@@ -18,6 +18,7 @@ import {
   Share2,
 } from "lucide-react";
 import { ALL_PROKERS, ProkerItem } from "@/lib/data/proker";
+import { ProkerGallery } from "@/components/proker/ProkerGallery";
 
 interface ProkerDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -230,33 +231,9 @@ export default async function ProkerDetailPage({
               </section>
             )}
 
-            {/* Section 4: Galeri Dokumentasi Foto */}
+            {/* Section 4: Galeri Dokumentasi Foto dengan Interaktif Lightbox */}
             {proker.galleryImages && proker.galleryImages.length > 0 && (
-              <section className="space-y-4 pt-4 border-t border-white/5">
-                <div className="flex items-center gap-2 text-xs font-mono text-blue-400 uppercase tracking-wider">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  DOKUMENTASI FOTO
-                </div>
-                <h2 className="font-display text-2xl sm:text-3xl uppercase text-white">
-                  DOKUMENTASI FOTO KEGIATAN
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pt-2">
-                  {proker.galleryImages.map((img, idx) => (
-                    <div
-                      key={idx}
-                      className="group relative aspect-video overflow-hidden border border-white/10 rounded bg-black"
-                    >
-                      <Image
-                        src={img}
-                        alt={`Dokumentasi ${proker.title} ${idx + 1}`}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 300px"
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </section>
+              <ProkerGallery title={proker.title} images={proker.galleryImages} />
             )}
           </div>
 

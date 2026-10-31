@@ -15,14 +15,14 @@ export const FLAGSHIP_PROKERS: FeaturedProker[] = [
   {
     id: "proker-01",
     number: "01",
-    title: "T-CAMP 2026: KADERISASI & LEADERSHIP",
+    title: "T-CAMP 2026: SOLIDARITAS & KEPEMIMPINAN",
     slug: "t-camp-2026",
     divisionCode: "BPSDM",
     divisionName: "KOLABORASI SEMUA DIVISI",
     status: "upcoming",
     executionDate: "NOVEMBER 2026",
     shortDesc:
-      "Program kaderisasi dan latihan kepemimpinan mahasiswa Teknik Informatika untuk mempererat solidaritas, etika berorganisasi, dan kebersamaan angkatan.",
+      "Program pembinaan karakter dan kepemimpinan mahasiswa Teknik Informatika untuk mempererat solidaritas, etika berorganisasi, dan kebersamaan angkatan.",
     coverImage: "/image/tcamp2024.jpg",
   },
   {

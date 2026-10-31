@@ -36,7 +36,7 @@ export const ALL_PROKERS: ProkerItem[] = [
   {
     id: "proker-01",
     number: "01",
-    title: "T-CAMP 2026: KADERISASI & LEADERSHIP",
+    title: "T-CAMP 2026: SOLIDARITAS & KEPEMIMPINAN",
     slug: "t-camp-2026",
     divisionCode: "KOLABORASI",
     divisionName: "KOLABORASI SEMUA DIVISI",
@@ -45,9 +45,9 @@ export const ALL_PROKERS: ProkerItem[] = [
     location: "Kawasan Agrowisata & Villa Bukit Pelangi, Bogor",
     targetAudience: "Mahasiswa Baru Teknik Informatika Universitas Trilogi",
     shortDesc:
-      "Program kaderisasi dan latihan kepemimpinan mahasiswa Teknik Informatika untuk mempererat solidaritas, etika berorganisasi, dan kebersamaan angkatan.",
+      "Program pembinaan karakter dan kepemimpinan mahasiswa Teknik Informatika untuk mempererat solidaritas, etika berorganisasi, dan kebersamaan angkatan.",
     fullDesc: [
-      "T-Camp (Trilogi Informatics Camp) merupakan agenda kaderisasi tahunan terbesar di lingkungan HIMATIKA Universitas Trilogi. Acara ini dirancang sebagai wadah pembentukan karakter, kepemimpinan, dan etika berorganisasi bagi mahasiswa baru Teknik Informatika.",
+      "T-Camp (Trilogi Informatics Camp) merupakan agenda pembinaan karakter dan kebersamaan tahunan terbesar di lingkungan HIMATIKA Universitas Trilogi. Acara ini dirancang sebagai wadah pembentukan karakter, kepemimpinan, dan etika berorganisasi bagi mahasiswa baru Teknik Informatika.",
       "Selama kegiatan berlangsung, peserta dibimbing langsung oleh pengurus himpunan, alumni, serta dosen pendamping melalui berbagai sesi materi interaktif, simulasi kepemimpinan, dan kegiatan team-building di alam terbuka.",
       "Melalui T-Camp, diharapkan lahir generasi mahasiswa Teknik Informatika yang memiliki integritas tinggi, jiwa solidaritas yang kokoh, serta rasa memiliki terhadap almamater dan himpunan.",
     ],
