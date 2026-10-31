@@ -177,7 +177,7 @@ export default function ShowcaseSlider({ prokers = FLAGSHIP_PROKERS }: ShowcaseS
             {/* Middle Action */}
             <div className="pt-2">
               <Link
-                href="/proker"
+                href={`/proker/${currentProker.slug}`}
                 className="inline-flex items-center gap-2 px-5 py-3 border border-hairline hover:border-blue-500 bg-surface hover:bg-surface-hover text-main font-mono text-xs tracking-wider transition-all duration-200 group"
               >
                 <span>LIHAT DETAIL PROGRAM</span>

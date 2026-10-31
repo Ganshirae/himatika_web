@@ -210,7 +210,7 @@ export default function HeroSection() {
               href="/proker"
               className="flex items-center gap-2 px-5 py-3 border border-main bg-main text-canvas font-semibold hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-colors group"
             >
-              <span>KATALOG PROKER</span>
+              <span>PROGRAM KERJA</span>
               <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
 

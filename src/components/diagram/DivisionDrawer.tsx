@@ -219,10 +219,9 @@ export default function DivisionDrawer({
                     </span>
                   </div>
 
-                  <Link
-                    href={`/proker#${proker.slug}`}
+                  <Link href={`/proker/${proker.slug}`}
                     className="shrink-0 p-1.5 text-muted hover:text-main border border-hairline hover:border-white/20 bg-canvas/80 rounded-xs transition-colors"
-                    title="Lihat di Katalog Proker"
+                    title="Lihat Detail Program"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
                   </Link>
@@ -255,7 +254,7 @@ export default function DivisionDrawer({
             href="/proker"
             className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-mono text-xs font-semibold tracking-wider transition-colors uppercase rounded-xs"
           >
-            <span>JELAJAHI KATALOG PROKER</span>
+            <span>LIHAT DAFTAR PROGRAM</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
           <button

@@ -15,7 +15,7 @@
 [x] FASE 4: Halaman Tentang Kami (/about) & Halaman Dedikasi Struktur (/struktur)
 [x] AUDIT: Pembersihan Menyeluruh "AI Slop" & Humanisasi Copywriting Seluruh Web
 [x] FITUR: Integrasi Proker "Kolaborasi Teknologi & Komunitas" & Tag "Kolaborasi Semua Divisi"
-[ ] FASE 5: Katalog Program Kerja Dedikasi (/proker) [DIJADWALKAN BESOK]
+[x] FASE 5: Katalog Program Kerja Dedikasi (/proker)
 [ ] FASE 6: The Vault - Portal Keuangan Kas Internal (/vault)
 [ ] FASE 7: Optimasi Kinerja, Audit Mobile, & UI/UX Polish
 [ ] FASE 8: Deployment & Peluncuran Produksi
@@ -179,24 +179,24 @@
 ### FASE 5: Katalog Program Kerja Dedikasi (`/proker`) [DIJADWALKAN BESOK]
 > *Tujuan: Menyediakan arsip dan jadwal kegiatan yang komprehensif, mencakup 6 proker web lama + agenda divisi.*
 
-- [ ] **Task 5.1: Sticky Filter Bar**
+- [x] **Task 5.1: Sticky Filter Bar**
   - [ ] Buat bar filter status: `[Semua]`, `[Upcoming]`, `[Ongoing]`, `[Completed]`.
   - [ ] Buat filter divisi berdasarkan 8 entitas kepengurusan + filter `KOLABORASI SEMUA DIVISI`.
   - [ ] Implementasikan query string URL (`/proker?status=upcoming&division=RISET`) agar state filter dapat di-bookmark.
-- [ ] **Task 5.2: Brutalist Proker Card Grid**
-  - [ ] Susun layout grid 2 kolom (Desktop) dan 1 kolom (Mobile).
-  - [ ] Tampilkan 6 proker utama dari arsip lama:
+- [x] **Task 5.2: Brutalist Proker Card Grid**
+  - [x] Susun layout grid 2 kolom (Desktop) dan 1 kolom (Mobile).
+  - [x] Tampilkan 6 proker utama dari arsip lama:
     1. `T-Camp` (Kaderisasi & Karakter - Kolaborasi Semua Divisi)
     2. `T-Expo` (Trilogi IT Expo & Innovation Fest - PMB)
     3. `Workshop Teknologi` (Coding Bootcamp & AI - Riset)
     4. `Company Visit` (Kunjungan Industri MNC/JSC - Humas)
     5. `Dukungan Karir` (Alumni Sharing & CV Workshop - Humas/BPSDM)
     6. `Kolaborasi Teknologi` (Kerja Sama Ormawa & Komunitas GDSC - Kolaborasi Semua Divisi)
-  - [ ] Tampilkan metadata badge: Status kegiatan, tanggal pelaksanaan, divisi pelaksana (dengan styling khusus untuk proker kolaboratif).
-  - [ ] Efek hover zoom halus pada gambar cover proker.
+  - [x] Tampilkan metadata badge: Status kegiatan, tanggal pelaksanaan, divisi pelaksana (dengan styling khusus untuk proker kolaboratif).
+  - [x] Efek hover zoom halus pada gambar cover proker.
 - [ ] **Task 5.3: Halaman Rincian Detail Proker (`/proker/[slug]`)**
-  - [ ] Konfigurasi *Dynamic Route* dengan *Static Generation (generateStaticParams)* untuk kecepatan akses instan.
-  - [ ] Tampilkan rincian acara lengkap (deskripsi naratif, sasaran peserta, dokumentasi foto, rundown/konten Markdown).
+  - [x] Konfigurasi *Dynamic Route* dengan *Static Generation (generateStaticParams)* untuk kecepatan akses instan.
+  - [x] Tampilkan rincian acara lengkap (deskripsi naratif, sasaran peserta, dokumentasi foto, rundown/konten Markdown).
   - [ ] Pasang tombol CTA Pendaftaran Interaktif (`[DAFTAR SEKARANG ->]` via link Google Form / Contact WhatsApp panitia) jika status `Upcoming`.
   - [ ] Tampilkan galeri dokumentasi foto kegiatan jika status telah `Completed`.
 

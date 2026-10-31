@@ -62,7 +62,7 @@ export default function StrukturPage() {
               href="/proker"
               className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-mono text-xs font-semibold tracking-wider transition-colors uppercase rounded-xs"
             >
-              <span>BUKA KATALOG PROGRAM KERJA</span>
+              <span>LIHAT DAFTAR PROGRAM KERJA</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
 
