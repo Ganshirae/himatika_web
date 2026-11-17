@@ -1,16 +1,19 @@
 import HeroSection from "@/components/home/HeroSection";
 import ShowcaseSlider from "@/components/home/ShowcaseSlider";
 import Link from "next/link";
-import { ArrowUpRight, Shield, GitBranch, User } from "lucide-react";
+import { ArrowUpRight, GitBranch, User } from "lucide-react";
+import { getFeaturedProkers } from "@/lib/data/queries";
 
-export default function Home() {
+export default async function Home() {
+  const featuredProkers = await getFeaturedProkers();
+
   return (
     <div className="w-full flex flex-col">
       {/* 1. Cinematic Hero Section */}
       <HeroSection />
 
       {/* 2. Featured Showcase Slider (Flagship Proker) */}
-      <ShowcaseSlider />
+      <ShowcaseSlider prokers={featuredProkers} />
 
       {/* 3. Brutalist Editorial Action Terminal (About & Vault Prompt) */}
       <section className="w-full bg-surface/30 border-b border-hairline py-16 sm:py-24">

@@ -17,7 +17,7 @@ import {
   Sparkles,
   Share2,
 } from "lucide-react";
-import { ALL_PROKERS, ProkerItem } from "@/lib/data/proker";
+import { getPublicProkers } from "@/lib/data/queries";
 import { ProkerGallery } from "@/components/proker/ProkerGallery";
 
 interface ProkerDetailPageProps {
@@ -25,7 +25,8 @@ interface ProkerDetailPageProps {
 }
 
 export async function generateStaticParams() {
-  return ALL_PROKERS.map((p) => ({
+  const prokers = await getPublicProkers();
+  return prokers.map((p) => ({
     slug: p.slug,
   }));
 }
@@ -34,7 +35,8 @@ export async function generateMetadata({
   params,
 }: ProkerDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const proker = ALL_PROKERS.find((p) => p.slug === slug);
+  const prokers = await getPublicProkers();
+  const proker = prokers.find((p) => p.slug === slug);
 
   if (!proker) {
     return {
@@ -52,20 +54,21 @@ export default async function ProkerDetailPage({
   params,
 }: ProkerDetailPageProps) {
   const { slug } = await params;
-  const prokerIndex = ALL_PROKERS.findIndex((p) => p.slug === slug);
+  const prokers = await getPublicProkers();
+  const prokerIndex = prokers.findIndex((p) => p.slug === slug);
 
   if (prokerIndex === -1) {
     notFound();
   }
 
-  const proker = ALL_PROKERS[prokerIndex];
+  const proker = prokers[prokerIndex];
   const isCollaborative = proker.divisionCode === "KOLABORASI";
 
   // Next and Previous prokers for pagination
   const prevProker =
-    prokerIndex > 0 ? ALL_PROKERS[prokerIndex - 1] : ALL_PROKERS[ALL_PROKERS.length - 1];
+    prokerIndex > 0 ? prokers[prokerIndex - 1] : prokers[prokers.length - 1];
   const nextProker =
-    prokerIndex < ALL_PROKERS.length - 1 ? ALL_PROKERS[prokerIndex + 1] : ALL_PROKERS[0];
+    prokerIndex < prokers.length - 1 ? prokers[prokerIndex + 1] : prokers[0];
 
   const renderStatusBadge = () => {
     switch (proker.status) {

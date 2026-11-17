@@ -1,6 +1,6 @@
 # PROJECT BLUEPRINT: HIMATIKA REVAMP 2026/2027
 > **Dokumen Arsitektur, Desain, & Spesifikasi Teknis Pembaruan Website Himpunan Mahasiswa Teknik Informatika (HIMATIKA)**  
-> **Status:** Fase 0 - Fase 4.5 Selesai (Aktif Dalam Pengembangan — Fase 5 Dijadwalkan Besok)  
+> **Status:** Fase 0 - Fase 6 Selesai (Siap Lanjut Fase 7 — Optimasi & Audit Mobile)  
 > **Target Release:** Periode 2026/2027  
 
 ---
@@ -65,10 +65,11 @@ flowchart TD
     User --> About["2. Tentang Kami (/about)"]
     User --> Struktur["3. Struktur Pengurus (/struktur)"]
     User --> Proker["4. Katalog Program Kerja (/proker)"]
-    User --> Contact["5. Hubungi Kami (/contact)"]
+    User --> Keuangan["5. Transparansi Kas (/keuangan)"]
+    User --> Contact["6. Hubungi Kami (/contact)"]
     
     Pengurus["Pengurus HIMATIKA"] --> Login["Portal Pengurus (/login)"]
-    Login --> Vault["6. The Vault: Keuangan Kas Internal (/vault)"]
+    Login --> Vault["7. The Vault & Unified CMS RBAC (/vault)"]
 
     subgraph DataLayer ["Supabase Backend"]
         DB_Proker["Tabel: work_programs"]
@@ -106,7 +107,7 @@ flowchart TD
   * **Slide-over Division Drawer**: Mengklik node mana pun membuka panel drawer samping yang memuat rincian tupoksi, susunan anggota pengurus, dan daftar proker terkait.
   * Seluruh kartu tetap 100% stabil (tidak berputar membalikkan teks) dan dapat diklik di mana saja.
 
-### 3.4 Halaman Khusus Program Kerja (`/proker`) [FASE 5 - TARGET BESOK]
+### 3.4 Halaman Khusus Program Kerja (`/proker`) [SELESAI - FASE 5]
 * **Katalog Komprehensif**: Menampilkan semua program kerja HIMATIKA dari arsip lama (Workshop Teknologi, T-Expo, T-Camp, Company Visit, Dukungan Karir, Kolaborasi Teknologi) ditambah proker divisi aktif.
 * **Sticky Filter Bar**: Filter status (`Semua`, `Upcoming`, `Ongoing`, `Completed`) dan filter divisi/kategori (termasuk `KOLABORASI SEMUA DIVISI`).
 * **Detail Card & Dynamic Route (`/proker/[slug]`)**: Menampilkan tanggal pelaksanaan, sasaran peserta, deskripsi tujuan, galeri dokumentasi foto, dan tombol pendaftaran.
@@ -115,9 +116,9 @@ flowchart TD
 * Rincian kontak resmi (Alamat Kampus Trilogi Kalibata, Telepon Prodi, Email resmi `himatika@trilogi.ac.id`, Jam respons operasional).
 * Formulir pesan langsung terhubung ke email pengurus.
 
-### 3.6 Modul Keuangan Internal (The Vault / `/vault`) [FASE 6]
+### 3.6 Transparansi Kas Publik (`/keuangan`) & Portal Pengurus (`/vault`) [SELESAI - FASE 6]
 * **Akses Terbatas (*Restricted Access*)**:
-  * Halaman login `/login` untuk pengurus terdaftar (Bendahara & Medkraf).
+  * Halaman login `/login` untuk pengurus terdaftar (`bendahara`, `medkraf`, `admin` via tabel `user_profiles` — rencana sesi berikutnya mendukung **Username Jabatan** sesuai Alternatif 1). Hal publik transparansi kas (Opsi A) tersedia di `/keuangan`.
   * Terproteksi Supabase Auth + Next.js Middleware Route Guard.
 * **Dashboard Finansial**:
   * Saldo Kas Aktif, Total Pemasukan, Total Pengeluaran, pencatatan transaksi kas baru, dan upload bukti kuitansi privat.
@@ -136,7 +137,7 @@ flowchart TD
 ```mermaid
 flowchart LR
     subgraph FrontendFramework ["Frontend Stack"]
-        Next["Next.js 14/15 (App Router)"]
+        Next["Next.js 16.4.6 (App Router + Cache Components)"]
         Tailwind["Tailwind CSS (Styling)"]
         GSAP["GSAP + ScrollTrigger (Motion)"]
         Lenis["Lenis (Smooth Scroll)"]
@@ -241,13 +242,22 @@ create policy "Divisi dapat dibaca publik" on divisions for select using (true);
 alter table work_programs enable row level security;
 create policy "Proker dapat dibaca publik" on work_programs for select using (true);
 
--- Keuangan HANYA dapat dibaca oleh pengguna login (pengurus)
+-- Transparansi Kas Publik (Opsi A): Publik dapat melihat saldo & mutasi kas non-sensitif (tanpa receipt_url, notes, recorded_by)
+alter table finance_categories enable row level security;
+create policy "Public Read Kategori Kas" on finance_categories for select to anon using (true);
+create policy "Pengurus Read Kategori Kas" on finance_categories for select to authenticated using (true);
+
 alter table finance_records enable row level security;
-create policy "Data kas hanya untuk pengurus terdaftar" 
-on finance_records for all 
-to authenticated 
-using (true)
-with check (true);
+create policy "Public Read Transparansi Kas" on finance_records for select to anon using (true);
+create policy "Pengurus Read Catatan Kas" on finance_records for select to authenticated using (true);
+create policy "Pengurus Insert Catatan Kas" on finance_records for insert to authenticated with check (auth.uid() = recorded_by);
+
+revoke all on finance_records from anon;
+grant select (id, title, amount, type, category_id, transaction_date, created_at) on finance_records to anon; 
+ 
+ 
+
+
 
 -- ========================================================
 -- 6. SEED DATA DIVISI RESMI HIMATIKA
@@ -342,6 +352,8 @@ Status Kesiapan & Verifikasi Sistem:
 * [x] **FASE 3 Selesai (Halaman Beranda Sinematik)**: Slideshow latar belakang foto kegiatan asli berwarna (*full color*), headline masif Anton dengan "UNIVERSITAS TRILOGI" aksen Biru HIMATIKA (`#2563eb`), Showcase Slider proker split-screen dengan sentuhan gestur swipe, dan Quick Metrics blueprint.
 * [x] **FASE 4 Selesai (Tentang Kami & Interactive Org Blueprint)**: Narasi editorial sejarah HIMATIKA sejak 2015, Visi & Misi spesifikasi teknis 4 pilar, 4 Nilai Dasar, Interactive Org Blueprint (SVG circuit bus & node tree tanpa foto personal anggota), dan slide-over `DivisionDrawer` interaktif.
 * [x] **FASE 5 Selesai (Daftar Program Kerja Dedikasi `/proker` & `/proker/[slug]`)**: Sticky filter status (Semua, Akan Datang, Berjalan, Selesai), filter divisi resmi & filter kolaboratif, brutalist card grid 16:9, halaman dinamis `[slug]` dengan layout split 8:4, rincian teknis acara, rundown kegiatan, tombol WhatsApp kontak panitia, lightbox modal galeri foto interaktif, serta penanganan rute segment config Next.js 16 (`export const instant = false`).
-* [ ] **Langkah Selanjutnya**: Siap eksekusi **FASE 6 (The Vault & Portal Pengurus `/vault`)**: Terminal login clearance level 1 (`/login`), integrasi Supabase Auth (`@supabase/ssr`), route guard middleware, KPI dashboard metrik kas, dan buku transaksi kas interaktif + upload kuitansi.
+* [x] **FASE 6 Selesai (Transparansi Kas `/keuangan` & Portal Pengurus RBAC `/vault`)**: Halaman publik `/keuangan` (Opsi A: ringkasan & mutasi non-sensitif), tabel `user_profiles` + RBAC (`bendahara`, `medkraf`, `admin`), Server Actions (`auth`, `finance`, `proker`, `org`) dengan validasi Zod, manajemen nota privat (`vault-receipts` Signed URL), CMS Proker & CMS Struktur terhubung dinamis ke Supabase, serta upgrade keamanan **Next.js `16.4.6`** (`experimental.agentUpgrade: "security"`) dan perbaikan 2 error ESLint bawaan (`SmoothScroller.tsx`, `ProkerCatalogClient.tsx`).
+* [ ] **Agenda Sesi Berikutnya (Besok — Sebelum Fase 7)**: Terapkan **Alternatif 1 (Login Username Jabatan: `admin`, `bendahara`, `medkraf` + dukungan email)** pada `/login` (`auth.actions.ts` & `LoginFormClient.tsx`), buat 3 akun jabatan di Supabase Auth + `public.user_profiles`, dan jalankan pengujian E2E & RBAC langsung di web.
+* [ ] **Langkah Selanjutnya**: Siap eksekusi **FASE 7 (Optimasi Kinerja, Audit Mobile, & UI/UX Polish)**: Audit layar 360px/390px/414px, konversi gambar lokal ke WebP, audit Lighthouse > 90, dan kalibrasi GSAP.
 
 *(Dokumen ini diperbarui secara berkala sebagai sumber kebenaran teknis proyek).*

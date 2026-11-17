@@ -55,7 +55,7 @@ flowchart TD
 
 | Komponen | Teknologi | Peran & Tanggung Jawab |
 | :--- | :--- | :--- |
-| **Frontend Framework** | `Next.js 14/15` | Rendering SSR/ISR, routing modular, Server Actions untuk mutasi data tanpa API eksternal. |
+| **Frontend Framework** | `Next.js 16.4.6` | Rendering SSR/Cache Components (`'use cache'`), Server Actions + validasi `Zod`, dan Turbopack. |
 | **Styling & Theme** | `Tailwind CSS` | Utility classes berbasis token *dark noir*, fluid typography `clamp()`, dan CSS Grid. |
 | **Animation Engine** | `GSAP` + `Lenis` | Timeline orchestrator (ScrollTrigger, SplitType, ScrambleText) dan inertial scrolling. |
 | **Database Engine** | `PostgreSQL (Supabase)` | Relational schema, integrity constraints, custom stored procedures (RPC), dan triggers. |
@@ -207,25 +207,44 @@ erDiagram
 Untuk menghitung total saldo kas secara instan tanpa perlu query ratusan baris data dari client:
 
 ```sql
--- View Ringkasan Kas Otomatis
-create or replace view v_financial_summary as
+-- View Ringkasan Kas Otomatis (SECURITY INVOKER agar mematuhi RLS pemanggil)
+create or replace view public.v_financial_summary
+with (security_invoker = true) as
 select
   coalesce(sum(case when type = 'income' then amount else 0 end), 0) as total_income,
   coalesce(sum(case when type = 'expense' then amount else 0 end), 0) as total_expense,
   coalesce(sum(case when type = 'income' then amount else -amount end), 0) as current_balance
-from finance_records;
+from public.finance_records;
+
+-- View Daftar Mutasi Kas Publik (Opsi A: Tanpa receipt_url, notes, recorded_by)
+create or replace view public.v_public_finance_records
+with (security_invoker = true) as
+select
+  r.id,
+  r.title,
+  r.amount,
+  r.type,
+  r.category_id,
+  c.name as category_name,
+  r.transaction_date,
+  r.created_at
+from public.finance_records r
+left join public.finance_categories c on c.id = r.category_id
+order by r.transaction_date desc, r.created_at desc;
 
 -- RPC Function untuk diambil via SDK Supabase
-create or replace function get_financial_summary()
+create or replace function public.get_financial_summary()
 returns table (
   total_income numeric,
   total_expense numeric,
   current_balance numeric
 )
 language sql
-security definer
+security invoker
+set search_path = public
 as $$
-  select * from v_financial_summary;
+  select total_income, total_expense, current_balance
+  from public.v_financial_summary;
 $$;
 ```
 
@@ -236,18 +255,21 @@ $$;
 ### 5.1 Arsitektur Autentikasi (PKCE Cookie-Based)
 * Menggunakan standar modern `@supabase/ssr`.
 * Sesi login disimpan di dalam **HTTP-only, Secure, SameSite=Lax Cookie**. Token tidak disimpan di `localStorage` untuk mencegah serangan Cross-Site Scripting (XSS).
-* Setiap kali pengguna membuka halaman privat `/vault`, `middleware.ts` memverifikasi keabsahan JWT secara asinkron sebelum HTML dikirim ke browser.
+* RBAC ditegakkan melalui tabel `public.user_profiles` (`role`: `'admin' | 'bendahara' | 'medkraf'`) dan fungsi `public.get_my_role()` di level PostgreSQL RLS serta helper server [`session.ts`](file:///C:/Users/Haerul/himatika_web/src/lib/auth/session.ts). *(Keputusan desain sesi berikutnya: mendukung login via **Username Jabatan** seperti `admin`, `bendahara`, `medkraf` yang dipetakan ke `<username>@himatika.internal` di Server Action, sekaligus tetap menerima email standar).*
 
-### 5.2 Aturan Row Level Security (RLS) Matrix
+### 5.2 Aturan Row Level Security (RLS) Matrix (Transparansi Kas Opsi A)
 
-| Tabel | Public (Anon) | Anggota Terotentikasi (Member) | Bendahara / Admin |
+| Tabel / View / Bucket | Public (Anon) | Anggota Terotentikasi (Pengurus) | Bendahara / Admin |
 | :--- | :--- | :--- | :--- |
 | `divisions` | **SELECT** | **SELECT** | **ALL** |
 | `work_programs` | **SELECT** | **SELECT** | **ALL** |
-| `finance_categories`| *DENIED* | **SELECT** | **ALL** |
-| `finance_records` | *DENIED* | **SELECT** *(Read-Only Kas)* | **INSERT, UPDATE, DELETE** |
+| `finance_categories` | **SELECT** | **SELECT** | **ALL** |
+| `finance_records` | **SELECT (Kolom Publik Saja)** *(tanpa `receipt_url`, `notes`, `recorded_by`)* | **SELECT (Semua Kolom)** | **INSERT, UPDATE, DELETE** |
+| `v_public_finance_records` | **SELECT** | **SELECT** | **SELECT** |
+| `v_financial_summary` | **SELECT** | **SELECT** | **SELECT** |
+| Bucket `vault-receipts` | *DENIED* | **SELECT / UPLOAD** | **ALL** |
 
-### 5.3 Implementasi RLS Policy (SQL)
+### 5.3 Implementasi RLS Policy & Column-Level Privileges (SQL)
 
 ```sql
 -- 1. Enable RLS pada seluruh tabel
@@ -256,25 +278,40 @@ alter table work_programs enable row level security;
 alter table finance_categories enable row level security;
 alter table finance_records enable row level security;
 
--- 2. Akses Publik (Tanpa Login)
+-- 2. Akses Publik (Tanpa Login) - Termasuk Transparansi Kas Opsi A
 create policy "Public Read Divisions" on divisions for select using (true);
 create policy "Public Read Proker" on work_programs for select using (true);
 
--- 3. Akses Terotentikasi (Pengurus yang Berhasil Login)
-create policy "Pengurus Read Kategori Kas" 
-on finance_categories for select 
-to authenticated 
+create policy "Public Read Kategori Kas"
+on finance_categories for select
+to anon
 using (true);
 
-create policy "Pengurus Read Catatan Kas" 
-on finance_records for select 
-to authenticated 
+create policy "Public Read Transparansi Kas"
+on finance_records for select
+to anon
+using (true);
+
+-- Batasi kolom anon pada finance_records (sembunyikan receipt_url, notes, recorded_by)
+revoke all on finance_records from anon;
+grant select (id, title, amount, type, category_id, transaction_date, created_at)
+on finance_records to anon;
+
+-- 3. Akses Terotentikasi (Pengurus yang Berhasil Login)
+create policy "Pengurus Read Kategori Kas"
+on finance_categories for select
+to authenticated
+using (true);
+
+create policy "Pengurus Read Catatan Kas"
+on finance_records for select
+to authenticated
 using (true);
 
 -- 4. Hak Tulis Khusus Pengurus (Insert Catatan Kas & Upload Nota)
-create policy "Pengurus Insert Catatan Kas" 
-on finance_records for insert 
-to authenticated 
+create policy "Pengurus Insert Catatan Kas"
+on finance_records for insert
+to authenticated
 with check (auth.uid() = recorded_by);
 ```
 

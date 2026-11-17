@@ -111,6 +111,15 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  href="/keuangan"
+                  className="hover:text-blue-400 transition-colors flex items-center gap-1.5 group"
+                >
+                  <span className="text-muted group-hover:text-blue-400">›</span>
+                  <ScrambleText text="TRANSPARANSI KAS" />
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/login"
                   className="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1.5 group"
                 >

@@ -93,14 +93,14 @@ z-index: 0    -> Background Slideshow & Canvas Grid Noise
 ```text
 [ DESKTOP VIEWPORT ]
 +-----------------------------------------------------------------------------------------------------------------------+
-| [LOGO + HIMATIKA TRILOGI]      [ PURE NEGATIVE SPACE ]      [BERANDA] [PROKER] [STRUKTUR] [TENTANG] [KONTAK] [(User)] |
+| [LOGO + HIMATIKA TRILOGI]   [ PURE NEGATIVE SPACE ]   [BERANDA] [PROKER] [STRUKTUR] [KEUANGAN] [TENTANG] [KONTAK] [(User)] |
 +-----------------------------------------------------------------------------------------------------------------------+
 ```
 
 * **Struktur**:
   * **Sisi Kiri**: Logo resmi HIMATIKA + Teks merek `HIMATIKA TRILOGI` (Font `Anton`). Teks merek dilengkapi animasi interaktif **ScrambleText** saat kursor mendekat. Subtitle "Dept. of Informatics" ditiadakan demi kesederhanaan visual.
   * **Sisi Tengah**: **Pure Negative Space** (murni kosong dan bersih tanpa teks status robotik "SYS: ONLINE").
-  * **Sisi Kanan**: Menu navigasi publik: `BERANDA` (`/`), `PROKER` (`/proker`), `STRUKTUR` (`/struktur`), `TENTANG` (`/about`), `KONTAK` (`/contact`), dan tombol ikon profil minimalis **User Profile (`<User />`)** yang mengarahkan ke Portal Pengurus (`/login`).
+  * **Sisi Kanan**: Menu navigasi publik: `BERANDA` (`/`), `PROKER` (`/proker`), `STRUKTUR` (`/struktur`), `KEUANGAN` (`/keuangan`), `TENTANG` (`/about`), `KONTAK` (`/contact`), dan tombol ikon profil minimalis **User Profile (`<User />`)** yang mengarahkan ke Portal Pengurus (`/login`).
 * **Adaptasi Mobile**:
   * Menu navigasi desktop disembunyikan.
   * Menampilkan tombol hamburger minimalis 2 garis tipis.
@@ -201,14 +201,14 @@ graph TD
 
 ---
 
-### 3.5 The Vault: Portal Keuangan Kas Internal (`/vault`)
+### 3.5 Transparansi Kas Publik (`/keuangan`) & Portal Pengurus (`/vault`)
 
 Khusus diperuntukkan bagi pengurus internal HIMATIKA (terproteksi Supabase Auth & RLS).
 
-#### A. Antarmuka Login (Restricted Terminal)
+#### A. Antarmuka Login (`PORTAL PENGURUS` di `/login`)
 * Latar belakang gelap dengan kotak otentikasi minimalis di tengah layar.
-* Header: `[RESTRICTED AREA // HIMATIKA CLEARANCE LEVEL 1]`.
-* Input Form: Email dan Password dengan border garis tipis yang menyala saat aktif.
+* Header: `PORTAL PENGURUS` (bebas notasi `//` dan bebas jargon militer). Rute publik transparansi kas Opsi A berada di `/keuangan`.
+* Input Form: Username Jabatan / Email Pengurus (`admin`, `bendahara`, `medkraf`, atau email) dan Kata Sandi dengan border garis tipis yang menyala saat aktif.
 * Pesan Keamanan: *Unauthorized access attempts are monitored and logged.*
 
 #### B. Dashboard Keuangan (Setelah Login Berhasil)

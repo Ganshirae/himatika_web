@@ -6,15 +6,19 @@ import { ORG_NODES, OrgNode } from "@/lib/data/organization";
 import DivisionDrawer from "./DivisionDrawer";
 import { ChevronRight } from "lucide-react";
 
-export default function OrgBlueprint() {
+interface OrgBlueprintProps {
+  nodes?: OrgNode[];
+}
+
+export default function OrgBlueprint({ nodes = ORG_NODES }: OrgBlueprintProps) {
   const [selectedNode, setSelectedNode] = useState<OrgNode | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   // Pisahkan nodes berdasarkan level hierarki
-  const presidiumNode = ORG_NODES.find((n) => n.code === "PRESIDIUM")!;
-  const bphNodes = ORG_NODES.filter((n) => n.level === 2);
-  const divisiNodes = ORG_NODES.filter((n) => n.level === 3);
+  const presidiumNode = nodes.find((n) => n.code === "PRESIDIUM") ?? nodes[0];
+  const bphNodes = nodes.filter((n) => n.level === 2);
+  const divisiNodes = nodes.filter((n) => n.level === 3);
 
   const handleOpenDrawer = (node: OrgNode) => {
     setSelectedNode(node);

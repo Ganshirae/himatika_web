@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { Metadata } from "next";
-import { ALL_PROKERS } from "@/lib/data/proker";
+import { getPublicProkers } from "@/lib/data/queries";
 import { ProkerCatalogClient } from "@/components/proker/ProkerCatalogClient";
 
 export const metadata: Metadata = {
@@ -9,7 +9,9 @@ export const metadata: Metadata = {
     "Daftar program kerja resmi, lokakarya teknologi, festival IT expo, dan kegiatan kemahasiswaan HIMATIKA Universitas Trilogi.",
 };
 
-export default function ProkerPage() {
+export default async function ProkerPage() {
+  const prokers = await getPublicProkers();
+
   return (
     <Suspense
       fallback={
@@ -18,7 +20,7 @@ export default function ProkerPage() {
         </div>
       }
     >
-      <ProkerCatalogClient initialProkers={ALL_PROKERS} />
+      <ProkerCatalogClient initialProkers={prokers} />
     </Suspense>
   );
 }

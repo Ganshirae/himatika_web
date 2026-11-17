@@ -1,18 +1,16 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+import React, { createContext, useContext, useEffect, useRef } from "react";
 import Lenis from "lenis";
 import { usePathname } from "next/navigation";
 
 interface LenisContextType {
-  lenis: Lenis | null;
   stopScroll: () => void;
   startScroll: () => void;
   scrollTo: (target: string | number | HTMLElement, options?: Record<string, unknown>) => void;
 }
 
 const LenisContext = createContext<LenisContextType>({
-  lenis: null,
   stopScroll: () => {},
   startScroll: () => {},
   scrollTo: () => {},
@@ -21,7 +19,6 @@ const LenisContext = createContext<LenisContextType>({
 export const useLenisScroll = () => useContext(LenisContext);
 
 export default function SmoothScroller({ children }: { children: React.ReactNode }) {
-  const [lenisInstance, setLenisInstance] = useState<Lenis | null>(null);
   const lenisRef = useRef<Lenis | null>(null);
   const pathname = usePathname();
 
@@ -38,7 +35,6 @@ export default function SmoothScroller({ children }: { children: React.ReactNode
     });
 
     lenisRef.current = lenis;
-    setLenisInstance(lenis);
 
     let rafId: number;
     function raf(time: number) {
@@ -52,7 +48,6 @@ export default function SmoothScroller({ children }: { children: React.ReactNode
       cancelAnimationFrame(rafId);
       lenis.destroy();
       lenisRef.current = null;
-      setLenisInstance(null);
     };
   }, []);
 
@@ -78,7 +73,6 @@ export default function SmoothScroller({ children }: { children: React.ReactNode
   return (
     <LenisContext.Provider
       value={{
-        lenis: lenisInstance,
         stopScroll,
         startScroll,
         scrollTo,

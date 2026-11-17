@@ -4,6 +4,18 @@ const nextConfig: NextConfig = {
   /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
+  experimental: {
+    agentUpgrade: "security",
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "urlpknogetgjfmwdbymk.supabase.co",
+        pathname: "/storage/v1/object/**",
+      },
+    ],
+  },
   turbopack: {
     rules: {
       "*.css": {

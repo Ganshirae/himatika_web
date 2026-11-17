@@ -1,7 +1,7 @@
 # TASK MASTERPLAN & EXECUTION CHECKLIST: HIMATIKA REVAMP
 > **Dokumen Panduan Kerja Bertahap, Rincian Tiket Tugas, dan Pelacak Progres**  
 > **Basis Rujukan:** [`PROJECT.md`](./PROJECT.md), [`DESIGN.md`](./DESIGN.md), [`ARCHITECTURE.md`](./ARCHITECTURE.md)  
-> **Status:** FASE 0 s/d FASE 5 TUNTAS (100% Terverifikasi) — Siap Lanjut FASE 6 (The Vault)  
+> **Status:** FASE 0 s/d FASE 6 TUNTAS (Terverifikasi Build) — Siap Lanjut FASE 7 (Audit Mobile & Optimasi)  
 
 ---
 
@@ -16,7 +16,8 @@
 [x] AUDIT: Pembersihan Menyeluruh "AI Slop" & Humanisasi Copywriting Seluruh Web
 [x] FITUR: Integrasi Proker "Kolaborasi Teknologi & Komunitas" & Tag "Kolaborasi Semua Divisi"
 [x] FASE 5: Program Kerja Dedikasi (/proker & /proker/[slug])
-[ ] FASE 6: The Vault - Portal Keuangan Kas Internal (/vault)
+[x] FASE 6: The Vault - Portal Pengurus RBAC (/vault) & Transparansi Kas Publik (/keuangan)
+[ ] AGENDA BESOK (LANJUTAN FASE 6): Login Username Jabatan (Alternatif 1) + Buat Akun Uji Supabase + Pengujian E2E Web Langsung
 [ ] FASE 7: Optimasi Kinerja, Audit Mobile, & UI/UX Polish
 [ ] FASE 8: Deployment & Peluncuran Produksi
 ```
@@ -39,7 +40,8 @@
   - [x] Masukkan *seed data* resmi untuk 8 divisi HIMATIKA (8 baris aktif).
   - [x] Masukkan *seed data* kategori keuangan (8 kategori kas).
   - [x] Buat database view `v_financial_summary` dan fungsi RPC `get_financial_summary()`.
-  - [x] Aktifkan *Row Level Security (RLS)* dan pasang kebijakan keamanan data (Public & Authenticated).
+  - [x] Aktifkan *Row Level Security (RLS)* dan pasang kebijakan keamanan data (Transparansi Kas Publik Opsi A, column-level privileges, & Authenticated Write/Receipt).
+  - [x] Hardening view `v_financial_summary` (`security_invoker = true`), `v_public_finance_records`, `get_financial_summary()` (`SECURITY INVOKER` + `SET search_path`), & indeks performa.
   - [x] Buat bucket storage: `public-assets` (Publik) dan `vault-receipts` (Privat).
 
 ---
@@ -202,32 +204,32 @@
 
 ---
 
-### FASE 6: Portal Pengurus (The Vault & Unified CMS) (`/vault`)
+### FASE 6: Portal Pengurus (The Vault & Unified CMS) (`/vault`) & Transparansi Kas (`/keuangan`) [SELESAI]
 > *Tujuan: Sistem kendali terpadu pengurus untuk transparansi kas, publikasi kegiatan, dan pembaruan struktur organisasi.*
 
-- [ ] **Task 6.1: Antarmuka Terminal Login (`/login`)**
-  - [ ] Selesaikan form login bertema *Security Clearance Level 1*.
-  - [ ] Hubungkan form dengan Server Action `loginUser` (Supabase Auth).
-  - [ ] Tangani penanganan pesan error (kredensial salah, akun dinonaktifkan) dengan gaya peringatan terminal.
-- [ ] **Task 6.2: Route Guard di Next.js Middleware**
-  - [ ] Lindungi rute `/vault/*`: Arahkan pengunjung non-login ke `/login`.
-  - [ ] Cegah caching browser pada halaman privat.
-- [ ] **Task 6.3: Dashboard Metrik Keuangan (The Vault)**
-  - [ ] Panggil RPC `get_financial_summary()` untuk menampilkan:
+- [x] **Task 6.1: Antarmuka Login Portal Pengurus (`/login`)**
+  - [x] Refactor form login menjadi clean Portal Pengurus tanpa jargon AI-slop.
+  - [x] Hubungkan form dengan Server Action `loginUser` (`src/actions/auth.actions.ts` + Zod + Supabase Auth).
+  - [x] Tangani penanganan pesan error (kredensial salah, akun belum aktif/terdaftar di `user_profiles`, unauthorized).
+- [x] **Task 6.2: Route Guard di Next.js Middleware**
+  - [x] Lindungi rute `/vault/*`: Arahkan pengunjung non-login ke `/login?error=unauthorized`.
+  - [x] Cegah caching browser pada halaman privat (`Cache-Control: no-store, no-cache, must-revalidate, private`).
+- [x] **Task 6.3: Dashboard Metrik Keuangan (The Vault & Halaman Publik `/keuangan`)**
+  - [x] Panggil RPC `get_financial_summary()` untuk menampilkan:
     - Saldo Kas Aktif Saat Ini (Angka masif, warna aksen hijau)
     - Total Pemasukan Periode Ini
     - Total Pengeluaran Periode Ini
-- [ ] **Task 6.4: Tabel Buku Kas Interaktif & Upload Kuitansi (Role Bendahara)**
-  - [ ] Tampilkan riwayat transaksi per tanggal: Judul transaksi, kategori kas, tipe (Masuk/Keluar), nominal Rupiah, penginput.
-  - [ ] Fitur preview bukti kuitansi via *Signed URL* (Supabase Private Storage).
-  - [ ] Formulir input transaksi baru + drag-and-drop foto bukti kuitansi.
-- [ ] **Task 6.5: Modul Manajemen Program Kerja (CMS Proker)**
-  - [ ] Antarmuka Tambah & Edit Program Kerja: Judul, divisi, status (`Upcoming`/`Ongoing`/`Completed`), tanggal, link pendaftaran, dan upload poster/cover ke Supabase Storage.
-  - [ ] Kemampuan ubah status proker ke `Completed` beserta upload dokumentasi kegiatan.
-- [ ] **Task 6.6: Modul Manajemen Struktur & Divisi (CMS Organisasi)**
-  - [ ] Antarmuka pengubahan nama pimpinan (Kahim, Wakahim, Koordinator Divisi).
-  - [ ] Kelola daftar anggota dan alokasi personel staf tiap divisi.
-  - [ ] Edit tupoksi dan bidang fokus divisi yang langsung merefleksikan perubahan ke `/about`.
+- [x] **Task 6.4: Tabel Buku Kas Interaktif & Upload Kuitansi (Role Bendahara)**
+  - [x] Tampilkan riwayat transaksi per tanggal: Judul transaksi, kategori kas, tipe (Masuk/Keluar), nominal Rupiah, catatan privat.
+  - [x] Fitur preview bukti kuitansi via *Signed URL* (Supabase Private Storage).
+  - [x] Formulir input transaksi baru + drag-and-drop foto bukti kuitansi.
+- [x] **Task 6.5: Modul Manajemen Program Kerja (CMS Proker - Role Medkraf)**
+  - [x] Antarmuka Tambah & Edit Program Kerja: Judul, divisi, status (`Upcoming`/`Ongoing`/`Completed`), tanggal, link pendaftaran, dan upload poster/cover ke Supabase Storage.
+  - [x] Kemampuan ubah status proker ke `Completed` dan sinkron otomatis ke `/proker`, `/proker/[slug]`, dan `/`.
+- [x] **Task 6.6: Modul Manajemen Struktur & Divisi (CMS Organisasi - Role Admin)**
+  - [x] Antarmuka pengubahan nama pimpinan (Kahim, Wakahim, Koordinator Divisi).
+  - [x] Kelola daftar anggota dan alokasi personel staf tiap divisi.
+  - [x] Edit tupoksi dan bidang fokus divisi yang langsung merefleksikan perubahan ke `/struktur`.
 
 ---
 
@@ -263,10 +265,10 @@
 ---
 
 ## Status Milestone & Catatan Transisi Kerja
-* [x] **Fase 0 s/d Fase 5 Tuntas 100%**: Lingkungan kerja, database Supabase, navigasi global, beranda sinematik, halaman tentang kami, struktur organisasi sirkuit blueprint, serta daftar program kerja dedikasi (`/proker`) beserta halaman dinamis (`/proker/[slug]`) dengan galeri lightbox telah selesai diimplementasikan, dibersihkan dari AI-slop, dan terverifikasi build tanpa error (`200 OK`).
-* [ ] **Target Berikutnya**: **FASE 6: The Vault - Portal Keuangan Kas Internal (`/vault`) & Terminal Login (`/login`)**.
-  - Setup form login bertema Security Clearance Terminal.
-  - Supabase Auth integration via Server Actions (`@supabase/ssr`).
-  - Middleware Route Guard untuk melindungi `/vault/*`.
-  - Dashboard ringkasan keuangan (RPC `get_financial_summary()`), buku kas interaktif, dan upload bukti kuitansi ke private bucket `vault-receipts`.
+* [x] **Fase 0 s/d Fase 6 Tuntas**: Lingkungan kerja, database Supabase dengan RBAC (`bendahara`, `medkraf`, `admin`), transparansi kas publik (`/keuangan`), portal `/login` & `/vault` (Kas + Signed URL kuitansi + CMS Proker + CMS Struktur), sinkronisasi data dinamis ke `/`, `/proker`, dan `/struktur`, serta upgrade keamanan **Next.js `16.4.6`** dan perbaikan 2 error ESLint (`SmoothScroller.tsx`, `ProkerCatalogClient.tsx`) telah selesai dan terverifikasi (`tsc --noEmit`, `npm run lint`, `npm run build` exit 0).
+* [ ] **Target Berikutnya (Besok — Sebelum Fase 7)**: **Terapkan Alternatif 1 (Username Jabatan) & Pengujian E2E Web Langsung**:
+  - [ ] Ubah [`src/actions/auth.actions.ts`](file:///C:/Users/Haerul/himatika_web/src/actions/auth.actions.ts) dan [`src/components/auth/LoginFormClient.tsx`](file:///C:/Users/Haerul/himatika_web/src/components/auth/LoginFormClient.tsx) agar mendukung **Username Jabatan** (`admin`, `bendahara`, `medkraf` → dipetakan ke `<username>@himatika.internal`) sekaligus tetap menerima email standar.
+  - [ ] Buat 3 akun jabatan uji di Supabase Auth (`auth.users` saat ini `0 baris`) + daftarkan ke `public.user_profiles` (saat ini `0 baris`) dengan izin eksplisit user.
+  - [ ] Jalankan verifikasi otomatis E2E & RBAC serta nyalakan server lokal `http://localhost:3000` untuk pengujian interaktif oleh user.
+* [ ] **Setelah Pengujian Lulus**: Lanjut **FASE 7: Optimasi Kinerja, Audit Mobile, & UI/UX Polish**.
 

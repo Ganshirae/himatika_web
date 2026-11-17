@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useMemo } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ProkerItem } from "@/lib/data/proker";
 import { ProkerFilterBar } from "./ProkerFilterBar";
 import { ProkerCard } from "./ProkerCard";
-import { Sparkles, Calendar, Layers, SearchX } from "lucide-react";
+import { Sparkles, SearchX } from "lucide-react";
 import Link from "next/link";
 
 interface ProkerCatalogClientProps {
@@ -17,21 +17,10 @@ export function ProkerCatalogClient({ initialProkers }: ProkerCatalogClientProps
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // Read initial states from URL search params
-  const paramStatus = searchParams.get("status") || "all";
-  const paramDivision = searchParams.get("division") || "ALL";
-  const paramQuery = searchParams.get("q") || "";
-
-  const [statusFilter, setStatusFilter] = useState<string>(paramStatus);
-  const [divisionFilter, setDivisionFilter] = useState<string>(paramDivision);
-  const [searchQuery, setSearchQuery] = useState<string>(paramQuery);
-
-  // Sync state with URL changes (e.g. browser back/forward)
-  useEffect(() => {
-    setStatusFilter(searchParams.get("status") || "all");
-    setDivisionFilter(searchParams.get("division") || "ALL");
-    setSearchQuery(searchParams.get("q") || "");
-  }, [searchParams]);
+  // Derive filter states directly from reactive URL search params
+  const statusFilter = searchParams.get("status") || "all";
+  const divisionFilter = searchParams.get("division") || "ALL";
+  const searchQuery = searchParams.get("q") || "";
 
   // Update URL helper
   const updateUrl = (status: string, division: string, query: string) => {
@@ -46,24 +35,18 @@ export function ProkerCatalogClient({ initialProkers }: ProkerCatalogClientProps
   };
 
   const handleStatusChange = (newStatus: string) => {
-    setStatusFilter(newStatus);
     updateUrl(newStatus, divisionFilter, searchQuery);
   };
 
   const handleDivisionChange = (newDivision: string) => {
-    setDivisionFilter(newDivision);
     updateUrl(statusFilter, newDivision, searchQuery);
   };
 
   const handleSearchChange = (newQuery: string) => {
-    setSearchQuery(newQuery);
     updateUrl(statusFilter, divisionFilter, newQuery);
   };
 
   const handleResetFilters = () => {
-    setStatusFilter("all");
-    setDivisionFilter("ALL");
-    setSearchQuery("");
     router.replace(pathname, { scroll: false });
   };
 

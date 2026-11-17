@@ -17,6 +17,7 @@ const NAV_LINKS: NavLinkItem[] = [
   { label: "BERANDA", href: "/" },
   { label: "PROKER", href: "/proker" },
   { label: "STRUKTUR", href: "/struktur" },
+  { label: "KEUANGAN", href: "/keuangan" },
   { label: "TENTANG", href: "/about" },
   { label: "KONTAK", href: "/contact" },
 ];

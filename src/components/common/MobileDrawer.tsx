@@ -17,9 +17,10 @@ const navItems = [
   { num: "01", label: "BERANDA", href: "/" },
   { num: "02", label: "PROGRAM KERJA", href: "/proker" },
   { num: "03", label: "STRUKTUR PENGURUS", href: "/struktur" },
-  { num: "04", label: "TENTANG KAMI", href: "/about" },
-  { num: "05", label: "HUBUNGI KAMI", href: "/contact" },
-  { num: "06", label: "PORTAL PENGURUS", href: "/login", isAuth: true },
+  { num: "04", label: "TRANSPARANSI KAS", href: "/keuangan" },
+  { num: "05", label: "TENTANG KAMI", href: "/about" },
+  { num: "06", label: "HUBUNGI KAMI", href: "/contact" },
+  { num: "07", label: "PORTAL PENGURUS", href: "/login", isAuth: true },
 ];
 
 export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {

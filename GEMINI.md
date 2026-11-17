@@ -28,7 +28,8 @@
 
 1. **Row Level Security (RLS) Wajib Aktif**:
    * Setiap tabel yang dibuat di Supabase (`divisions`, `work_programs`, `finance_categories`, `finance_records`) **wajib** memiliki `enable row level security`.
-   * Data kas pada tabel `finance_records` **TIDAK BOLEH** bisa diakses publik (hanya `authenticated` users).
+   * **Model Transparansi Kas Publik (Opsi A)**: Ringkasan saldo (`v_financial_summary`, `get_financial_summary()`) dan daftar mutasi kas non-sensitif (`v_public_finance_records` — hanya `id`, `title`, `amount`, `type`, `category_id`, `transaction_date`, `created_at`) terbuka secara *read-only* (`SELECT`) untuk transparansi publik.
+   * **Kerahasiaan & Hak Tulis Terkunci**: Kolom sensitif `finance_records` (`receipt_url`, `notes`, `recorded_by`), bucket `vault-receipts`, serta seluruh operasi tulis (`INSERT`, `UPDATE`, `DELETE`) tetap **TERLARANG** bagi publik (`anon`) dan hanya diizinkan bagi pengurus terotentikasi (`authenticated`).
 2. **Pengelolaan Kunci Rahasia (Secret Management)**:
    * `SUPABASE_SERVICE_ROLE_KEY` hanya boleh digunakan di Server Actions atau Route Handlers di server. **DILARANG** membocorkannya ke komponen client (`'use client'`) atau variabel berawalan `NEXT_PUBLIC_`.
 3. **Autentikasi Aman**:

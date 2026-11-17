@@ -1,8 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import OrgBlueprint from "@/components/diagram/OrgBlueprint";
-import { ArrowRight, Compass, ShieldCheck } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
+import { getPublicOrgNodes } from "@/lib/data/queries";
 
 export const metadata: Metadata = {
   title: "STRUKTUR PENGURUS | HIMATIKA UNIVERSITAS TRILOGI",
@@ -10,7 +11,9 @@ export const metadata: Metadata = {
     "Susunan kepengurusan, divisi kerja, dan koordinator bidang Himpunan Mahasiswa Teknik Informatika (HIMATIKA) Universitas Trilogi.",
 };
 
-export default function StrukturPage() {
+export default async function StrukturPage() {
+  const nodes = await getPublicOrgNodes();
+
   return (
     <div className="w-full bg-canvas text-main min-h-screen">
       {/* HERO SECTION STRUKTUR PENGURUS */}
@@ -42,7 +45,7 @@ export default function StrukturPage() {
       </section>
 
       {/* INTERACTIVE BLUEPRINT DIAGRAM */}
-      <OrgBlueprint />
+      <OrgBlueprint nodes={nodes} />
 
       {/* FOOTER BRIDGING CTA */}
       <section className="py-20 max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-14 text-center">
