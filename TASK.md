@@ -1,7 +1,7 @@
 # TASK MASTERPLAN & EXECUTION CHECKLIST: HIMATIKA REVAMP
 > **Dokumen Panduan Kerja Bertahap, Rincian Tiket Tugas, dan Pelacak Progres**  
 > **Basis Rujukan:** [`PROJECT.md`](./PROJECT.md), [`DESIGN.md`](./DESIGN.md), [`ARCHITECTURE.md`](./ARCHITECTURE.md)  
-> **Status:** FASE 0 s/d FASE 6 TUNTAS (Terverifikasi Build) — Siap Lanjut FASE 7 (Audit Mobile & Optimasi)  
+> **Status:** FASE 0 s/d FASE 6 + PENGUATAN PORTAL PENGURUS TUNTAS — Tinggal Uji Lanjut `bendahara`/`medkraf`, Lalu FASE 7 (Audit Mobile & Optimasi)  
 
 ---
 
@@ -17,7 +17,8 @@
 [x] FITUR: Integrasi Proker "Kolaborasi Teknologi & Komunitas" & Tag "Kolaborasi Semua Divisi"
 [x] FASE 5: Program Kerja Dedikasi (/proker & /proker/[slug])
 [x] FASE 6: The Vault - Portal Pengurus RBAC (/vault) & Transparansi Kas Publik (/keuangan)
-[ ] AGENDA BESOK (LANJUTAN FASE 6): Login Username Jabatan (Alternatif 1) + Buat Akun Uji Supabase + Pengujian E2E Web Langsung
+[x] LANJUTAN FASE 6: Login Username Jabatan + 3 Akun Supabase + Toggle Mata Password + Upload Foto Pengurus & Fix Cache Components (/vault)
+[ ] VERIFIKASI E2E LANJUTAN: Pengujian lengkap input kas/nota (bendahara) & proker (medkraf) sebelum Fase 7
 [ ] FASE 7: Optimasi Kinerja, Audit Mobile, & UI/UX Polish
 [ ] FASE 8: Deployment & Peluncuran Produksi
 ```
@@ -209,11 +210,13 @@
 
 - [x] **Task 6.1: Antarmuka Login Portal Pengurus (`/login`)**
   - [x] Refactor form login menjadi clean Portal Pengurus tanpa jargon AI-slop.
+  - [x] Mendukung **Username Jabatan** (`admin`, `bendahara`, `medkraf` → `@himatika.internal`) sekaligus email standar, plus tombol ikon mata tampil/sembunyi kata sandi (`Eye` / `EyeOff`).
   - [x] Hubungkan form dengan Server Action `loginUser` (`src/actions/auth.actions.ts` + Zod + Supabase Auth).
   - [x] Tangani penanganan pesan error (kredensial salah, akun belum aktif/terdaftar di `user_profiles`, unauthorized).
-- [x] **Task 6.2: Route Guard di Next.js Middleware**
+- [x] **Task 6.2: Route Guard di Next.js Middleware & Cache Components**
   - [x] Lindungi rute `/vault/*`: Arahkan pengunjung non-login ke `/login?error=unauthorized`.
   - [x] Cegah caching browser pada halaman privat (`Cache-Control: no-store, no-cache, must-revalidate, private`).
+  - [x] Tambahkan `await connection()` di `VaultContent()` (`src/app/vault/page.tsx`) agar kompatibel dengan `cacheComponents: true` (mencegah error prerender `Date.now()` dari Supabase `GoTrueClient`).
 - [x] **Task 6.3: Dashboard Metrik Keuangan (The Vault & Halaman Publik `/keuangan`)**
   - [x] Panggil RPC `get_financial_summary()` untuk menampilkan:
     - Saldo Kas Aktif Saat Ini (Angka masif, warna aksen hijau)
@@ -223,11 +226,12 @@
   - [x] Tampilkan riwayat transaksi per tanggal: Judul transaksi, kategori kas, tipe (Masuk/Keluar), nominal Rupiah, catatan privat.
   - [x] Fitur preview bukti kuitansi via *Signed URL* (Supabase Private Storage).
   - [x] Formulir input transaksi baru + drag-and-drop foto bukti kuitansi.
-- [x] **Task 6.5: Modul Manajemen Program Kerja (CMS Proker - Role Medkraf)**
+- [x] **Task 6.5: Modul Kelola Program Kerja (Tab `KELOLA PROGRAM KERJA` - Role Medkraf)**
   - [x] Antarmuka Tambah & Edit Program Kerja: Judul, divisi, status (`Upcoming`/`Ongoing`/`Completed`), tanggal, link pendaftaran, dan upload poster/cover ke Supabase Storage.
   - [x] Kemampuan ubah status proker ke `Completed` dan sinkron otomatis ke `/proker`, `/proker/[slug]`, dan `/`.
-- [x] **Task 6.6: Modul Manajemen Struktur & Divisi (CMS Organisasi - Role Admin)**
-  - [x] Antarmuka pengubahan nama pimpinan (Kahim, Wakahim, Koordinator Divisi).
+- [x] **Task 6.6: Modul Kelola Struktur & Divisi (Tab `KELOLA STRUKTUR` - Role Admin)**
+  - [x] Antarmuka pengubahan jabatan & nama pimpinan (mendukung 2 pimpinan `PRESIDIUM` serta 1 koordinator BPH/Divisi).
+  - [x] Upload & pratinjau foto pimpinan/koordinator ke bucket `public-assets` (`next.config.ts` `bodySizeLimit: "11mb"`).
   - [x] Kelola daftar anggota dan alokasi personel staf tiap divisi.
   - [x] Edit tupoksi dan bidang fokus divisi yang langsung merefleksikan perubahan ke `/struktur`.
 
@@ -255,8 +259,9 @@
 - [ ] **Task 8.1: Setup Environment Production**
   - [ ] Atur environment variables Supabase di platform hosting produksi.
 - [ ] **Task 8.2: Deploy & Build Verification ke Vercel**
-  - [ ] Hubungkan repositori GitHub dengan Vercel Dashboard.
-  - [ ] Pasang environment variables Supabase di Vercel Settings.
+  - [ ] Hubungkan repositori GitHub (`Ganshirae/himatika_web`) dengan Vercel Dashboard.
+  - [ ] Pasang environment variables Supabase di Vercel Settings (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_SITE_URL`, opsional `CRON_SECRET`).
+  - [ ] Tambahkan endpoint `/api/keep-alive` (`await connection()` + query ringan ke `divisions`) & `vercel.json` cron (`0 0 */3 * *`) agar project Supabase Free Plan tidak terkena auto-pause 7 hari.
   - [ ] Jalankan `npm run build` dan verifikasi deployment sukses di jaringan Edge Vercel.
 - [ ] **Task 8.3: Serah Terima & Dokumentasi Penggunaan**
   - [ ] Uji coba login akun bendahara pertama kali di server produksi.
@@ -265,11 +270,19 @@
 ---
 
 ## Status Milestone & Catatan Transisi Kerja
-* [x] **Fase 0 s/d Fase 6 Tuntas**: Lingkungan kerja, database Supabase dengan RBAC (`bendahara`, `medkraf`, `admin`), transparansi kas publik (`/keuangan`), portal `/login` & `/vault` (Kas + Signed URL kuitansi + CMS Proker + CMS Struktur), sinkronisasi data dinamis ke `/`, `/proker`, dan `/struktur`, serta upgrade keamanan **Next.js `16.4.6`** dan perbaikan 2 error ESLint (`SmoothScroller.tsx`, `ProkerCatalogClient.tsx`) telah selesai dan terverifikasi (`tsc --noEmit`, `npm run lint`, `npm run build` exit 0).
-* [ ] **Target Berikutnya (Besok — Sebelum Fase 7)**: **Terapkan Alternatif 1 (Username Jabatan) & Pengujian E2E Web Langsung**:
+* [x] **Fase 0 s/d Fase 6 Tuntas**: Lingkungan kerja, database Supabase dengan RBAC (`bendahara`, `medkraf`, `admin`), transparansi kas publik (`/keuangan`), portal `/login` & `/vault` (Kas + Signed URL kuitansi + Kelola Program Kerja + Kelola Struktur), sinkronisasi data dinamis ke `/`, `/proker`, dan `/struktur`, serta upgrade keamanan **Next.js `16.4.6`** (`experimental.agentUpgrade: "security"`) dan perbaikan 2 error ESLint (`SmoothScroller.tsx`, `ProkerCatalogClient.tsx`) selesai dan terverifikasi.
+* [x] **Lanjutan Fase 6 Tuntas (Sesi 20 Nov 2026)**:
   - [x] Ubah [`src/actions/auth.actions.ts`](file:///C:/Users/Haerul/himatika_web/src/actions/auth.actions.ts) dan [`src/components/auth/LoginFormClient.tsx`](file:///C:/Users/Haerul/himatika_web/src/components/auth/LoginFormClient.tsx) agar mendukung **Username Jabatan** (`admin`, `bendahara`, `medkraf` → dipetakan ke `<username>@himatika.internal`) sekaligus tetap menerima email standar.
   - [x] Buat 3 akun jabatan uji di Supabase Auth + daftarkan ke `public.user_profiles` (`3 baris aktif`: `admin`, `bendahara`, `medkraf`).
   - [x] Nyalakan server lokal `http://localhost:3000` & jalankan verifikasi otomatis (rute publik HTTP 200, guard `/vault` 307, dan RLS anon / keamanan kolom `finance_records`).
-  - [ ] Pengujian interaktif oleh user di `http://localhost:3000/login` (login `admin`, `bendahara`, `medkraf`, uji input kas/nota, CMS Proker, & CMS Struktur).
-* [ ] **Setelah Pengujian Lulus**: Lanjut **FASE 7: Optimasi Kinerja, Audit Mobile, & UI/UX Polish**.
+  - [x] Fitur **upload & pratinjau foto pimpinan/koordinator** di [`src/components/vault/DivisionManagerTab.tsx`](file:///C:/Users/Haerul/himatika_web/src/components/vault/DivisionManagerTab.tsx) + [`src/actions/org.actions.ts`](file:///C:/Users/Haerul/himatika_web/src/actions/org.actions.ts) (mendukung 1 koordinator & 2 pimpinan `PRESIDIUM`, disimpan ke `public-assets`) serta `experimental.serverActions.bodySizeLimit: "11mb"` di [`next.config.ts`](file:///C:/Users/Haerul/himatika_web/next.config.ts).
+  - [x] Perbaikan error Next.js 16 `Cache Components` (`Date.now() while prerendering` dari Supabase `GoTrueClient`) dengan menambahkan `await connection()` di `VaultContent()` ([`src/app/vault/page.tsx`](file:///C:/Users/Haerul/himatika_web/src/app/vault/page.tsx)).
+  - [x] Penyesuaian label tab `/vault` ke Bahasa Indonesia lugas: `KELOLA PROGRAM KERJA` dan `KELOLA STRUKTUR` di [`src/components/vault/VaultShellClient.tsx`](file:///C:/Users/Haerul/himatika_web/src/components/vault/VaultShellClient.tsx).
+  - [x] Pengujian langsung oleh user: login `/vault` & ganti foto pengurus di **Kelola Struktur** berhasil (`public-assets`: 1 file / `13 kB`).
+  - [x] Audit kuota Supabase **Free Plan** (`Haerulanwar05's Org` — `Website_Himatika` `urlpknogetgjfmwdbymk`): DB terpakai **`11 MB` / `500 MB`**, Storage **`13 kB` / `1 GB`** (`finance_records`: 0 baris, `work_programs`: 12 baris, `divisions`: 9 baris, `finance_categories`: 8 baris, `user_profiles`: 3 baris).
+  - [ ] Pengujian interaktif lanjutan oleh user di `http://localhost:3000/login` (uji akun `bendahara` input kas/nota & cek `/keuangan`, uji akun `medkraf` edit proker & cek `/proker`).
+* [ ] **Catatan Infrastruktur & Transisi**:
+  - Repo GitHub: `https://github.com/Ganshirae/himatika_web.git` (branch `Dev`, commit kode terakhir `b2c84c0`; tinggal commit pembaruan dokumentasi markdown ini).
+  - Anti-Pause Supabase Free Plan: Saat ini tetap aman selama aktif uji coba di `localhost`; pada **FASE 8** tambahkan `/api/keep-alive` + `vercel.json` cron (`0 0 */3 * *`) sebelum rilis produksi.
+* [ ] **Setelah Pengujian Lulus**: Lanjut **FASE 7 (Optimasi Kinerja, Audit Mobile, & UI/UX Polish)** → **FASE 8 (Deployment Vercel & Keep-Alive Cron)**.
 

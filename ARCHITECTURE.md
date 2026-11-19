@@ -255,7 +255,8 @@ $$;
 ### 5.1 Arsitektur Autentikasi (PKCE Cookie-Based)
 * Menggunakan standar modern `@supabase/ssr`.
 * Sesi login disimpan di dalam **HTTP-only, Secure, SameSite=Lax Cookie**. Token tidak disimpan di `localStorage` untuk mencegah serangan Cross-Site Scripting (XSS).
-* RBAC ditegakkan melalui tabel `public.user_profiles` (`role`: `'admin' | 'bendahara' | 'medkraf'`) dan fungsi `public.get_my_role()` di level PostgreSQL RLS serta helper server [`session.ts`](file:///C:/Users/Haerul/himatika_web/src/lib/auth/session.ts). *(Keputusan desain sesi berikutnya: mendukung login via **Username Jabatan** seperti `admin`, `bendahara`, `medkraf` yang dipetakan ke `<username>@himatika.internal` di Server Action, sekaligus tetap menerima email standar).*
+* RBAC ditegakkan melalui tabel `public.user_profiles` (`role`: `'admin' | 'bendahara' | 'medkraf'`) dan fungsi `public.get_my_role()` di level PostgreSQL RLS serta helper server [`session.ts`](file:///C:/Users/Haerul/himatika_web/src/lib/auth/session.ts). Login mendukung **Username Jabatan** (`admin`, `bendahara`, `medkraf` → dipetakan ke `<username>@himatika.internal` di [`auth.actions.ts`](file:///C:/Users/Haerul/himatika_web/src/actions/auth.actions.ts)) sekaligus email standar.
+* Karena `cacheComponents: true` & `partialPrefetching: true` aktif di `next.config.ts`, halaman terotentikasi [`/vault`](file:///C:/Users/Haerul/himatika_web/src/app/vault/page.tsx) memanggil `await connection()` di dalam `<Suspense>` (`VaultContent`) sebelum `getCurrentPengurus()` agar `supabase.auth.getUser()` (`GoTrueClient` yang memakai `Date.now()`) berjalan di *request-time* tanpa error prerender. `next.config.ts` juga mengatur `experimental.serverActions.bodySizeLimit: "11mb"` untuk mendukung upload media hingga 5 MB/file.
 
 ### 5.2 Aturan Row Level Security (RLS) Matrix (Transparansi Kas Opsi A)
 
@@ -320,8 +321,8 @@ with check (auth.uid() = recorded_by);
 Sistem menggunakan 2 Bucket terpisah dengan tingkat keamanan berbeda:
 
 1. **Bucket `public-assets` (Public)**:
-   * Menyimpan logo, foto kegiatan, dan video teaser looping.
-   * Siapapun dapat membaca file ini melalui CDN Supabase.
+   * Menyimpan logo, foto kegiatan/poster proker (`prokers/...`), foto pimpinan/koordinator divisi (`divisions/...`), dan video teaser looping.
+   * Siapapun dapat membaca file ini melalui CDN Supabase; hak upload/update/delete terbatas untuk role `medkraf` dan `admin` via RLS `storage.objects`.
 2. **Bucket `vault-receipts` (Private)**:
    * Menyimpan foto struk belanja, nota, dan bukti transfer dana kas.
    * File tidak memiliki URL publik. Pengunjung yang tidak login tidak bisa menebak URL file.
@@ -414,7 +415,8 @@ sequenceDiagram
 ## 7. Optimasi Kinerja, Caching, & Skalabilitas
 
 1. **Hemat Kuota Supabase Free-Tier**:
-   * Halaman katalog proker dan profil ormawa menggunakan strategi *stale-while-revalidate*. Query ke database Supabase hanya terjadi ketika ada update atau per jam, bukan pada setiap kunjungan mahasiswa.
+   * Halaman katalog proker, profil struktur, dan transparansi kas publik menggunakan Next.js 16 Cache Components (`"use cache"` + `cacheLife("minutes")` + `cacheTag`), dan di-invalidate seketika saat ada mutasi lewat `updateTag()` + `revalidatePath()`. Halaman privat `/vault` memanggil `await connection()` di dalam `<Suspense>` agar selalu dirender per request.
+   * **Anti-Pause Supabase Free Plan (Rencana Fase 8)**: Project Free Plan otomatis di-*pause* setelah 7 hari tanpa aktivitas database; direncanakan penambahan Route Handler `/api/keep-alive` (`await connection()` + query ringan ke `divisions`) dengan Vercel Cron `0 0 */3 * *` (tiap 3 hari). *(Kapasitas Free Plan saat ini per 20 Nov 2026: DB terpakai `11 MB` / `500 MB`, Storage `13 kB` / `1 GB`)*.
 2. **Optimasi Aset Multimedia di Edge**:
    * Gambar kegiatan yang diunggah ke storage di-*transform* melalui URL CDN Supabase:
      * Rasio diperkecil otomatis dan dikonversi ke format WebP generasi baru.
@@ -437,8 +439,8 @@ File `.env.local` yang dibutuhkan oleh sistem:
 NEXT_PUBLIC_SUPABASE_URL=https://<project-ref>.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOi...
 
-# Kunci Rahasia Server (Hanya untuk Next.js Server - TIDAK BOLEH BOCOR KE CLIENT)
-SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOi...
+# Kunci Rahasia Server (Opsional — tidak diperlukan pada arsitektur SSR+RLS saat ini)
+# SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOi...
 
 # Metadata Situs
 NEXT_PUBLIC_SITE_URL=http://localhost:3000

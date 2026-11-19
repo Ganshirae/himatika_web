@@ -1,6 +1,6 @@
 # PROJECT BLUEPRINT: HIMATIKA REVAMP 2026/2027
 > **Dokumen Arsitektur, Desain, & Spesifikasi Teknis Pembaruan Website Himpunan Mahasiswa Teknik Informatika (HIMATIKA)**  
-> **Status:** Fase 0 - Fase 6 Selesai (Siap Lanjut Fase 7 — Optimasi & Audit Mobile)  
+> **Status:** Fase 0 – Fase 6 + Penguatan Portal Pengurus Selesai (Tinggal Uji Lanjut `bendahara`/`medkraf`, Lalu Fase 7 — Audit Mobile & Optimasi)  
 > **Target Release:** Periode 2026/2027  
 
 ---
@@ -392,7 +392,9 @@ Status Kesiapan & Verifikasi Sistem:
 * [x] **FASE 4 Selesai (Tentang Kami & Interactive Org Blueprint)**: Narasi editorial sejarah HIMATIKA sejak 2015, Visi & Misi spesifikasi teknis 4 pilar, 4 Nilai Dasar, Interactive Org Blueprint (SVG circuit bus & node tree tanpa foto personal anggota), dan slide-over `DivisionDrawer` interaktif.
 * [x] **FASE 5 Selesai (Daftar Program Kerja Dedikasi `/proker` & `/proker/[slug]`)**: Sticky filter status (Semua, Akan Datang, Berjalan, Selesai), filter divisi resmi & filter kolaboratif, brutalist card grid 16:9, halaman dinamis `[slug]` dengan layout split 8:4, rincian teknis acara, rundown kegiatan, tombol WhatsApp kontak panitia, lightbox modal galeri foto interaktif, serta penanganan rute segment config Next.js 16 (`export const instant = false`).
 * [x] **FASE 6 Selesai (Transparansi Kas `/keuangan` & Portal Pengurus RBAC `/vault`)**: Halaman publik `/keuangan` (Opsi A: ringkasan & mutasi non-sensitif), tabel `user_profiles` + RBAC (`bendahara`, `medkraf`, `admin`), Server Actions (`auth`, `finance`, `proker`, `org`) dengan validasi Zod, manajemen nota privat (`vault-receipts` Signed URL), CMS Proker & CMS Struktur terhubung dinamis ke Supabase, serta upgrade keamanan **Next.js `16.4.6`** (`experimental.agentUpgrade: "security"`) dan perbaikan 2 error ESLint bawaan (`SmoothScroller.tsx`, `ProkerCatalogClient.tsx`).
-* [ ] **Agenda Sesi Berikutnya (Besok — Sebelum Fase 7)**: Terapkan **Alternatif 1 (Login Username Jabatan: `admin`, `bendahara`, `medkraf` + dukungan email)** pada `/login` (`auth.actions.ts` & `LoginFormClient.tsx`), buat 3 akun jabatan di Supabase Auth + `public.user_profiles`, dan jalankan pengujian E2E & RBAC langsung di web.
-* [ ] **Langkah Selanjutnya**: Siap eksekusi **FASE 7 (Optimasi Kinerja, Audit Mobile, & UI/UX Polish)**: Audit layar 360px/390px/414px, konversi gambar lokal ke WebP, audit Lighthouse > 90, dan kalibrasi GSAP.
+* [x] **Lanjutan Fase 6 Selesai (Sesi 20 Nov 2026)**: Login **Username Jabatan** (`admin`, `bendahara`, `medkraf` + dukungan email) & tombol ikon mata password (`Eye`/`EyeOff`) pada `/login`, 3 akun terdaftar di `auth.users` & `public.user_profiles`, tab `/vault` (`KELOLA PROGRAM KERJA`, `KELOLA STRUKTUR`), **upload/ganti foto pengurus** ke `public-assets` (`bodySizeLimit: "11mb"`), serta fix Next.js 16 `Cache Components` (`await connection()` di `/vault`) sudah terverifikasi build & diuji ganti foto oleh user.
+* [ ] **Sisa Uji Sebelum Fase 7**: Pengujian interaktif akun `bendahara` (input kas + nota Signed URL & cek `/keuangan`) dan `medkraf` (tab `KELOLA PROGRAM KERJA`). *(Catatan: commit kode sesi 20 Nov sudah masuk di `b2c84c0` branch `Dev`; tinggal commit pembaruan dokumentasi markdown ini).*
+* [ ] **Langkah Selanjutnya**: Eksekusi **FASE 7 (Optimasi Kinerja, Audit Mobile, & UI/UX Polish)** dan **FASE 8 (Deploy Vercel + Vercel Cron `/api/keep-alive` tiap 3 hari untuk cegah auto-pause 7 hari Supabase Free Plan)**. *(Catatan kapasitas Free Plan per 20 Nov 2026: DB `11 MB` / `500 MB`, Storage `13 kB` / `1 GB`)*.
+
 
 *(Dokumen ini diperbarui secara berkala sebagai sumber kebenaran teknis proyek).*

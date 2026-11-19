@@ -208,10 +208,14 @@ Khusus diperuntukkan bagi pengurus internal HIMATIKA (terproteksi Supabase Auth 
 #### A. Antarmuka Login (`PORTAL PENGURUS` di `/login`)
 * Latar belakang gelap dengan kotak otentikasi minimalis di tengah layar.
 * Header: `PORTAL PENGURUS` (bebas notasi `//` dan bebas jargon militer). Rute publik transparansi kas Opsi A berada di `/keuangan`.
-* Input Form: Username Jabatan / Email Pengurus (`admin`, `bendahara`, `medkraf`, atau email) dan Kata Sandi dengan border garis tipis yang menyala saat aktif.
+* Input Form: Username Jabatan / Email Pengurus (`admin`, `bendahara`, `medkraf`, atau email) dan Kata Sandi (dilengkapi tombol ikon mata `Eye` / `EyeOff` untuk tampil/sembunyi password) dengan border garis tipis yang menyala saat aktif.
 * Pesan Keamanan: *Unauthorized access attempts are monitored and logged.*
 
-#### B. Dashboard Keuangan (Setelah Login Berhasil)
+#### B. Dashboard Portal Pengurus (`/vault`)
+* **Navigasi Tab Berbasis Peran (Bahasa Lugas Tanpa Jargon `CMS`)**:
+  * **`KAS & KUITANSI`** (Bendahara & Admin full akses; Medkraf read-only tanpa nota privat)
+  * **`KELOLA PROGRAM KERJA`** (Medkraf & Admin)
+  * **`KELOLA STRUKTUR`** (Khusus Admin — dilengkapi thumbnail avatar & modal **Pimpinan & Foto Pengurus** untuk pratinjau/upload foto 1 koordinator maupun 2 pimpinan `PRESIDIUM`)
 * **Baris Metrik Ringkasan (KPI Cards)**:
   * **Saldo Kas Saat Ini**: Angka monospaced masif (contoh: `Rp 14.850.000`), teks hijau menyala.
   * **Total Kas Masuk**: Ditampilkan dengan ikon panah masuk hijau.
