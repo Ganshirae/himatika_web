@@ -2,6 +2,7 @@ export const instant = false;
 
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
+import { connection } from "next/server";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentPengurus } from "@/lib/auth/session";
@@ -26,6 +27,7 @@ export const metadata: Metadata = {
 };
 
 async function VaultContent() {
+  await connection();
   const pengurus = await getCurrentPengurus();
 
   if (!pengurus) {

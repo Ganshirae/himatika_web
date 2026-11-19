@@ -118,14 +118,53 @@ flowchart TD
 
 ### 3.6 Transparansi Kas Publik (`/keuangan`) & Portal Pengurus (`/vault`) [SELESAI - FASE 6]
 * **Akses Terbatas (*Restricted Access*)**:
-  * Halaman login `/login` untuk pengurus terdaftar (`bendahara`, `medkraf`, `admin` via tabel `user_profiles` — rencana sesi berikutnya mendukung **Username Jabatan** sesuai Alternatif 1). Hal publik transparansi kas (Opsi A) tersedia di `/keuangan`.
+  * Halaman login `/login` untuk pengurus terdaftar (`bendahara`, `medkraf`, `admin` via tabel `user_profiles`) dengan dukungan **Username Jabatan** (`admin`, `bendahara`, `medkraf` → dipetakan ke `<username>@himatika.internal`), email standar, dan tombol ikon mata tampil/sembunyi kata sandi. Halaman publik transparansi kas (Opsi A) tersedia di `/keuangan`.
   * Terproteksi Supabase Auth + Next.js Middleware Route Guard.
 * **Dashboard Finansial**:
   * Saldo Kas Aktif, Total Pemasukan, Total Pengeluaran, pencatatan transaksi kas baru, dan upload bukti kuitansi privat.
   * **Tabel Transaksi Kas**: Daftar arus kas masuk/keluar per tanggal, nama kegiatan/keperluan, nominal, dan penanggung jawab input.
-  * **Verifikasi Bukti Kuitansi**: Dukungan upload dan preview foto nota/kuitansi digital yang disimpan di Supabase Storage (Private Bucket).
+  * **Verifikasi Bukti Kuitansi**: Dukungan upload dan preview foto/PDF nota digital yang disimpan di Supabase Storage (`vault-receipts` Private Bucket) melalui *Signed URL* (60 detik).
 
-### 3.5 UI/UX Standards ("Jos Los Gandos")
+#### Matriks Hak Akses & Rincian 3 Akun Pengurus (RBAC)
+
+| Fitur / Modul | `bendahara` | `medkraf` | `admin` |
+| :--- | :---: | :---: | :---: |
+| **Login Username** | `bendahara` | `medkraf` | `admin` |
+| **Email Internal** | `bendahara@himatika.internal` | `medkraf@himatika.internal` | `admin@himatika.internal` |
+| **Divisi (`division_code`)** | `BPH_BEN` | `MEDKRAF` | `PRESIDIUM` |
+| **Lihat Ringkasan & Buku Kas** | ✅ Penuh | 👁️ Baca Saja | ✅ Penuh |
+| **Tambah/Hapus Transaksi Kas & Lihat Nota Privat** | ✅ Bisa | ❌ Tidak | ✅ Bisa |
+| **Tambah/Edit/Hapus Program Kerja & Upload Poster** | ❌ Tidak | ✅ Bisa | ✅ Bisa |
+| **Edit Struktur Organisasi & Divisi (`/struktur`)** | ❌ Tidak | ❌ Tidak | ✅ Bisa |
+
+1. **Akun `bendahara` (Bendahara — Kas & Kuitansi)**
+   * **Tab yang tampil:** `KAS & KUITANSI`.
+   * **Yang bisa dilakukan:**
+     * Melihat ringkasan saldo (`Saldo Kas Aktif`, `Total Pemasukan`, `Total Pengeluaran`) dan seluruh daftar transaksi kas termasuk catatan privat (`notes`).
+     * Mencatat transaksi kas baru (`Pemasukan` / `Pengeluaran`), memilih kategori kas, tanggal, nominal, catatan privat, serta mengunggah bukti nota (JPG, PNG, WebP, atau PDF maks. 5 MB ke bucket privat `vault-receipts`).
+     * Membuka pratinjau bukti nota privat via *Signed URL* (berlaku 60 detik).
+     * Menghapus transaksi kas (otomatis menghapus file nota terkait di storage).
+     * Perubahan otomatis tersinkron ke halaman publik `/keuangan` (publik hanya melihat saldo & mutasi tanpa foto nota/catatan privat).
+   * **Batasan:** Tidak dapat mengelola Program Kerja maupun mengubah Struktur Organisasi.
+
+2. **Akun `medkraf` (Media Kreatif — Program Kerja)**
+   * **Tab yang tampil:** `KELOLA PROGRAM KERJA` (tab default) dan `KAS & KUITANSI` (Mode Baca / *Read-Only*).
+   * **Yang bisa dilakukan:**
+     * Menambah dan mengedit program kerja (judul, slug, nomor urut, divisi/`KOLABORASI SEMUA DIVISI`, jadwal, lokasi, sasaran peserta, ringkasan, deskripsi lengkap, tujuan, link pendaftaran, tanda proker unggulan beranda, dan opsi latar putih).
+     * Mengunggah gambar poster/cover program kerja (JPG, PNG, WebP maks. 5 MB ke bucket `public-assets`).
+     * Mengubah status program kerja (`upcoming`, `ongoing`, `completed`) dan menghapus program kerja.
+     * Perubahan otomatis tersinkron ke halaman publik `/`, `/proker`, dan `/proker/[slug]`.
+     * Melihat ringkasan saldo dan riwayat transaksi di tab `KAS & KUITANSI` dalam mode *Read-Only*.
+   * **Batasan:** Tidak dapat menambah/menghapus transaksi kas, tidak dapat membuka foto bukti nota privat, dan tidak dapat mengubah Struktur Organisasi.
+
+3. **Akun `admin` (Admin BPH — Akses Penuh)**
+   * **Tab yang tampil:** `KAS & KUITANSI`, `KELOLA PROGRAM KERJA`, dan `KELOLA STRUKTUR`.
+   * **Yang bisa dilakukan:**
+     * Memiliki seluruh kemampuan akun **`bendahara`** (kelola kas, unggah & lihat nota privat, hapus transaksi).
+     * Memiliki seluruh kemampuan akun **`medkraf`** (tambah, edit, ubah status, unggah poster, dan hapus program kerja).
+     * **Khusus Admin (`KELOLA STRUKTUR`):** Mengedit 9 entitas kepengurusan (`PRESIDIUM`, `BPH_SEK`, `BPH_BEN`, `BPSDM`, `HUMAS`, `RISET`, `PMB`, `SARLOG`, `MEDKRAF`) meliputi nama divisi, judul singkat, deskripsi, jabatan, nama, serta **upload/ganti foto pimpinan & koordinator** (mendukung 2 foto sekaligus untuk `PRESIDIUM`, disimpan ke bucket `public-assets`), daftar Tupoksi, bidang fokus, dan susunan jumlah anggota. Perubahan langsung tersinkron ke `/struktur` dan `/about`.
+
+### 3.7 UI/UX Standards ("Jos Los Gandos")
 * **Performa Tinggi**: Skor Google Lighthouse > 90 untuk Performance, Accessibility, dan SEO.
 * **Micro-Interactions**: Transisi halaman instan, kursor magnetik di desktop, feedback sentuhan haptik/visual di mobile.
 * **Dark Mode Native**: Tidak memerlukan toggle light-mode yang merusak estetika; dark-mode dibangun secara permanen dan nyaman di mata (ramah layar OLED).

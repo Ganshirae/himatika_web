@@ -267,8 +267,9 @@
 ## Status Milestone & Catatan Transisi Kerja
 * [x] **Fase 0 s/d Fase 6 Tuntas**: Lingkungan kerja, database Supabase dengan RBAC (`bendahara`, `medkraf`, `admin`), transparansi kas publik (`/keuangan`), portal `/login` & `/vault` (Kas + Signed URL kuitansi + CMS Proker + CMS Struktur), sinkronisasi data dinamis ke `/`, `/proker`, dan `/struktur`, serta upgrade keamanan **Next.js `16.4.6`** dan perbaikan 2 error ESLint (`SmoothScroller.tsx`, `ProkerCatalogClient.tsx`) telah selesai dan terverifikasi (`tsc --noEmit`, `npm run lint`, `npm run build` exit 0).
 * [ ] **Target Berikutnya (Besok — Sebelum Fase 7)**: **Terapkan Alternatif 1 (Username Jabatan) & Pengujian E2E Web Langsung**:
-  - [ ] Ubah [`src/actions/auth.actions.ts`](file:///C:/Users/Haerul/himatika_web/src/actions/auth.actions.ts) dan [`src/components/auth/LoginFormClient.tsx`](file:///C:/Users/Haerul/himatika_web/src/components/auth/LoginFormClient.tsx) agar mendukung **Username Jabatan** (`admin`, `bendahara`, `medkraf` → dipetakan ke `<username>@himatika.internal`) sekaligus tetap menerima email standar.
-  - [ ] Buat 3 akun jabatan uji di Supabase Auth (`auth.users` saat ini `0 baris`) + daftarkan ke `public.user_profiles` (saat ini `0 baris`) dengan izin eksplisit user.
-  - [ ] Jalankan verifikasi otomatis E2E & RBAC serta nyalakan server lokal `http://localhost:3000` untuk pengujian interaktif oleh user.
+  - [x] Ubah [`src/actions/auth.actions.ts`](file:///C:/Users/Haerul/himatika_web/src/actions/auth.actions.ts) dan [`src/components/auth/LoginFormClient.tsx`](file:///C:/Users/Haerul/himatika_web/src/components/auth/LoginFormClient.tsx) agar mendukung **Username Jabatan** (`admin`, `bendahara`, `medkraf` → dipetakan ke `<username>@himatika.internal`) sekaligus tetap menerima email standar.
+  - [x] Buat 3 akun jabatan uji di Supabase Auth + daftarkan ke `public.user_profiles` (`3 baris aktif`: `admin`, `bendahara`, `medkraf`).
+  - [x] Nyalakan server lokal `http://localhost:3000` & jalankan verifikasi otomatis (rute publik HTTP 200, guard `/vault` 307, dan RLS anon / keamanan kolom `finance_records`).
+  - [ ] Pengujian interaktif oleh user di `http://localhost:3000/login` (login `admin`, `bendahara`, `medkraf`, uji input kas/nota, CMS Proker, & CMS Struktur).
 * [ ] **Setelah Pengujian Lulus**: Lanjut **FASE 7: Optimasi Kinerja, Audit Mobile, & UI/UX Polish**.
 

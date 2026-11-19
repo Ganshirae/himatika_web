@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useActionState } from "react";
+import React, { useActionState, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { loginUser, type AuthActionState } from "@/actions/auth.actions";
 
 const initialState: AuthActionState = {};
@@ -13,6 +13,7 @@ export function LoginFormClient() {
   const searchParams = useSearchParams();
   const urlError = searchParams.get("error");
   const [state, formAction, isPending] = useActionState(loginUser, initialState);
+  const [showPassword, setShowPassword] = useState(false);
 
   const queryErrorText =
     urlError === "unauthorized"
@@ -78,18 +79,21 @@ export function LoginFormClient() {
           <form action={formAction} className="space-y-4">
             <div className="space-y-1.5 text-left">
               <label
-                htmlFor="email"
+                htmlFor="identifier"
                 className="font-mono text-xs text-secondary block"
               >
-                EMAIL PENGURUS
+                USERNAME JABATAN / EMAIL
               </label>
               <input
-                id="email"
-                name="email"
-                type="email"
+                id="identifier"
+                name="identifier"
+                type="text"
                 required
-                autoComplete="email"
-                placeholder="pengurus@trilogi.ac.id"
+                autoComplete="username"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
+                placeholder="admin / bendahara / medkraf"
                 className="w-full bg-canvas border border-hairline focus:border-blue-500 px-3.5 py-2.5 font-mono text-xs text-main placeholder:text-muted/60 outline-none transition-colors"
               />
             </div>
@@ -101,15 +105,32 @@ export function LoginFormClient() {
               >
                 KATA SANDI
               </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                autoComplete="current-password"
-                placeholder="••••••••••••"
-                className="w-full bg-canvas border border-hairline focus:border-blue-500 px-3.5 py-2.5 font-mono text-xs text-main placeholder:text-muted/60 outline-none transition-colors"
-              />
+              <div className="relative">
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  required
+                  autoComplete="current-password"
+                  placeholder="••••••••••••"
+                  className="w-full bg-canvas border border-hairline focus:border-blue-500 pl-3.5 pr-10 py-2.5 font-mono text-xs text-main placeholder:text-muted/60 outline-none transition-colors [&::-ms-reveal]:hidden [&::-ms-clear]:hidden"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  aria-label={
+                    showPassword ? "Sembunyikan kata sandi" : "Lihat kata sandi"
+                  }
+                  aria-pressed={showPassword}
+                  className="absolute inset-y-0 right-0 flex items-center justify-center px-3 text-muted hover:text-main transition-colors cursor-pointer"
+                >
+                  {showPassword ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
+                </button>
+              </div>
             </div>
 
             <button

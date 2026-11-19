@@ -122,7 +122,7 @@ export function VaultShellClient({
               }`}
             >
               <CalendarDays className="w-4 h-4" />
-              <span>CMS PROGRAM KERJA</span>
+              <span>KELOLA PROGRAM KERJA</span>
             </button>
           )}
 
@@ -137,7 +137,7 @@ export function VaultShellClient({
               }`}
             >
               <GitBranch className="w-4 h-4" />
-              <span>CMS STRUKTUR ORGANISASI</span>
+              <span>KELOLA STRUKTUR</span>
             </button>
           )}
         </div>
