@@ -105,40 +105,69 @@ html.lenis, html.lenis body {
   pointer-events: none;
 }
 
-/* 3D Photo Flip & Digital Glitch Animations */
+/* 3D Photo Flip & Cinematic Portrait Reveal Animations */
 @keyframes photo-flip-glitch {
   0% {
-    transform: perspective(600px) rotateY(-90deg) scale(0.85);
+    transform: perspective(900px) rotateY(-70deg) rotateX(4deg) scale(0.9);
     opacity: 0;
-    filter: drop-shadow(-4px 0 #2563eb) drop-shadow(4px 0 #3b82f6);
+    filter: drop-shadow(-6px 0 #2563eb) drop-shadow(6px 0 #3b82f6) brightness(1.3);
   }
-  50% {
-    transform: perspective(600px) rotateY(15deg) scale(1.03);
-    opacity: 0.95;
-    filter: drop-shadow(3px 0 #2563eb) drop-shadow(-3px 0 #3b82f6);
+  45% {
+    transform: perspective(900px) rotateY(8deg) rotateX(0deg) scale(1.03);
+    opacity: 0.96;
+    filter: drop-shadow(3px 0 #2563eb) drop-shadow(-3px 0 #3b82f6) contrast(1.08);
   }
   75% {
-    transform: perspective(600px) rotateY(-5deg) scale(1);
+    transform: perspective(900px) rotateY(-3deg) scale(1.01);
     filter: drop-shadow(-1px 0 #2563eb);
   }
   100% {
-    transform: perspective(600px) rotateY(0deg) scale(1);
+    transform: perspective(900px) rotateY(0deg) rotateX(0deg) scale(1);
     opacity: 1;
     filter: none;
   }
 }
 
 .animate-photo-flip-glitch {
-  animation: photo-flip-glitch 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: photo-flip-glitch 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform-style: preserve-3d;
+}
+
+@keyframes portrait-zoom-settle {
+  0% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-portrait-zoom {
+  animation: portrait-zoom-settle 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes portrait-caption-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-portrait-caption {
+  animation: portrait-caption-rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
 }
 
 @keyframes scanline-sweep {
   0% {
-    top: -10%;
-    opacity: 0.9;
+    top: -12%;
+    opacity: 0.95;
   }
   100% {
-    top: 110%;
+    top: 112%;
     opacity: 0;
   }
 }
@@ -148,7 +177,18 @@ html.lenis, html.lenis body {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.95), #ffffff, rgba(59, 130, 246, 0.95), transparent);
-  animation: scanline-sweep 0.7s ease-out forwards;
+  background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.95), #ffffff, rgba(59, 130, 246, 0.95), transparent);
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.85);
+  animation: scanline-sweep 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   pointer-events: none;
+  z-index: 20;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-photo-flip-glitch,
+  .animate-portrait-zoom,
+  .animate-portrait-caption,
+  .scanline-sweep {
+    animation: none;
+  }
 }

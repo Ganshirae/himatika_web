@@ -2,12 +2,260 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { ORG_NODES, OrgNode } from "@/lib/data/organization";
+import { ORG_NODES, OrgNode, LeaderInfo } from "@/lib/data/organization";
 import DivisionDrawer from "./DivisionDrawer";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Users, User } from "lucide-react";
 
 interface OrgBlueprintProps {
   nodes?: OrgNode[];
+}
+
+interface PortraitFrameProps {
+  image?: string;
+  name: string;
+  role: string;
+  monogram: string;
+  isHovered: boolean;
+  sizeClass: string;
+  sizesAttr: string;
+  delayMs?: number;
+}
+
+/**
+ * Fixed-aspect portrait frame that remains structurally static on idle
+ * and reveals the full-color leader portrait with 3D flip + glitch scanline on hover.
+ */
+function PortraitFrame({
+  image,
+  name,
+  role,
+  monogram,
+  isHovered,
+  sizeClass,
+  sizesAttr,
+  delayMs = 0,
+}: PortraitFrameProps) {
+  return (
+    <div
+      className={`relative shrink-0 overflow-hidden border bg-canvas transition-colors duration-300 ${sizeClass} ${
+        isHovered ? "border-blue-500/80 shadow-[0_0_24px_rgba(37,99,235,0.28)]" : "border-hairline"
+      }`}
+    >
+      {/* Precision corner ticks */}
+      <span className="pointer-events-none absolute top-0 left-0 z-30 h-2.5 w-2.5 border-t-2 border-l-2 border-blue-500/60" />
+      <span className="pointer-events-none absolute top-0 right-0 z-30 h-2.5 w-2.5 border-t-2 border-r-2 border-blue-500/60" />
+      <span className="pointer-events-none absolute bottom-0 left-0 z-30 h-2.5 w-2.5 border-b-2 border-l-2 border-blue-500/60" />
+      <span className="pointer-events-none absolute bottom-0 right-0 z-30 h-2.5 w-2.5 border-b-2 border-r-2 border-blue-500/60" />
+
+      {/* Idle State Backdrop (Desktop before hover) */}
+      <div
+        className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-surface/60 p-2 text-center"
+        aria-hidden="true"
+      >
+        <div
+          className="absolute inset-0 opacity-20"
+          style={{
+            backgroundImage: "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.25) 1px, transparent 0)",
+            backgroundSize: "12px 12px",
+          }}
+        />
+        <div className="relative flex h-11 w-11 items-center justify-center border border-hairline bg-canvas/90 text-blue-400/70">
+          <User className="h-5 w-5 stroke-[1.5]" />
+        </div>
+        <span className="relative font-mono text-[10px] font-semibold tracking-widest text-muted uppercase">
+          {monogram}
+        </span>
+      </div>
+
+      {/* Revealed Full-Color Portrait Layer (always visible on mobile, 3D flip-reveal on desktop hover) */}
+      {image && (
+        <div
+          key={isHovered ? "revealed" : "idle"}
+          style={isHovered && delayMs > 0 ? { animationDelay: `${delayMs}ms` } : undefined}
+          className={`absolute inset-0 z-10 overflow-hidden bg-surface transition-opacity duration-300 ${
+            isHovered
+              ? "opacity-100 animate-photo-flip-glitch"
+              : "opacity-100 md:opacity-0 md:pointer-events-none"
+          }`}
+        >
+          {isHovered && <div className="scanline-sweep" />}
+
+          <div
+            className={`relative h-full w-full ${
+              isHovered ? "animate-portrait-zoom" : ""
+            }`}
+          >
+            <Image
+              src={image}
+              alt={name}
+              fill
+              sizes={sizesAttr}
+              className="object-cover object-top"
+            />
+          </div>
+
+          {/* Bottom editorial caption gradient */}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 via-black/70 to-transparent px-2.5 pt-8 pb-2">
+            <div className={isHovered ? "animate-portrait-caption" : ""}>
+              <span className="block truncate font-mono text-[9px] font-bold tracking-wider text-blue-400 uppercase">
+                {role}
+              </span>
+              <span className="block truncate font-display text-xs sm:text-sm tracking-tight text-white uppercase">
+                {name}
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+interface OrgNodeCardProps {
+  node: OrgNode;
+  tierLabel: string;
+  isHovered: boolean;
+  onHoverChange: (id: string | null) => void;
+  onSelect: (node: OrgNode) => void;
+  variant: "presidium" | "bph" | "divisi";
+}
+
+function OrgNodeCard({
+  node,
+  tierLabel,
+  isHovered,
+  onHoverChange,
+  onSelect,
+  variant,
+}: OrgNodeCardProps) {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty("--spot-x", `${e.clientX - rect.left}px`);
+    e.currentTarget.style.setProperty("--spot-y", `${e.clientY - rect.top}px`);
+  };
+
+  const totalMembers = node.members.reduce((sum, m) => sum + m.count, 0);
+  const leaders: LeaderInfo[] =
+    node.leaders && node.leaders.length > 0
+      ? node.leaders
+      : node.leaderImage
+        ? [{ name: node.leaderName, role: node.leaderTitle, image: node.leaderImage }]
+        : [];
+
+  const isPresidium = variant === "presidium";
+  const portraitSize = isPresidium
+    ? "w-28 h-36 sm:w-36 sm:h-48 lg:w-40 lg:h-52"
+    : variant === "bph"
+      ? "w-28 h-36 sm:w-36 sm:h-48"
+      : "w-28 h-36 sm:w-32 sm:h-44";
+
+  return (
+    <div
+      onClick={() => onSelect(node)}
+      onMouseEnter={() => onHoverChange(node.id)}
+      onMouseLeave={() => onHoverChange(null)}
+      onFocus={() => onHoverChange(node.id)}
+      onBlur={() => onHoverChange(null)}
+      onMouseMove={handleMouseMove}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onSelect(node);
+        }
+      }}
+      className={`group relative cursor-pointer overflow-hidden border bg-surface/90 p-5 sm:p-6 transition-all duration-300 ${
+        isPresidium ? "border-2" : ""
+      } ${
+        isHovered
+          ? "border-blue-500 bg-surface shadow-[0_18px_50px_-15px_rgba(37,99,235,0.35)] -translate-y-0.5"
+          : "border-hairline hover:border-blue-500/60"
+      }`}
+    >
+      {/* Interactive cursor-following blue spotlight */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{
+          background:
+            "radial-gradient(320px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(37, 99, 235, 0.14), transparent 65%)",
+        }}
+      />
+
+      <div className="relative z-10 flex h-full flex-col justify-between gap-4">
+        {/* Top Metadata Bar */}
+        <div className="flex items-center justify-between border-b border-hairline pb-2.5 font-mono text-xs">
+          <span className="font-bold tracking-wider text-blue-400 uppercase">
+            {tierLabel}
+          </span>
+          <span className="inline-flex items-center gap-0.5 text-[11px] text-muted transition-colors group-hover:text-blue-400">
+            RINCIAN{" "}
+            <ChevronRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5" />
+          </span>
+        </div>
+
+        {/* Main Body: Text on Left (100% stable) + Large Portrait Frame(s) on Right */}
+        <div
+          className={`flex flex-col sm:flex-row ${
+            isPresidium ? "lg:items-center" : "items-start sm:items-stretch"
+          } justify-between gap-4 sm:gap-5`}
+        >
+          <div className="flex min-w-0 flex-1 flex-col justify-between space-y-3">
+            <div className="space-y-2">
+              <h3
+                className={`font-display uppercase tracking-tight text-main transition-colors duration-200 group-hover:text-blue-400 ${
+                  isPresidium
+                    ? "text-3xl sm:text-4xl leading-none"
+                    : variant === "bph"
+                      ? "text-2xl sm:text-3xl leading-none"
+                      : "text-xl sm:text-2xl leading-tight"
+                }`}
+              >
+                {node.shortTitle}
+              </h3>
+
+              <p className="line-clamp-3 font-sans text-xs sm:text-sm leading-relaxed text-secondary">
+                {node.shortDesc}
+              </p>
+            </div>
+
+            <div className="space-y-1.5 pt-2 font-mono text-[11px]">
+              <div className="truncate text-main/90">
+                <span className="text-muted">PIMPINAN: </span>
+                <span className="font-medium">{node.leaderName}</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5 text-blue-400/90">
+                <Users className="h-3.5 w-3.5" />
+                <span>{totalMembers} Anggota Aktif</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Portrait Container(s) */}
+          <div
+            className={`flex shrink-0 items-center ${
+              leaders.length > 1 ? "gap-3" : ""
+            } self-center sm:self-auto`}
+          >
+            {leaders.slice(0, isPresidium ? 2 : 1).map((leader, idx) => (
+              <PortraitFrame
+                key={`${node.id}-leader-${idx}`}
+                image={leader.image}
+                name={leader.name}
+                role={leader.role}
+                monogram={node.code}
+                isHovered={isHovered}
+                sizeClass={portraitSize}
+                sizesAttr="(max-width: 640px) 112px, 160px"
+                delayMs={idx * 90}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function OrgBlueprint({ nodes = ORG_NODES }: OrgBlueprintProps) {
@@ -15,7 +263,6 @@ export default function OrgBlueprint({ nodes = ORG_NODES }: OrgBlueprintProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
-  // Pisahkan nodes berdasarkan level hierarki
   const presidiumNode = nodes.find((n) => n.code === "PRESIDIUM") ?? nodes[0];
   const bphNodes = nodes.filter((n) => n.level === 2);
   const divisiNodes = nodes.filter((n) => n.level === 3);
@@ -25,169 +272,114 @@ export default function OrgBlueprint({ nodes = ORG_NODES }: OrgBlueprintProps) {
     setDrawerOpen(true);
   };
 
+  const isBphHovered = bphNodes.some((n) => n.id === hoveredId);
+  const isDivisiHovered = divisiNodes.some((n) => n.id === hoveredId);
+
   return (
-    <section className="relative w-full py-12 sm:py-20 bg-canvas">
+    <section className="relative w-full bg-canvas py-12 sm:py-20">
       {/* Decorative Technical Grid Background */}
       <div
-        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        className="pointer-events-none absolute inset-0 opacity-[0.03]"
         style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, #ffffff 1px, transparent 0)`,
+          backgroundImage:
+            "radial-gradient(circle at 1px 1px, #ffffff 1px, transparent 0)",
           backgroundSize: "28px 28px",
         }}
         aria-hidden="true"
       />
 
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-14 relative z-10">
+      <div className="relative z-10 mx-auto max-w-[1440px] px-4 sm:px-8 lg:px-14">
         {/* ============================================================== */}
         {/* LEVEL 1: PRESIDIUM UTAMA                                      */}
         {/* ============================================================== */}
         <div className="flex flex-col items-center">
-          <div className="w-full max-w-xl">
-            <div
-              onClick={() => handleOpenDrawer(presidiumNode)}
-              onMouseEnter={() => setHoveredId(presidiumNode.id)}
-              onMouseLeave={() => setHoveredId(null)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === "Enter" && handleOpenDrawer(presidiumNode)}
-              className={`group relative cursor-pointer bg-surface/90 hover:bg-surface border-2 transition-all duration-300 p-5 sm:p-6 rounded-xs shadow-lg ${
-                hoveredId === presidiumNode.id
-                  ? "border-blue-500 shadow-xl shadow-blue-950/40 ring-1 ring-blue-500/50"
-                  : "border-hairline hover:border-blue-500/60"
-              }`}
-            >
-              <div className="flex items-center justify-between pb-2.5 border-b border-hairline font-mono text-xs">
-                <span className="text-blue-400 font-bold uppercase tracking-wider">
-                  PRESIDIUM UTAMA
-                </span>
-                <span className="text-muted text-[11px] group-hover:text-blue-400 transition-colors inline-flex items-center gap-0.5">
-                  RINCIAN <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                </span>
-              </div>
-
-              <div className="py-3">
-                <h3 className="font-display text-2xl sm:text-3xl text-main uppercase tracking-tight group-hover:text-blue-400 transition-colors">
-                  KETUA &amp; WAKIL KETUA
-                </h3>
-              </div>
-
-              {/* Reveal Foto Kahim & Wakahim dengan Animasi 3D Flip & Glitch */}
-              {hoveredId === presidiumNode.id && (
-                <div className="mt-1 p-3 bg-black/60 border border-blue-500/50 rounded-xs relative overflow-hidden transition-all duration-300">
-                  <div className="scanline-sweep" />
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {presidiumNode.leaders?.map((leader, i) => (
-                      <div
-                        key={i}
-                        className="flex items-center gap-3 p-2 bg-surface/80 border border-hairline rounded-xs"
-                      >
-                        <div className="relative w-14 h-14 shrink-0 rounded-xs overflow-hidden bg-black/90 border border-blue-500/60 animate-photo-flip-glitch">
-                          <Image
-                            src={leader.image}
-                            alt={leader.name}
-                            fill
-                            sizes="56px"
-                            className="object-cover object-top"
-                          />
-                        </div>
-                        <div className="min-w-0">
-                          <span className="font-mono text-[10px] text-blue-400 block uppercase font-bold truncate">
-                            {leader.role}
-                          </span>
-                          <h4 className="font-display text-sm text-white uppercase truncate">
-                            {leader.name}
-                          </h4>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
+          <div className="w-full max-w-4xl">
+            <OrgNodeCard
+              node={presidiumNode}
+              tierLabel="PRESIDIUM UTAMA"
+              isHovered={hoveredId === presidiumNode.id}
+              onHoverChange={setHoveredId}
+              onSelect={handleOpenDrawer}
+              variant="presidium"
+            />
           </div>
 
-          {/* Garis Penghubung Presidium ke BPH */}
-          <div className="w-0.5 h-10 bg-linear-to-b from-blue-600 to-white/20 relative">
-            <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-blue-500" />
+          {/* SVG Circuit Bus: Presidium -> BPH */}
+          <div className="relative hidden w-full max-w-4xl md:block" aria-hidden="true">
+            <svg
+              viewBox="0 0 800 56"
+              fill="none"
+              className="h-14 w-full"
+              preserveAspectRatio="none"
+            >
+              <path
+                d="M400 0 V28 H200 V56 M400 28 H600 V56"
+                stroke={
+                  hoveredId === presidiumNode.id || isBphHovered
+                    ? "#3b82f6"
+                    : "rgba(255,255,255,0.16)"
+                }
+                strokeWidth="2"
+                className="transition-colors duration-300"
+              />
+              <circle cx="400" cy="28" r="4" fill="#2563eb" />
+              <circle cx="200" cy="52" r="4" fill="#2563eb" />
+              <circle cx="600" cy="52" r="4" fill="#2563eb" />
+            </svg>
+          </div>
+          <div className="relative h-8 w-0.5 bg-gradient-to-b from-blue-600 to-white/20 md:hidden">
+            <span className="absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-blue-500" />
           </div>
         </div>
 
         {/* ============================================================== */}
         {/* LEVEL 2: BADAN PENGURUS HARIAN (BPH)                           */}
         {/* ============================================================== */}
-        <div className="relative pt-2 pb-8 max-w-4xl mx-auto">
-          <div className="text-center font-mono text-xs text-blue-400 tracking-wider uppercase mb-4 font-semibold">
+        <div className="relative mx-auto max-w-5xl pb-6">
+          <div className="mb-4 text-center font-mono text-xs font-semibold tracking-wider text-blue-400 uppercase">
             BADAN PENGURUS HARIAN (BPH)
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {bphNodes.map((node) => {
-              const isHovered = hoveredId === node.id;
-              return (
-                <div
-                  key={node.id}
-                  onClick={() => handleOpenDrawer(node)}
-                  onMouseEnter={() => setHoveredId(node.id)}
-                  onMouseLeave={() => setHoveredId(null)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => e.key === "Enter" && handleOpenDrawer(node)}
-                  className={`group relative cursor-pointer bg-surface/90 hover:bg-surface border transition-all duration-300 p-5 rounded-xs shadow-md ${
-                    isHovered
-                      ? "border-blue-500 shadow-xl shadow-blue-950/40 ring-1 ring-blue-500/50"
-                      : "border-hairline hover:border-blue-500/60"
-                  }`}
-                >
-                  <div className="flex items-center justify-between pb-2 border-b border-hairline font-mono text-xs">
-                    <span className="text-blue-400 font-bold uppercase">
-                      BPH
-                    </span>
-                    <span className="text-muted text-[11px] group-hover:text-blue-400 transition-colors inline-flex items-center gap-0.5">
-                      RINCIAN <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                    </span>
-                  </div>
-
-                  <div className="py-3">
-                    <h4 className="font-display text-xl sm:text-2xl text-main uppercase group-hover:text-blue-400 transition-colors">
-                      {node.shortTitle}
-                    </h4>
-                  </div>
-
-                  {/* Reveal Foto Pengurus BPH dengan Animasi 3D Flip & Glitch */}
-                  {isHovered && (
-                    <div className="mt-1 p-3 bg-black/60 border border-blue-500/50 rounded-xs relative overflow-hidden transition-all duration-300">
-                      <div className="scanline-sweep" />
-                      <div className="flex items-center gap-3.5">
-                        <div className="relative w-14 h-14 shrink-0 rounded-xs overflow-hidden bg-black/90 border border-blue-500/60 animate-photo-flip-glitch">
-                          {node.leaderImage && (
-                            <Image
-                              src={node.leaderImage}
-                              alt={node.leaderName}
-                              fill
-                              sizes="56px"
-                              className="object-cover object-top"
-                            />
-                          )}
-                        </div>
-                        <div className="min-w-0">
-                          <span className="font-mono text-[10px] text-blue-400 block uppercase font-bold">
-                            {node.leaderTitle}
-                          </span>
-                          <h4 className="font-display text-base text-white uppercase truncate">
-                            {node.leaderName}
-                          </h4>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            {bphNodes.map((node) => (
+              <OrgNodeCard
+                key={node.id}
+                node={node}
+                tierLabel="BPH"
+                isHovered={hoveredId === node.id}
+                onHoverChange={setHoveredId}
+                onSelect={handleOpenDrawer}
+                variant="bph"
+              />
+            ))}
           </div>
 
-          {/* Garis Penghubung BPH ke Divisi */}
-          <div className="w-0.5 h-10 bg-linear-to-b from-white/20 to-blue-600 mx-auto relative mt-4">
-            <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-blue-500" />
+          {/* SVG Circuit Bus: BPH -> Divisi Pelaksana */}
+          <div className="relative hidden w-full lg:block" aria-hidden="true">
+            <svg
+              viewBox="0 0 1000 56"
+              fill="none"
+              className="h-14 w-full"
+              preserveAspectRatio="none"
+            >
+              <path
+                d="M500 0 V28 M165 28 H835 M165 28 V56 M500 28 V56 M835 28 V56"
+                stroke={
+                  isBphHovered || isDivisiHovered
+                    ? "#3b82f6"
+                    : "rgba(255,255,255,0.16)"
+                }
+                strokeWidth="2"
+                className="transition-colors duration-300"
+              />
+              <circle cx="500" cy="28" r="4" fill="#2563eb" />
+              <circle cx="165" cy="52" r="4" fill="#2563eb" />
+              <circle cx="500" cy="52" r="4" fill="#2563eb" />
+              <circle cx="835" cy="52" r="4" fill="#2563eb" />
+            </svg>
+          </div>
+          <div className="relative mx-auto mt-4 h-8 w-0.5 bg-gradient-to-b from-white/20 to-blue-600 lg:hidden">
+            <span className="absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-blue-500" />
           </div>
         </div>
 
@@ -195,73 +387,22 @@ export default function OrgBlueprint({ nodes = ORG_NODES }: OrgBlueprintProps) {
         {/* LEVEL 3: 6 DIVISI PELAKSANA                                    */}
         {/* ============================================================== */}
         <div className="relative pt-2">
-          <div className="text-center font-mono text-xs text-blue-400 tracking-wider uppercase mb-6 font-semibold">
+          <div className="mb-6 text-center font-mono text-xs font-semibold tracking-wider text-blue-400 uppercase">
             DIVISI PELAKSANA
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {divisiNodes.map((node) => {
-              const isHovered = hoveredId === node.id;
-              return (
-                <div
-                  key={node.id}
-                  onClick={() => handleOpenDrawer(node)}
-                  onMouseEnter={() => setHoveredId(node.id)}
-                  onMouseLeave={() => setHoveredId(null)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => e.key === "Enter" && handleOpenDrawer(node)}
-                  className={`group relative cursor-pointer bg-surface/90 hover:bg-surface border transition-all duration-300 p-5 rounded-xs shadow-md ${
-                    isHovered
-                      ? "border-blue-500 shadow-xl shadow-blue-950/40 ring-1 ring-blue-500/50"
-                      : "border-hairline hover:border-blue-500/60"
-                  }`}
-                >
-                  <div className="flex items-center justify-between pb-2 border-b border-hairline font-mono text-xs">
-                    <span className="text-blue-400 font-bold uppercase">
-                      DIVISI
-                    </span>
-                    <span className="text-muted text-[11px] group-hover:text-blue-400 transition-colors inline-flex items-center gap-0.5">
-                      RINCIAN <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                    </span>
-                  </div>
-
-                  <div className="py-3">
-                    <h4 className="font-display text-lg sm:text-xl text-main uppercase leading-tight group-hover:text-blue-400 transition-colors">
-                      {node.shortTitle}
-                    </h4>
-                  </div>
-
-                  {/* Reveal Foto Koordinator Divisi dengan Animasi 3D Flip & Glitch */}
-                  {isHovered && (
-                    <div className="mt-1 p-3 bg-black/60 border border-blue-500/50 rounded-xs relative overflow-hidden transition-all duration-300">
-                      <div className="scanline-sweep" />
-                      <div className="flex items-center gap-3.5">
-                        <div className="relative w-14 h-14 shrink-0 rounded-xs overflow-hidden bg-black/90 border border-blue-500/60 animate-photo-flip-glitch">
-                          {node.leaderImage && (
-                            <Image
-                              src={node.leaderImage}
-                              alt={node.leaderName}
-                              fill
-                              sizes="56px"
-                              className="object-cover object-top"
-                            />
-                          )}
-                        </div>
-                        <div className="min-w-0">
-                          <span className="font-mono text-[10px] text-blue-400 block uppercase font-bold">
-                            KOORDINATOR
-                          </span>
-                          <h4 className="font-display text-base text-white uppercase truncate">
-                            {node.leaderName}
-                          </h4>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
+            {divisiNodes.map((node) => (
+              <OrgNodeCard
+                key={node.id}
+                node={node}
+                tierLabel="DIVISI"
+                isHovered={hoveredId === node.id}
+                onHoverChange={setHoveredId}
+                onSelect={handleOpenDrawer}
+                variant="divisi"
+              />
+            ))}
           </div>
         </div>
       </div>

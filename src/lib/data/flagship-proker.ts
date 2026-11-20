@@ -9,6 +9,7 @@ export interface FeaturedProker {
   executionDate: string;
   shortDesc: string;
   coverImage: string;
+  isWhiteBackground?: boolean;
 }
 
 export const FLAGSHIP_PROKERS: FeaturedProker[] = [
@@ -76,5 +77,6 @@ export const FLAGSHIP_PROKERS: FeaturedProker[] = [
     shortDesc:
       "Inisiatif kerja sama HIMATIKA bersama himpunan mahasiswa kampus lain dan komunitas developer luar (seperti GDSC) untuk mengadakan workshop bareng, sharing session, dan karya kolaborasi.",
     coverImage: "/image/kolaborasi.png",
+    isWhiteBackground: true,
   },
 ];

@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Calendar, Layers } from "lucide-react";
 import { FLAGSHIP_PROKERS, FeaturedProker } from "@/lib/data/flagship-proker";
-import ScrambleText from "@/components/common/ScrambleText";
 
 interface ShowcaseSliderProps {
   prokers?: FeaturedProker[];
@@ -16,7 +15,11 @@ export default function ShowcaseSlider({ prokers = FLAGSHIP_PROKERS }: ShowcaseS
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const [touchEndX, setTouchEndX] = useState<number | null>(null);
   const total = prokers.length;
-  const currentProker = prokers[currentIndex];
+  const safeIndex = total > 0 ? currentIndex % total : 0;
+  const currentProker = prokers[safeIndex];
+  const useWhiteBg = Boolean(
+    currentProker?.isWhiteBackground || currentProker?.coverImage.includes("kolaborasi")
+  );
 
   const handleNext = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % total);
@@ -102,7 +105,7 @@ export default function ShowcaseSlider({ prokers = FLAGSHIP_PROKERS }: ShowcaseS
           {/* Sisi Kiri: Media Preview (7 Cols) */}
           <div className="lg:col-span-7 flex flex-col justify-between">
             <div className={`relative w-full aspect-[16/10] sm:aspect-[16/9] border border-hairline overflow-hidden group ${
-              currentProker.coverImage.includes("kolaborasi") ? "bg-white" : "bg-canvas"
+              useWhiteBg ? "bg-white" : "bg-canvas"
             }`}>
               
               {/* Proker Banner Image */}
@@ -114,14 +117,14 @@ export default function ShowcaseSlider({ prokers = FLAGSHIP_PROKERS }: ShowcaseS
                 sizes="(max-width: 1024px) 100vw, 55vw"
                 priority
                 className={`transition-all duration-700 group-hover:scale-105 ${
-                  currentProker.coverImage.includes("kolaborasi")
+                  useWhiteBg
                     ? "object-contain p-6 sm:p-10"
                     : "object-cover"
                 }`}
               />
 
               {/* Subtle Bottom Vignette (hanya untuk foto dokumentasi) */}
-              {!currentProker.coverImage.includes("kolaborasi") && (
+              {!useWhiteBg && (
                 <div className="absolute inset-0 bg-gradient-to-t from-canvas/80 via-transparent to-transparent pointer-events-none" />
               )}
 
@@ -192,7 +195,7 @@ export default function ShowcaseSlider({ prokers = FLAGSHIP_PROKERS }: ShowcaseS
               <div className="w-full h-[2px] bg-white/10 relative overflow-hidden">
                 <div
                   className="h-full bg-blue-500 transition-all duration-500 ease-out"
-                  style={{ width: `${((currentIndex + 1) / total) * 100}%` }}
+                  style={{ width: `${((safeIndex + 1) / total) * 100}%` }}
                 />
               </div>
 

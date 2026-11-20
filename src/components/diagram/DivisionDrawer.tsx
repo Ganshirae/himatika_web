@@ -134,34 +134,51 @@ export default function DivisionDrawer({
             </div>
 
             {/* Leader Photos Card */}
-            {selectedNode.leaders && selectedNode.leaders.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {selectedNode.leaders.map((leader, i) => (
-                  <div
-                    key={i}
-                    className="p-3 bg-surface/60 border border-hairline rounded-xs flex items-center gap-3.5"
-                  >
-                    <div className="relative w-14 h-14 shrink-0 rounded-xs overflow-hidden bg-black/60 border border-blue-500/30">
-                      <Image
-                        src={leader.image}
-                        alt={leader.name}
-                        fill
-                        sizes="56px"
-                        className="object-cover object-top"
-                      />
+            {(() => {
+              const leaderList =
+                selectedNode.leaders && selectedNode.leaders.length > 0
+                  ? selectedNode.leaders
+                  : selectedNode.leaderImage
+                    ? [
+                        {
+                          name: selectedNode.leaderName,
+                          role: selectedNode.leaderTitle,
+                          image: selectedNode.leaderImage,
+                        },
+                      ]
+                    : [];
+
+              if (leaderList.length === 0) return null;
+
+              return (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {leaderList.map((leader, i) => (
+                    <div
+                      key={i}
+                      className="p-3.5 bg-surface/60 border border-hairline rounded-xs flex items-center gap-4 hover:border-blue-500/40 transition-colors"
+                    >
+                      <div className="relative w-24 h-32 sm:w-28 sm:h-36 shrink-0 rounded-xs overflow-hidden bg-black/80 border border-blue-500/40">
+                        <Image
+                          src={leader.image}
+                          alt={leader.name}
+                          fill
+                          sizes="112px"
+                          className="object-cover object-top"
+                        />
+                      </div>
+                      <div className="min-w-0 space-y-1">
+                        <span className="font-mono text-[10px] text-blue-400 block uppercase font-semibold">
+                          {leader.role}
+                        </span>
+                        <h4 className="font-display text-base sm:text-lg text-main uppercase leading-tight">
+                          {leader.name}
+                        </h4>
+                      </div>
                     </div>
-                    <div className="min-w-0">
-                      <span className="font-mono text-[10px] text-blue-400 block uppercase">
-                        {leader.role}
-                      </span>
-                      <h4 className="font-display text-sm text-main uppercase truncate">
-                        {leader.name}
-                      </h4>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+                  ))}
+                </div>
+              );
+            })()}
 
             <div className="p-4 bg-surface/40 border border-hairline rounded-xs space-y-3">
               <div className="border-t border-hairline pt-1 space-y-2">

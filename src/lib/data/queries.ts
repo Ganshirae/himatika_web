@@ -166,7 +166,7 @@ export async function getFeaturedProkers(): Promise<FeaturedProker[]> {
     return FLAGSHIP_PROKERS;
   }
 
-  return featured.slice(0, 5).map((p, idx) => ({
+  return featured.map((p, idx) => ({
     id: p.id,
     number: String(idx + 1).padStart(2, "0"),
     title: p.title,
@@ -177,6 +177,7 @@ export async function getFeaturedProkers(): Promise<FeaturedProker[]> {
     executionDate: p.executionDate,
     shortDesc: p.shortDesc,
     coverImage: p.coverImage,
+    isWhiteBackground: Boolean(p.isWhiteBackground),
   }));
 }
 
