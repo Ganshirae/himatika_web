@@ -67,11 +67,11 @@ export const ALL_PROKERS: ProkerItem[] = [
       { time: "06.00 - 08.00", activity: "Senam Pagi, Sarapan Sehat, & Outbound Tracking" },
       { time: "09.30 - 11.30", activity: "Inaugurasi Angkatan & Penutupan Resmi" },
     ],
-    coverImage: "/image/tcamp2024.jpg",
+    coverImage: "/image/tcamp2024.webp",
     galleryImages: [
-      "/image/tcamp2024.jpg",
-      "/image/t-camp.jpg",
-      "/image/fotokarya1.jpg",
+      "/image/tcamp2024.webp",
+      "/image/t-camp.webp",
+      "/image/fotokarya1.webp",
     ],
     registrationLink: "https://forms.gle/himatika-tcamp-2026",
     contactPerson: {
@@ -112,11 +112,11 @@ export const ALL_PROKERS: ProkerItem[] = [
       { time: "13.00 - 15.00", activity: "Tech Talk: Menjawab Tantangan AI di Industri Digital" },
       { time: "15.30 - 17.00", activity: "Grand Final E-Sports & Awarding Inovasi Terbaik" },
     ],
-    coverImage: "/image/t-expo.jpg",
+    coverImage: "/image/t-expo.webp",
     galleryImages: [
-      "/image/t-expo.jpg",
-      "/image/texpo2.jpg",
-      "/image/fotokarya2.jpg",
+      "/image/t-expo.webp",
+      "/image/texpo2.webp",
+      "/image/fotokarya2.webp",
     ],
     registrationLink: "https://forms.gle/trilogi-it-expo-2026",
     contactPerson: {
@@ -159,8 +159,8 @@ export const ALL_PROKERS: ProkerItem[] = [
     coverImage: "/image/workshop.webp",
     galleryImages: [
       "/image/workshop.webp",
-      "/image/fotokarya1.jpg",
-      "/image/fotokarya2.jpg",
+      "/image/fotokarya1.webp",
+      "/image/fotokarya2.webp",
     ],
     registrationLink: "https://forms.gle/tech-workshop-himatika",
     contactPerson: {
@@ -202,12 +202,12 @@ export const ALL_PROKERS: ProkerItem[] = [
       { time: "13.00 - 15.00", activity: "Sharing Session: Transformasi Digital DKI Jakarta bersama Tim JSC" },
       { time: "15.00 - 15.30", activity: "Penyerahan Plakat Penghargaan & Foto Bersama" },
     ],
-    coverImage: "/image/Company Visit MNC.jpg",
+    coverImage: "/image/Company Visit MNC.webp",
     galleryImages: [
-      "/image/Company Visit MNC.jpg",
-      "/image/comvis JSC.jpg",
-      "/image/comvis mnc.jpg",
-      "/image/office tour animation.jpg",
+      "/image/Company Visit MNC.webp",
+      "/image/comvis JSC.webp",
+      "/image/comvis mnc.webp",
+      "/image/office tour animation.webp",
     ],
     contactPerson: {
       name: "Dimas Srimuladi (Humas)",
@@ -246,10 +246,10 @@ export const ALL_PROKERS: ProkerItem[] = [
       { time: "10.45 - 12.00", activity: "Sesi 2: Rahasia Menghadapi Technical Coding Interview" },
       { time: "13.00 - 15.00", activity: "1-on-1 Mentorship Corner & Bedah Portofolio bersama Alumni" },
     ],
-    coverImage: "/image/dukungan karir.jpg",
+    coverImage: "/image/dukungan karir.webp",
     galleryImages: [
-      "/image/dukungan karir.jpg",
-      "/image/fotokarya1.jpg",
+      "/image/dukungan karir.webp",
+      "/image/fotokarya1.webp",
     ],
     contactPerson: {
       name: "Dimas Srimuladi (Humas)",
@@ -292,7 +292,7 @@ export const ALL_PROKERS: ProkerItem[] = [
     isWhiteBackground: true,
     galleryImages: [
       "/image/kolaborasi.png",
-      "/image/fotokarya2.jpg",
+      "/image/fotokarya2.webp",
     ],
     registrationLink: "https://forms.gle/kolaborasi-teknologi-2026",
     contactPerson: {
@@ -325,8 +325,8 @@ export const ALL_PROKERS: ProkerItem[] = [
       "Menyediakan forum tanya-jawab ramah bagi mahasiswa yang mengalami kesulitan mata kuliah pemrograman.",
       "Mengasah pemahaman logika dan problem-solving secara bertahap.",
     ],
-    coverImage: "/image/fotokarya1.jpg",
-    galleryImages: ["/image/fotokarya1.jpg", "/image/workshop.webp"],
+    coverImage: "/image/fotokarya1.webp",
+    galleryImages: ["/image/fotokarya1.webp", "/image/workshop.webp"],
     contactPerson: {
       name: "Kurnia (Riset & Keilmuan)",
       role: "Koordinator Study Club",
@@ -356,8 +356,8 @@ export const ALL_PROKERS: ProkerItem[] = [
       "Menjaring bibit atlet esports berbakat untuk mewakili kampus.",
       "Membangun keakraban antar-angkatan melalui kompetisi yang seru dan sportif.",
     ],
-    coverImage: "/image/fotokarya2.jpg",
-    galleryImages: ["/image/fotokarya2.jpg", "/image/t-expo.jpg"],
+    coverImage: "/image/fotokarya2.webp",
+    galleryImages: ["/image/fotokarya2.webp", "/image/t-expo.webp"],
     contactPerson: {
       name: "Adi Rahmansyah (PMB)",
       role: "Koordinator E-Sports",
@@ -387,8 +387,8 @@ export const ALL_PROKERS: ProkerItem[] = [
       "Meningkatkan kapasitas manajerial dan komunikasi tiap koordinator bidang.",
       "Menjaga keharmonisan dan semangat pengurus dalam merealisasikan seluruh program kerja.",
     ],
-    coverImage: "/image/t-camp.jpg",
-    galleryImages: ["/image/t-camp.jpg", "/image/tcamp2024.jpg"],
+    coverImage: "/image/t-camp.webp",
+    galleryImages: ["/image/t-camp.webp", "/image/tcamp2024.webp"],
     contactPerson: {
       name: "Galang Jenar (BPSDM)",
       role: "Koordinator BPSDM",
@@ -402,7 +402,7 @@ export const ALL_PROKERS: ProkerItem[] = [
     title: "RAPAT KERJA TAHUNAN (RAKER) 2026",
     slug: "raker-tahunan-2026",
     divisionCode: "PRESIDIUM",
-    divisionName: "PRESIDIUM UTAMA",
+    divisionName: "PIMPINAN HIMPUNAN",
     status: "completed",
     executionDate: "MEI 2026",
     location: "Auditorium Lantai 2 Universitas Trilogi",
@@ -411,18 +411,18 @@ export const ALL_PROKERS: ProkerItem[] = [
       "Forum perumusan dan penetapan seluruh agenda kerja, garis besar haluan organisasi, dan anggaran belanja kepengurusan satu periode penuh.",
     fullDesc: [
       "Rapat Kerja Tahunan (RAKER) adalah musyawarah resmi pembuka masa kepengurusan HIMATIKA Universitas Trilogi.",
-      "Dalam forum ini, seluruh ketua divisi memaparkan rancangan program kerja, target sasaran peserta, jadwal eksekusi, serta perkiraan anggaran biaya untuk disahkan bersama oleh Presidium Utama dan Badan Pengurus Harian.",
+      "Dalam forum ini, seluruh ketua divisi memaparkan rancangan program kerja, target sasaran peserta, jadwal eksekusi, serta perkiraan anggaran biaya untuk disahkan bersama oleh Pimpinan Himpunan dan Badan Pengurus Harian.",
     ],
     objectives: [
       "Menetapkan kalender program kerja resmi HIMATIKA untuk periode 2026/2027.",
       "Menyelaraskan alur koordinasi antar-divisi agar tidak terjadi tumpang tindih agenda.",
       "Mengesahkan rancangan anggaran belanja organisasi yang transparan dan akuntabel.",
     ],
-    coverImage: "/image/office tour animation.jpg",
-    galleryImages: ["/image/office tour animation.jpg", "/image/fotokarya1.jpg"],
+    coverImage: "/image/office tour animation.webp",
+    galleryImages: ["/image/office tour animation.webp", "/image/fotokarya1.webp"],
     contactPerson: {
       name: "Musyaffa Salman (Kahim)",
-      role: "Presidium Utama",
+      role: "Pimpinan Himpunan",
       contact: "https://wa.me/6281234567894",
     },
     isFeatured: false,
@@ -449,8 +449,8 @@ export const ALL_PROKERS: ProkerItem[] = [
       "Meningkatkan engagement dan jumlah pengikut media sosial resmi HIMATIKA.",
       "Mengasah kreativitas tim Media Kreatif dalam desain grafis, editing video, dan copywriting.",
     ],
-    coverImage: "/image/fotokarya2.jpg",
-    galleryImages: ["/image/fotokarya2.jpg", "/image/fotokarya1.jpg"],
+    coverImage: "/image/fotokarya2.webp",
+    galleryImages: ["/image/fotokarya2.webp", "/image/fotokarya1.webp"],
     contactPerson: {
       name: "Fadly Akbar (Medkraf)",
       role: "Koordinator Medkraf",
@@ -480,7 +480,7 @@ export const ALL_PROKERS: ProkerItem[] = [
       "Melahirkan inovasi software yang layak diajukan sebagai karya paten atau startup rintisan.",
     ],
     coverImage: "/image/workshop.webp",
-    galleryImages: ["/image/workshop.webp", "/image/fotokarya1.jpg"],
+    galleryImages: ["/image/workshop.webp", "/image/fotokarya1.webp"],
     contactPerson: {
       name: "Kurnia (Riset & Keilmuan)",
       role: "Koordinator Riset",

@@ -30,10 +30,10 @@ export const ORG_NODES: OrgNode[] = [
   {
     id: "node-presidium",
     code: "PRESIDIUM",
-    name: "Presidium Utama (Ketua & Wakil Ketua Himpunan)",
+    name: "Pimpinan Himpunan (Ketua & Wakil Ketua Himpunan)",
     shortTitle: "KAHIM & WAKAHIM",
     level: 1,
-    levelName: "PRESIDIUM UTAMA",
+    levelName: "PIMPINAN HIMPUNAN",
     shortDesc:
       "Pimpinan organisasi yang bertanggung jawab atas arah kebijakan, koordinasi seluruh bidang kerja, dan representasi resmi HIMATIKA Universitas Trilogi.",
     tupoksi: [
@@ -42,19 +42,19 @@ export const ORG_NODES: OrgNode[] = [
       "Mewakili HIMATIKA dalam forum internal Universitas Trilogi maupun eksternal antar-perguruan tinggi.",
       "Menjaga ketercapaian visi, misi, dan nilai kekeluargaan organisasi sepanjang periode kepengurusan.",
     ],
-    leaderTitle: "Presidium Utama",
+    leaderTitle: "Pimpinan Himpunan",
     leaderName: "Musyaffa Salman Alfarizi & Yudistira",
-    leaderImage: "/image/fais.png",
+    leaderImage: "/image/fais.webp",
     leaders: [
       {
         name: "Musyaffa Salman Alfarizi",
         role: "Ketua Himpunan",
-        image: "/image/fais.png",
+        image: "/image/fais.webp",
       },
       {
         name: "Yudistira",
         role: "Wakil Ketua Himpunan",
-        image: "/image/yudis.png",
+        image: "/image/yudis.webp",
       },
     ],
     members: [
@@ -101,12 +101,12 @@ export const ORG_NODES: OrgNode[] = [
     ],
     leaderTitle: "Sekretaris I",
     leaderName: "Riska Febriyanti",
-    leaderImage: "/image/riska.png",
+    leaderImage: "/image/riska.webp",
     leaders: [
       {
         name: "Riska Febriyanti",
         role: "Sekretaris I",
-        image: "/image/riska.png",
+        image: "/image/riska.webp",
       },
     ],
     members: [
@@ -144,12 +144,12 @@ export const ORG_NODES: OrgNode[] = [
     ],
     leaderTitle: "Bendahara I",
     leaderName: "Ananda Tri Handayani",
-    leaderImage: "/image/nanda.png",
+    leaderImage: "/image/nanda.webp",
     leaders: [
       {
         name: "Ananda Tri Handayani",
         role: "Bendahara I",
-        image: "/image/nanda.png",
+        image: "/image/nanda.webp",
       },
     ],
     members: [
@@ -187,12 +187,12 @@ export const ORG_NODES: OrgNode[] = [
     ],
     leaderTitle: "Koordinator BPSDM",
     leaderName: "Galang Jenar Mahesadewa",
-    leaderImage: "/image/galang.png",
+    leaderImage: "/image/galang.webp",
     leaders: [
       {
         name: "Galang Jenar Mahesadewa",
         role: "Koordinator BPSDM",
-        image: "/image/galang.png",
+        image: "/image/galang.webp",
       },
     ],
     members: [
@@ -235,12 +235,12 @@ export const ORG_NODES: OrgNode[] = [
     ],
     leaderTitle: "Koordinator Humas",
     leaderName: "Dimas Srimuladi",
-    leaderImage: "/image/dimas.png",
+    leaderImage: "/image/dimas.webp",
     leaders: [
       {
         name: "Dimas Srimuladi",
         role: "Koordinator Humas",
-        image: "/image/dimas.png",
+        image: "/image/dimas.webp",
       },
     ],
     members: [
@@ -283,12 +283,12 @@ export const ORG_NODES: OrgNode[] = [
     ],
     leaderTitle: "Koordinator Riset Keilmuan",
     leaderName: "Kurnia",
-    leaderImage: "/image/naya.png",
+    leaderImage: "/image/naya.webp",
     leaders: [
       {
         name: "Kurnia",
         role: "Koordinator Riset Keilmuan",
-        image: "/image/naya.png",
+        image: "/image/naya.webp",
       },
     ],
     members: [
@@ -335,12 +335,12 @@ export const ORG_NODES: OrgNode[] = [
     ],
     leaderTitle: "Koordinator PM & B",
     leaderName: "Adi Rahmansyah",
-    leaderImage: "/image/adi.png",
+    leaderImage: "/image/adi.webp",
     leaders: [
       {
         name: "Adi Rahmansyah",
         role: "Koordinator PM & B",
-        image: "/image/adi.png",
+        image: "/image/adi.webp",
       },
     ],
     members: [
@@ -383,12 +383,12 @@ export const ORG_NODES: OrgNode[] = [
     ],
     leaderTitle: "Koordinator Logistik",
     leaderName: "Muhamad Syafareno",
-    leaderImage: "/image/reno.png",
+    leaderImage: "/image/reno.webp",
     leaders: [
       {
         name: "Muhamad Syafareno",
         role: "Koordinator Logistik",
-        image: "/image/reno.png",
+        image: "/image/reno.webp",
       },
     ],
     members: [
@@ -431,12 +431,12 @@ export const ORG_NODES: OrgNode[] = [
     ],
     leaderTitle: "Koordinator Media Kreatif",
     leaderName: "Fadly Akbar Alamsyah",
-    leaderImage: "/image/fadly.png",
+    leaderImage: "/image/fadly.webp",
     leaders: [
       {
         name: "Fadly Akbar Alamsyah",
         role: "Koordinator Media Kreatif",
-        image: "/image/fadly.png",
+        image: "/image/fadly.webp",
       },
     ],
     members: [

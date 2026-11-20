@@ -1,8 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Compass, ShieldCheck, Zap, Code2, Users } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
+import { getSiteAbout } from "@/lib/data/queries";
 
 export const metadata: Metadata = {
   title: "TENTANG KAMI | HIMATIKA UNIVERSITAS TRILOGI",
@@ -10,34 +11,9 @@ export const metadata: Metadata = {
     "Profil resmi, visi, misi, dan identitas Himpunan Mahasiswa Teknik Informatika (HIMATIKA) Universitas Trilogi.",
 };
 
-const MISI_ITEMS = [
-  {
-    num: "01",
-    tag: "AKADEMIK & RISET",
-    title: "PENGUASAAN KEILMUAN & RISET",
-    desc: "Mengembangkan keilmuan mahasiswa melalui workshop pemrograman, studi teknologi terkini, riset software, dan persiapan delegasi kompetisi IT.",
-  },
-  {
-    num: "02",
-    tag: "KARAKTER & SOLIDARITAS",
-    title: "KEPEMIMPINAN & KEKELUARGAAN",
-    desc: "Membentuk kepemimpinan yang beretika serta mempererat rasa kekeluargaan dan solidaritas antar-angkatan mahasiswa Teknik Informatika.",
-  },
-  {
-    num: "03",
-    tag: "KEMITRAAN AKTIF",
-    title: "KOLABORASI INDUSTRI & ALUMNI",
-    desc: "Membangun relasi aktif dengan industri teknologi, komunitas open-source, dan ikatan alumni untuk membuka peluang riset, magang, dan karir.",
-  },
-  {
-    num: "04",
-    tag: "TECHNOPRENEURSHIP",
-    title: "INOVASI & KONTRIBUSI NYATA",
-    desc: "Mendorong lahirnya karya teknologi tepat guna, penyelenggaraan Trilogi IT Expo tahunan, serta menumbuhkan jiwa technopreneurship mahasiswa.",
-  },
-];
+export default async function AboutPage() {
+  const about = await getSiteAbout();
 
-export default function AboutPage() {
   return (
     <div className="w-full bg-canvas text-main min-h-screen">
       {/* HERO SECTION: LOGO & IDENTITAS RESMI */}
@@ -59,7 +35,7 @@ export default function AboutPage() {
             <div className="shrink-0">
               <div className="relative w-52 h-52 sm:w-64 sm:h-64 lg:w-72 lg:h-72 xl:w-80 xl:h-80 transition-transform duration-300 hover:scale-105">
                 <Image
-                  src="/image/Logo Himatika.png"
+                  src={about.logoImageUrl}
                   alt="Logo Resmi HIMATIKA Universitas Trilogi"
                   fill
                   sizes="(max-width: 768px) 208px, (max-width: 1024px) 256px, 320px"
@@ -81,11 +57,9 @@ export default function AboutPage() {
               </h1>
 
               <div className="space-y-4 text-base sm:text-lg text-muted font-sans leading-relaxed max-w-2xl">
-                <p>
-                  <strong className="text-white font-medium">Himpunan Mahasiswa Teknik Informatika (HIMATIKA) Universitas Trilogi</strong> adalah organisasi kemahasiswaan resmi yang menjadi wadah pemersatu, inkubasi keilmuan, dan ruang kreasi bagi seluruh mahasiswa Teknik Informatika.
-                </p>
+                <p className="text-neutral-200">{about.introPrimary}</p>
                 <p className="text-sm sm:text-base text-neutral-400">
-                  Berakar pada semangat teknopreneur, kolaborasi, dan kemandirian, HIMATIKA berkomitmen mendampingi mahasiswa dari ranah akademik hingga kesiapan profesional di industri teknologi digital.
+                  {about.introSecondary}
                 </p>
               </div>
             </div>
@@ -104,22 +78,22 @@ export default function AboutPage() {
             </div>
 
             <blockquote className="font-display text-2xl sm:text-3xl lg:text-4xl text-main tracking-tight uppercase leading-snug pt-2">
-              &ldquo;MENJADIKAN HIMATIKA UNIVERSITAS TRILOGI SEBAGAI RUANG TUMBUH BAGI MAHASISWA TEKNIK INFORMATIKA YANG UNGGUL, BERINTEGRITAS, INOVATIF, DAN SIAP BERKONTRIBUSI DI INDUSTRI TEKNOLOGI.&rdquo;
+              &ldquo;{about.visionText}&rdquo;
             </blockquote>
 
             <div className="mt-8 pt-4 border-t border-hairline font-mono text-xs text-muted flex items-center justify-between">
               <span>HIMATIKA UNIVERSITAS TRILOGI</span>
-              <span className="text-blue-400">PERIODE 2026/2027</span>
+              <span className="text-blue-400">{about.periodLabel}</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* SEKSI MISI: 4 PILAR UTAMA */}
+      {/* SEKSI MISI: PILAR UTAMA */}
       <section className="py-20 sm:py-28 max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-14 border-b border-hairline">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="font-display text-3xl sm:text-5xl text-main uppercase tracking-tight">
-            EMPAT MISI UTAMA
+            MISI ORGANISASI
           </h2>
           <p className="mt-2 text-sm sm:text-base text-muted font-sans">
             Komitmen nyata yang kami jalankan dalam menggerakkan seluruh program kerja dan pembinaan mahasiswa.
@@ -127,7 +101,7 @@ export default function AboutPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-          {MISI_ITEMS.map((item) => (
+          {about.missions.map((item) => (
             <div
               key={item.num}
               className="p-6 sm:p-8 bg-surface/40 hover:bg-surface/70 border border-hairline hover:border-blue-500/50 transition-all duration-300 rounded-xs flex flex-col justify-between group"

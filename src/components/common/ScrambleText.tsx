@@ -36,7 +36,7 @@ const ScrambleText = forwardRef<ScrambleTextHandle, ScrambleTextProps>(
   ) => {
     const [displayText, setDisplayText] = useState(text);
     const isScramblingRef = useRef(false);
-    const frameRef = useRef<number | null>(null);
+    const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
     useEffect(() => {
       setDisplayText(text);
@@ -46,12 +46,16 @@ const ScrambleText = forwardRef<ScrambleTextHandle, ScrambleTextProps>(
       if (isScramblingRef.current) return;
       isScramblingRef.current = true;
 
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+
       const originalText = text;
       const length = originalText.length;
       let iteration = 0;
       const totalSteps = length * 3; // total iterations for smooth resolve
 
-      const intervalId = setInterval(() => {
+      intervalRef.current = setInterval(() => {
         setDisplayText(() => {
           return originalText
             .split("")
@@ -68,13 +72,14 @@ const ScrambleText = forwardRef<ScrambleTextHandle, ScrambleTextProps>(
         iteration += 1;
 
         if (iteration >= totalSteps) {
-          clearInterval(intervalId);
+          if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+            intervalRef.current = null;
+          }
           setDisplayText(originalText);
           isScramblingRef.current = false;
         }
       }, scrambleSpeed);
-
-      return () => clearInterval(intervalId);
     }, [text, characters, scrambleSpeed]);
 
     useImperativeHandle(ref, () => ({
@@ -83,8 +88,9 @@ const ScrambleText = forwardRef<ScrambleTextHandle, ScrambleTextProps>(
 
     useEffect(() => {
       return () => {
-        if (frameRef.current) {
-          cancelAnimationFrame(frameRef.current);
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
         }
       };
     }, []);

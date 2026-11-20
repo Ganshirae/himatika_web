@@ -5,19 +5,16 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { canManageProker, getCurrentPengurus } from "@/lib/auth/session";
 import { normalizeWhatsappUrl } from "@/lib/utils";
+import {
+  removeUnusedPublicAssets,
+  uploadPublicAsset,
+} from "@/lib/supabase/storage";
 import type { ActionResult } from "@/types/finance.types";
 import type {
   ProkerContactJson,
   ProkerRundownJson,
   ProkerStatus,
 } from "@/types/database.types";
-
-const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
-const ALLOWED_IMAGE_TYPES = new Set([
-  "image/jpeg",
-  "image/png",
-  "image/webp",
-]);
 
 const prokerSchema = z.object({
   id: z.string().uuid().optional().or(z.literal("")),
@@ -53,51 +50,9 @@ const prokerSchema = z.object({
   is_white_background: z.boolean(),
 });
 
-const PUBLIC_ASSETS_MARKER = "/storage/v1/object/public/public-assets/";
-
-function extractPublicAssetPath(
-  publicUrl: string | null | undefined
-): string | null {
-  if (!publicUrl) return null;
-  const markerIdx = publicUrl.indexOf(PUBLIC_ASSETS_MARKER);
-  if (markerIdx === -1) return null;
-  const rawPath = publicUrl
-    .slice(markerIdx + PUBLIC_ASSETS_MARKER.length)
-    .split("?")[0];
-  try {
-    const decoded = decodeURIComponent(rawPath);
-    return decoded.length > 0 ? decoded : null;
-  } catch {
-    return rawPath.length > 0 ? rawPath : null;
-  }
-}
-
-async function removeUnusedPublicAssets(
-  supabase: Awaited<ReturnType<typeof createClient>>,
-  previousUrls: (string | null | undefined)[],
-  activeUrls: (string | null | undefined)[]
-) {
-  const stillInUse = new Set(
-    activeUrls.filter((u): u is string => Boolean(u))
-  );
-  const pathsToDelete = Array.from(
-    new Set(
-      previousUrls
-        .filter((url): url is string => typeof url === "string" && url.length > 0)
-        .filter((url) => !stillInUse.has(url))
-        .map(extractPublicAssetPath)
-        .filter((path): path is string => Boolean(path))
-    )
-  );
-
-  if (pathsToDelete.length > 0) {
-    await supabase.storage.from("public-assets").remove(pathsToDelete);
-  }
-}
-
 const DIVISION_NAME_MAP: Record<string, string> = {
   KOLABORASI: "KOLABORASI SEMUA DIVISI",
-  PRESIDIUM: "PRESIDIUM UTAMA",
+  PRESIDIUM: "PIMPINAN HIMPUNAN",
   BPH_SEK: "SEKRETARIS",
   BPH_BEN: "BENDAHARA",
   BPSDM: "BADAN PENGEMBANGAN SDM",
@@ -107,40 +62,6 @@ const DIVISION_NAME_MAP: Record<string, string> = {
   SARLOG: "SARANA DAN LOGISTIK",
   MEDKRAF: "MEDIA KREATIF",
 };
-
-async function uploadProkerAsset(
-  supabase: Awaited<ReturnType<typeof createClient>>,
-  file: File,
-  pathPrefix: string
-): Promise<{ url?: string; path?: string; error?: string }> {
-  if (file.size > MAX_IMAGE_BYTES) {
-    return { error: "Ukuran setiap gambar maksimal 5 MB." };
-  }
-  if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
-    return { error: "Gambar harus berformat JPG, PNG, atau WebP." };
-  }
-
-  const ext = file.name.split(".").pop()?.toLowerCase() || "webp";
-  const uniqueSuffix = `${Date.now()}-${crypto.randomUUID().slice(0, 6)}`;
-  const filePath = `prokers/${pathPrefix}-${uniqueSuffix}.${ext}`;
-
-  const { error: uploadError } = await supabase.storage
-    .from("public-assets")
-    .upload(filePath, file, {
-      contentType: file.type,
-      upsert: true,
-    });
-
-  if (uploadError) {
-    return { error: `Gagal mengunggah gambar: ${uploadError.message}` };
-  }
-
-  const { data: urlData } = supabase.storage
-    .from("public-assets")
-    .getPublicUrl(filePath);
-
-  return { url: urlData.publicUrl, path: filePath };
-}
 
 function parseRundownLines(text: string): ProkerRundownJson[] {
   return text
@@ -227,7 +148,12 @@ export async function upsertWorkProgram(formData: FormData): Promise<ActionResul
 
   const coverFile = formData.get("cover_file");
   if (coverFile instanceof File && coverFile.size > 0) {
-    const uploadRes = await uploadProkerAsset(supabase, coverFile, parsed.data.slug);
+    const uploadRes = await uploadPublicAsset(
+      supabase,
+      coverFile,
+      "prokers",
+      parsed.data.slug
+    );
     if (uploadRes.error || !uploadRes.url) {
       return { success: false, message: uploadRes.error ?? "Gagal mengunggah poster." };
     }
@@ -252,9 +178,10 @@ export async function upsertWorkProgram(formData: FormData): Promise<ActionResul
   const rawGalleryFiles = formData.getAll("gallery_files");
   for (const entry of rawGalleryFiles) {
     if (entry instanceof File && entry.size > 0) {
-      const uploadRes = await uploadProkerAsset(
+      const uploadRes = await uploadPublicAsset(
         supabase,
         entry,
+        "prokers",
         `${parsed.data.slug}-gal`
       );
       if (uploadRes.error) {

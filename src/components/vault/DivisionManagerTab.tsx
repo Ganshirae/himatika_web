@@ -314,7 +314,7 @@ export function DivisionManagerTab({ divisions }: DivisionManagerTabProps) {
                     <input
                       name="leader_title"
                       required
-                      defaultValue={editing.leader_title ?? "Presidium Utama"}
+                      defaultValue={editing.leader_title ?? "Pimpinan Himpunan"}
                       className="w-full bg-canvas border border-hairline px-3 py-2 font-sans text-xs text-main outline-none"
                     />
                   </div>

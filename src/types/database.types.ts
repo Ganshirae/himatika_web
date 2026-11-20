@@ -135,3 +135,21 @@ export interface ContactMessageRow {
   status: ContactMessageStatus;
   created_at: string;
 }
+
+export interface AboutMissionJson {
+  num: string;
+  tag: string;
+  title: string;
+  desc: string;
+}
+
+export interface SiteAboutRow {
+  id: string;
+  intro_primary: string;
+  intro_secondary: string;
+  vision_text: string;
+  period_label: string;
+  logo_image_url: string;
+  missions: AboutMissionJson[];
+  updated_at: string;
+}

@@ -237,19 +237,19 @@
 
 ---
 
-### FASE 7: Optimasi Kinerja, Audit Mobile, & UI/UX Polish
+### FASE 7: Optimasi Kinerja, Audit Mobile, & UI/UX Polish [SEBAGIAN BESAR SELESAI — SIAP LIGHTHOUSE]
 > *Tujuan: Memastikan standar "Jos Los Gandos" dan performa tanpa cela.*
 
-- [ ] **Task 7.1: Audit Responsivitas Layar Ponsel**
-  - [ ] Uji tampilan di resolusi 360px, 390px, 414px (iPhone & Android).
-  - [ ] Pastikan tidak ada *horizontal scroll overflow* liar di body.
-  - [ ] Pastikan video looping tidak macet di iOS Safari (`playsinline muted`).
+- [x] **Task 7.1: Audit Responsivitas Layar Ponsel**
+  - [x] Uji tampilan di resolusi 360px, 390px, 414px via headless Edge Chromium (`scrollWidth === innerWidth` pada 9 rute utama).
+  - [x] Pastikan tidak ada *horizontal scroll overflow* liar di body (`overflow-x: clip` di `globals.css` menjaga filter bar `sticky` tetap aktif).
+  - [x] Pastikan video looping tidak macet di iOS Safari (`playsinline muted`). *(N/A — Hero saat ini memakai slideshow foto full-color tanpa `<video>`)*
 - [ ] **Task 7.2: Optimasi Performa & Web Vitals**
-  - [ ] Kompresi semua aset gambar lokal ke format WebP.
-  - [ ] Audit Google Lighthouse: Target skor > 90 pada Performance, Accessibility, Best Practices, dan SEO.
-- [ ] **Task 7.3: Micro-Interactions & Polishing**
-  - [ ] Kalibrasi timing animasi GSAP (maksimal durasi transisi 0.8s agar terasa responsif).
-  - [ ] Pastikan transisi antar halaman terasa instan dan bebas lag.
+  - [x] Kompresi aset gambar lokal ke format WebP (`public/image/` menyusut `11.884 KB` -> `2.679 KB` via `sharp`, mempertahankan `logohima.png` & `kolaborasi.png`, sinkronisasi DB Supabase, & lazy-load `HeroSection.tsx`).
+  - [ ] Audit Google Lighthouse: Target skor > 90 pada Performance, Accessibility, Best Practices, dan SEO. *(Fondasi SEO `sitemap.ts`, `robots.ts`, `metadataBase`/OG, `<h1>` `/contact`, `aria-label`, `src/proxy.ts`, & 0 error/warning ESLint sudah tuntas; audit skor Lighthouse formal menyusul via DevTools/Vercel Preview)*
+- [x] **Task 7.3: Micro-Interactions & Polishing**
+  - [x] Kalibrasi timing animasi GSAP (durasi `<= 0.7s` + dukungan `prefers-reduced-motion` pada GSAP, CSS animations, `SmoothScroller`, & cleanup `ScrambleText`).
+  - [x] Pastikan transisi antar halaman terasa instan dan bebas lag.
 
 ---
 

@@ -15,7 +15,6 @@ import {
   MessageCircle,
   Clock,
   Sparkles,
-  Share2,
 } from "lucide-react";
 import { getPublicProkers } from "@/lib/data/queries";
 import { ProkerGallery } from "@/components/proker/ProkerGallery";

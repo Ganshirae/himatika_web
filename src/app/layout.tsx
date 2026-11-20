@@ -25,13 +25,49 @@ const poppins = Poppins({
   display: "swap",
 });
 
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://himatika-trilogi.vercel.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "HIMATIKA UNIVERSITAS TRILOGI — Official Portal",
     template: "%s | HIMATIKA TRILOGI",
   },
   description:
     "Portal resmi Himpunan Mahasiswa Teknik Informatika Universitas Trilogi. Pusat informasi program kerja, arsitektur struktur organisasi, dan transparansi keuangan kas internal.",
+  keywords: [
+    "HIMATIKA",
+    "Universitas Trilogi",
+    "Teknik Informatika",
+    "Ormawa Informatika",
+    "Program Kerja HIMATIKA",
+    "Transparansi Kas",
+  ],
+  openGraph: {
+    type: "website",
+    locale: "id_ID",
+    url: SITE_URL,
+    siteName: "HIMATIKA Universitas Trilogi",
+    title: "HIMATIKA UNIVERSITAS TRILOGI — Official Portal",
+    description:
+      "Portal resmi Himpunan Mahasiswa Teknik Informatika Universitas Trilogi. Program kerja, struktur kepengurusan, dan transparansi kas.",
+    images: [
+      {
+        url: "/image/tcamp2024.webp",
+        width: 1200,
+        height: 630,
+        alt: "HIMATIKA Universitas Trilogi",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "HIMATIKA UNIVERSITAS TRILOGI — Official Portal",
+    description:
+      "Portal resmi Himpunan Mahasiswa Teknik Informatika Universitas Trilogi.",
+    images: ["/image/tcamp2024.webp"],
+  },
   icons: {
     icon: "/image/logohima.png",
   },

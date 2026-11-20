@@ -6,6 +6,7 @@ import {
   Wallet,
   CalendarDays,
   GitBranch,
+  BookOpen,
   Inbox,
   LogOut,
   ArrowUpRight,
@@ -15,7 +16,9 @@ import { logoutUser } from "@/actions/auth.actions";
 import { FinanceVaultTab } from "./FinanceVaultTab";
 import { ProkerManagerTab } from "./ProkerManagerTab";
 import { DivisionManagerTab } from "./DivisionManagerTab";
+import { AboutManagerTab } from "./AboutManagerTab";
 import { InboxTab } from "./InboxTab";
+import type { SiteAboutContent } from "@/lib/data/about";
 import type {
   AppRole,
   ContactMessageRow,
@@ -36,9 +39,10 @@ interface VaultShellClientProps {
   prokers: WorkProgramRow[];
   divisions: DivisionRow[];
   messages: ContactMessageRow[];
+  about: SiteAboutContent;
 }
 
-type VaultTab = "finance" | "proker" | "divisions" | "inbox";
+type VaultTab = "finance" | "proker" | "divisions" | "about" | "inbox";
 
 const ROLE_LABEL: Record<AppRole, string> = {
   admin: "ADMIN BPH (AKSES PENUH)",
@@ -55,6 +59,7 @@ export function VaultShellClient({
   prokers,
   divisions,
   messages,
+  about,
 }: VaultShellClientProps) {
   const canEditFinance = profile.role === "bendahara" || profile.role === "admin";
   const canEditProker = profile.role === "medkraf" || profile.role === "admin";
@@ -134,18 +139,33 @@ export function VaultShellClient({
           )}
 
           {canEditOrg && (
-            <button
-              type="button"
-              onClick={() => setActiveTab("divisions")}
-              className={`inline-flex items-center gap-2 px-4 py-2.5 border transition-colors cursor-pointer ${
-                activeTab === "divisions"
-                  ? "border-blue-500 bg-blue-600 text-white"
-                  : "border-hairline bg-surface text-secondary hover:text-main"
-              }`}
-            >
-              <GitBranch className="w-4 h-4" />
-              <span>KELOLA STRUKTUR</span>
-            </button>
+            <>
+              <button
+                type="button"
+                onClick={() => setActiveTab("divisions")}
+                className={`inline-flex items-center gap-2 px-4 py-2.5 border transition-colors cursor-pointer ${
+                  activeTab === "divisions"
+                    ? "border-blue-500 bg-blue-600 text-white"
+                    : "border-hairline bg-surface text-secondary hover:text-main"
+                }`}
+              >
+                <GitBranch className="w-4 h-4" />
+                <span>KELOLA STRUKTUR</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActiveTab("about")}
+                className={`inline-flex items-center gap-2 px-4 py-2.5 border transition-colors cursor-pointer ${
+                  activeTab === "about"
+                    ? "border-blue-500 bg-blue-600 text-white"
+                    : "border-hairline bg-surface text-secondary hover:text-main"
+                }`}
+              >
+                <BookOpen className="w-4 h-4" />
+                <span>KELOLA TENTANG</span>
+              </button>
+            </>
           )}
 
           <button
@@ -189,6 +209,10 @@ export function VaultShellClient({
 
         {activeTab === "divisions" && canEditOrg && (
           <DivisionManagerTab divisions={divisions} />
+        )}
+
+        {activeTab === "about" && canEditOrg && (
+          <AboutManagerTab about={about} />
         )}
 
         {activeTab === "inbox" && (

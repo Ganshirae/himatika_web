@@ -3,7 +3,7 @@ import Link from "next/link";
 import OrgBlueprint from "@/components/diagram/OrgBlueprint";
 import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
-import { getPublicOrgNodes } from "@/lib/data/queries";
+import { getPublicOrgNodes, getSiteAbout } from "@/lib/data/queries";
 
 export const metadata: Metadata = {
   title: "STRUKTUR PENGURUS | HIMATIKA UNIVERSITAS TRILOGI",
@@ -12,7 +12,10 @@ export const metadata: Metadata = {
 };
 
 export default async function StrukturPage() {
-  const nodes = await getPublicOrgNodes();
+  const [nodes, about] = await Promise.all([
+    getPublicOrgNodes(),
+    getSiteAbout(),
+  ]);
 
   return (
     <div className="w-full bg-canvas text-main min-h-screen">
@@ -31,7 +34,7 @@ export default async function StrukturPage() {
         <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-14 relative z-10">
           <div className="flex items-center gap-2.5 font-mono text-xs text-blue-500 mb-4 tracking-wider uppercase font-medium">
             <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
-            <span>PERIODE AKTIF 2026/2027</span>
+            <span>{about.periodLabel}</span>
           </div>
 
           <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl tracking-tight text-main uppercase leading-none max-w-5xl">

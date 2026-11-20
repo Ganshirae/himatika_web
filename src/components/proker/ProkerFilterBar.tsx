@@ -1,8 +1,7 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Search, X, Filter } from "lucide-react";
-import { DIVISION_FILTER_OPTIONS, ProkerStatus } from "@/lib/data/proker";
+import { DIVISION_FILTER_OPTIONS } from "@/lib/data/proker";
 
 interface ProkerFilterBarProps {
   totalCount: number;
@@ -78,7 +77,8 @@ export function ProkerFilterBar({
                 <button
                   type="button"
                   onClick={() => onSearchChange("")}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white"
+                  aria-label="Hapus pencarian"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white cursor-pointer"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>

@@ -43,6 +43,10 @@ export default function SmoothScroller({ children }: { children: React.ReactNode
   const pathname = usePathname();
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
     // Only initialize smooth scroll on client side
     const lenis = new Lenis({
       duration: 1.2,
@@ -94,7 +98,16 @@ export default function SmoothScroller({ children }: { children: React.ReactNode
   };
 
   const scrollTo = (target: string | number | HTMLElement, options?: Record<string, unknown>) => {
-    lenisRef.current?.scrollTo(target, options);
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(target, options);
+      return;
+    }
+    if (typeof target === "number") {
+      window.scrollTo({ top: target, behavior: "auto" });
+      return;
+    }
+    const element = typeof target === "string" ? document.querySelector(target) : target;
+    element?.scrollIntoView({ behavior: "auto" });
   };
 
   return (

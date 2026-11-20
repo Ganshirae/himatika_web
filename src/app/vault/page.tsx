@@ -6,6 +6,7 @@ import { connection } from "next/server";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentPengurus } from "@/lib/auth/session";
+import { mapSiteAboutRow } from "@/lib/data/about";
 import { VaultShellClient } from "@/components/vault/VaultShellClient";
 import type {
   ContactMessageRow,
@@ -13,6 +14,7 @@ import type {
   FinanceCategoryRow,
   FinanceRecordRow,
   FinancialSummary,
+  SiteAboutRow,
   WorkProgramRow,
 } from "@/types/database.types";
 import type { VaultTransactionItem } from "@/types/finance.types";
@@ -44,6 +46,7 @@ async function VaultContent() {
     prokersRes,
     divisionsRes,
     messagesRes,
+    aboutRes,
   ] = await Promise.all([
     supabase.rpc("get_financial_summary"),
     supabase
@@ -70,6 +73,7 @@ async function VaultContent() {
       .from("contact_messages")
       .select("id, name, email, subject, message, status, created_at")
       .order("created_at", { ascending: false }),
+    supabase.from("site_about").select("*").eq("id", "default").maybeSingle(),
   ]);
 
   const rawSummary = Array.isArray(summaryRes.data)
@@ -108,6 +112,7 @@ async function VaultContent() {
       prokers={(prokersRes.data ?? []) as WorkProgramRow[]}
       divisions={(divisionsRes.data ?? []) as DivisionRow[]}
       messages={(messagesRes.data ?? []) as ContactMessageRow[]}
+      about={mapSiteAboutRow((aboutRes.data ?? null) as SiteAboutRow | null)}
     />
   );
 }

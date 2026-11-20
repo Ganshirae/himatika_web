@@ -10,17 +10,17 @@ import { useLenisScroll } from "@/components/common/SmoothScroller";
 // Authentic HIMATIKA Activity Photos (Full Color Slideshow)
 const HERO_SLIDES = [
   {
-    image: "/image/tcamp2024.jpg",
+    image: "/image/tcamp2024.webp",
     title: "T-CAMP SOLIDARITAS",
     category: "BPSDM",
   },
   {
-    image: "/image/Company Visit MNC.jpg",
+    image: "/image/Company Visit MNC.webp",
     title: "COMPANY VISIT MNC",
     category: "HUMAS",
   },
   {
-    image: "/image/t-expo.jpg",
+    image: "/image/t-expo.webp",
     title: "TRILOGI IT EXPO",
     category: "PMB",
   },
@@ -40,11 +40,25 @@ export default function HeroSection() {
   const bottomHudRef = useRef<HTMLDivElement>(null);
   const { scrollTo } = useLenisScroll();
 
-  // Full-color Background Slideshow State
-  const [activeSlide, setActiveSlide] = useState(0);
+  // Full-color Background Slideshow State (render only active + outgoing slide for fast LCP)
+  const [{ activeSlide, prevSlide }, setSlideState] = useState<{
+    activeSlide: number;
+    prevSlide: number | null;
+  }>({ activeSlide: 0, prevSlide: null });
+
+  const goToSlide = useCallback((nextIdx: number) => {
+    setSlideState((prev) =>
+      prev.activeSlide === nextIdx
+        ? prev
+        : { activeSlide: nextIdx, prevSlide: prev.activeSlide }
+    );
+  }, []);
 
   const nextSlide = useCallback(() => {
-    setActiveSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+    setSlideState((prev) => ({
+      activeSlide: (prev.activeSlide + 1) % HERO_SLIDES.length,
+      prevSlide: prev.activeSlide,
+    }));
   }, []);
 
   // Auto-advance slides every 5.5 seconds
@@ -55,32 +69,36 @@ export default function HeroSection() {
     return () => clearInterval(timer);
   }, [nextSlide]);
 
-  // Entrance Reveal Animation
+  // Entrance Reveal Animation (calibrated <= 0.8s and reduced-motion aware)
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
       tl.fromTo(
         [title1Ref.current, title2Ref.current, title3Ref.current],
-        { y: 50, opacity: 0 },
+        { y: 36, opacity: 0 },
         {
           y: 0,
           opacity: 1,
-          duration: 1.1,
-          stagger: 0.1,
-          delay: 0.1,
+          duration: 0.7,
+          stagger: 0.08,
+          delay: 0.05,
         }
       )
         .fromTo(
           subtextRef.current,
-          { y: 20, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.8 },
-          "-=0.5"
+          { y: 16, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.55 },
+          "-=0.4"
         )
         .fromTo(
           bottomHudRef.current,
           { opacity: 0 },
-          { opacity: 1, duration: 0.7 },
+          { opacity: 1, duration: 0.5 },
           "-=0.3"
         );
     }, containerRef);
@@ -89,7 +107,7 @@ export default function HeroSection() {
   }, []);
 
   const handleScrollDown = () => {
-    scrollTo("#showcase-section", { duration: 1.2 });
+    scrollTo("#showcase-section", { duration: 0.8 });
   };
 
   return (
@@ -101,11 +119,14 @@ export default function HeroSection() {
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         {HERO_SLIDES.map((slide, idx) => {
           const isActive = idx === activeSlide;
+          const isPrevious = idx === prevSlide;
+          if (!isActive && !isPrevious) return null;
+
           return (
             <div
               key={slide.image}
-              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                isActive ? "opacity-100" : "opacity-0"
+              className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                isActive ? "opacity-100 z-[1]" : "opacity-0 z-0"
               }`}
             >
               <Image
@@ -114,6 +135,7 @@ export default function HeroSection() {
                 fill
                 sizes="100vw"
                 priority={idx === 0}
+                fetchPriority={idx === 0 ? "high" : "auto"}
                 className={`object-cover object-center brightness-[0.38] contrast-[1.05] saturate-[1.1] transition-transform duration-[6500ms] ease-out ${
                   isActive ? "scale-105" : "scale-100"
                 }`}
@@ -142,23 +164,23 @@ export default function HeroSection() {
 
       {/* 2. Top Minimalist HUD */}
       <div className="relative z-10 w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-14 pt-8 flex items-center justify-between font-mono text-[11px]">
-        <div className="flex items-center gap-2 text-secondary">
-          <span className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
-          <span className="tracking-widest uppercase text-muted">
+        <div className="flex items-center gap-2 text-zinc-200 drop-shadow-[0_1px_8px_rgba(0,0,0,0.85)]">
+          <span className="w-1.5 h-1.5 bg-blue-500 rounded-full shrink-0" />
+          <span className="tracking-widest uppercase font-medium">
             HIMATIKA UNIVERSITAS TRILOGI
           </span>
         </div>
 
         {/* Slideshow Indicator Dots */}
         <div className="flex items-center gap-2 pointer-events-auto">
-          <span className="font-mono text-[10px] text-muted tracking-wider hidden sm:inline">
+          <span className="font-mono text-[10px] text-zinc-300 tracking-wider hidden sm:inline drop-shadow-[0_1px_8px_rgba(0,0,0,0.85)]">
             {HERO_SLIDES[activeSlide].title}
           </span>
           <div className="flex items-center gap-1.5 ml-2">
             {HERO_SLIDES.map((_, i) => (
               <button
                 key={i}
-                onClick={() => setActiveSlide(i)}
+                onClick={() => goToSlide(i)}
                 aria-label={`Slide ${i + 1}`}
                 className={`h-1 transition-all ${
                   i === activeSlide
@@ -240,7 +262,7 @@ export default function HeroSection() {
           </span>
         </button>
 
-        <span className="text-[11px] text-muted tracking-wider">
+        <span className="text-[11px] text-zinc-300/90 tracking-wider drop-shadow-[0_1px_8px_rgba(0,0,0,0.85)]">
           JAKARTA SELATAN
         </span>
       </div>

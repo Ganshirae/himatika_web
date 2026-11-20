@@ -24,7 +24,7 @@ export const FLAGSHIP_PROKERS: FeaturedProker[] = [
     executionDate: "NOVEMBER 2026",
     shortDesc:
       "Program pembinaan karakter dan kepemimpinan mahasiswa Teknik Informatika untuk mempererat solidaritas, etika berorganisasi, dan kebersamaan angkatan.",
-    coverImage: "/image/tcamp2024.jpg",
+    coverImage: "/image/tcamp2024.webp",
   },
   {
     id: "proker-02",
@@ -37,7 +37,7 @@ export const FLAGSHIP_PROKERS: FeaturedProker[] = [
     executionDate: "DESEMBER 2026",
     shortDesc:
       "Pameran inovasi teknologi tahunan, kompetisi karya software mahasiswa, turnamen esports kampus, dan showcase produk akhir berbasis teknologi tepat guna.",
-    coverImage: "/image/t-expo.jpg",
+    coverImage: "/image/t-expo.webp",
   },
   {
     id: "proker-03",
@@ -63,7 +63,7 @@ export const FLAGSHIP_PROKERS: FeaturedProker[] = [
     executionDate: "SEPTEMBER 2026",
     shortDesc:
       "Kunjungan industri ke perusahaan teknologi nasional (seperti MNC Group dan Jakarta Smart City) untuk memperluas wawasan karir dan dunia kerja profesional.",
-    coverImage: "/image/Company Visit MNC.jpg",
+    coverImage: "/image/Company Visit MNC.webp",
   },
   {
     id: "proker-05",

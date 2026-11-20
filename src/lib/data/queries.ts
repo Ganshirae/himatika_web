@@ -3,11 +3,17 @@ import { createPublicClient } from "@/lib/supabase/public";
 import { ALL_PROKERS, type ProkerItem } from "@/lib/data/proker";
 import { FLAGSHIP_PROKERS, type FeaturedProker } from "@/lib/data/flagship-proker";
 import { ORG_NODES, type OrgNode } from "@/lib/data/organization";
+import {
+  DEFAULT_SITE_ABOUT,
+  mapSiteAboutRow,
+  type SiteAboutContent,
+} from "@/lib/data/about";
 import type {
   DivisionRow,
   FinanceCategoryRow,
   FinancialSummary,
   PublicFinanceRecordRow,
+  SiteAboutRow,
   WorkProgramRow,
 } from "@/types/database.types";
 import type { PublicTransactionItem } from "@/types/finance.types";
@@ -225,5 +231,31 @@ export async function getPublicOrgNodes(): Promise<OrgNode[]> {
     return (data as DivisionRow[]).map((row) => mapRowToOrgNode(row, liveProkers));
   } catch {
     return ORG_NODES;
+  }
+}
+
+/**
+ * Fetch editable /about profile, vision, missions, and active period with static fallback.
+ */
+export async function getSiteAbout(): Promise<SiteAboutContent> {
+  "use cache";
+  cacheLife("minutes");
+  cacheTag("about");
+
+  try {
+    const supabase = createPublicClient();
+    const { data, error } = await supabase
+      .from("site_about")
+      .select("*")
+      .eq("id", "default")
+      .maybeSingle();
+
+    if (error || !data) {
+      return DEFAULT_SITE_ABOUT;
+    }
+
+    return mapSiteAboutRow(data as SiteAboutRow);
+  } catch {
+    return DEFAULT_SITE_ABOUT;
   }
 }

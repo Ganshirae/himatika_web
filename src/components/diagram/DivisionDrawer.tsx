@@ -85,7 +85,9 @@ export default function DivisionDrawer({
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <span className="font-mono text-xs tracking-wider uppercase px-2.5 py-0.5 bg-blue-600/10 text-blue-400 border border-blue-600/30 rounded-xs">
-                {selectedNode.levelName}
+                {selectedNode.levelName === "PRESIDIUM UTAMA"
+                  ? "PIMPINAN HIMPUNAN"
+                  : selectedNode.levelName}
               </span>
               <span className="font-mono text-xs text-muted/60">
                 HIMATIKA TRILOGI
@@ -96,7 +98,10 @@ export default function DivisionDrawer({
               id="drawer-title"
               className="font-display text-2xl sm:text-3xl text-main tracking-tight uppercase leading-none"
             >
-              {selectedNode.name}
+              {selectedNode.name.replace(
+                "Presidium Utama",
+                "Pimpinan Himpunan"
+              )}
             </h2>
 
             <p className="text-sm text-muted leading-relaxed font-sans pt-1">

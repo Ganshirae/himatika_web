@@ -13,7 +13,14 @@ import {
 } from "lucide-react";
 import { submitContactMessage } from "@/actions/contact.actions";
 
-export default function ContactSection() {
+interface ContactSectionProps {
+  headingLevel?: "h1" | "h2";
+}
+
+export default function ContactSection({
+  headingLevel = "h2",
+}: ContactSectionProps) {
+  const HeadingTag = headingLevel;
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -81,9 +88,9 @@ export default function ContactSection() {
             <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
             <span>ADA PERTANYAAN?</span>
           </div>
-          <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-main uppercase tracking-tight leading-none">
+          <HeadingTag className="font-display text-4xl sm:text-5xl lg:text-6xl text-main uppercase tracking-tight leading-none">
             HUBUNGI <span className="text-blue-600">KAMI</span>
-          </h2>
+          </HeadingTag>
           <p className="mt-3 text-sm sm:text-base text-muted max-w-2xl font-sans leading-relaxed">
             Punya pertanyaan seputar HIMATIKA, mau ngajak kolaborasi acara, sponsorship, atau sekadar kenalan? Jangan ragu buat hubungi kami lewat kontak di bawah atau langsung kirim pesan ya!
           </p>

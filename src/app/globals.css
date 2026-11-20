@@ -47,7 +47,7 @@
 html, body {
   background-color: var(--bg-canvas);
   color: var(--text-main);
-  overflow-x: hidden;
+  overflow-x: clip;
   min-height: 100vh;
 }
 
@@ -188,7 +188,12 @@ html.lenis, html.lenis body {
   .animate-photo-flip-glitch,
   .animate-portrait-zoom,
   .animate-portrait-caption,
-  .scanline-sweep {
+  .scanline-sweep,
+  .animate-freq-1,
+  .animate-freq-2,
+  .animate-freq-3,
+  .animate-freq-4,
+  .animate-freq-5 {
     animation: none;
   }
 }
