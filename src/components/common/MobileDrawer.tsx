@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { User, ArrowUpRight, X } from "lucide-react";
 import { useLenisScroll } from "./SmoothScroller";
 import ScrambleText from "./ScrambleText";
+import { SOCIAL_LINKS } from "@/lib/data/social";
 
 interface MobileDrawerProps {
   isOpen: boolean;
@@ -142,31 +143,24 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
           <span>JKT, ID</span>
         </div>
 
-        <div className="flex items-center justify-between pt-1 font-mono text-xs text-secondary">
-          <a
-            href="https://instagram.com/himatikator"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-blue-400 transition-colors"
-          >
-            [INSTAGRAM]
-          </a>
-          <a
-            href="https://github.com/himatikator"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-blue-400 transition-colors"
-          >
-            [GITHUB]
-          </a>
-          <a
-            href="https://linkedin.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-blue-400 transition-colors"
-          >
-            [LINKEDIN]
-          </a>
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-1 font-mono text-[11px] text-secondary">
+          {SOCIAL_LINKS.map((soc) => {
+            const isExternal = soc.href !== "#";
+            return (
+              <a
+                key={soc.label}
+                href={soc.href}
+                target={isExternal ? "_blank" : undefined}
+                rel={isExternal ? "noopener noreferrer" : undefined}
+                onClick={(e) => {
+                  if (!isExternal) e.preventDefault();
+                }}
+                className="hover:text-blue-400 transition-colors"
+              >
+                [{soc.label} • {soc.handle.toUpperCase()}]
+              </a>
+            );
+          })}
         </div>
       </div>
     </div>

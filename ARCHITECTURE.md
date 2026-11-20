@@ -72,66 +72,64 @@ Menggunakan pola **Feature-Driven / Layered Architecture** di dalam Next.js App 
 ```text
 himatika_web/
 ├── archive/                          # Backup kode legacy (index.html, style.css)
-├── public/                           # Static assets publik
-│   ├── image/                        # Logo resmi & foto kegiatan lama
-│   └── videos/                       # Video loop WebM hero section
+├── public/image/                     # 22 foto/potret WebP (~2.68 MB) + logohima.png + kolaborasi.png
 ├── src/
-│   ├── app/                          # Next.js App Router
-│   │   ├── (public)/                 # Route Group Publik (Tanpa Autentikasi)
-│   │   │   ├── page.tsx              # Beranda (Hero sinematik, featured 5-proker slider)
-│   │   │   ├── about/
-│   │   │   │   └── page.tsx          # Tentang Kami (Visi, Misi, Identitas Organisasi)
-│   │   │   ├── struktur/
-│   │   │   │   └── page.tsx          # Halaman Mandiri Struktur & Circuit Blueprint Diagram
-│   │   │   ├── proker/
-│   │   │   │   ├── page.tsx          # Katalog seluruh program kerja + Filter
-│   │   │   │   └── [slug]/
-│   │   │   │       └── page.tsx      # Rincian detail program kerja
-│   │   │   └── contact/
-│   │   │       └── page.tsx          # Hubungi Kami & Formulir Pesan
-│   │   ├── (auth)/                   # Route Group Autentikasi
-│   │   │   ├── login/
-│   │   │   │   └── page.tsx          # Terminal Login Clearance Level 1
-│   │   │   └── auth-error/
-│   │   │       └── page.tsx          # Tampilan alert unauthorized
-│   │   ├── (private)/                # Route Group Terproteksi (Khusus Pengurus)
-│   │   │   └── vault/
-│   │   │       ├── page.tsx          # Dashboard ringkasan kas & buku transaksi
-│   │   │       ├── transaksi-baru/   # Form input kas & upload kuitansi (Bendahara)
-│   │   │       └── laporan/          # Ekspor/rekapitulasi pembukuan
-│   │   ├── api/                      # Route Handlers (jika ada webhook/callback)
-│   │   ├── layout.tsx                # Global Root Layout (Lenis wrapper, Navbar, Footer)
-│   │   └── globals.css               # Styling global, font declaration, Tailwind base
-│   ├── components/                   # Komponen Reusable
-│   │   ├── common/                   # Navbar (Header), Footer, MobileDrawer, ScrambleText, SmoothScroller
-│   │   ├── home/                     # HeroSection, ShowcaseSlider (5 Proker), ContactSection
-│   │   ├── diagram/                  # OrgBlueprint (SVG Circuit Bus), DivisionDrawer (Slide-Over)
-│   │   ├── proker/                   # ProkerCard, ProkerFilter, ProkerTimeline (Fase 5)
-│   │   └── vault/                    # StatCard, TransactionTable, ReceiptViewer, CashFlowChart (Fase 6)
-│   ├── lib/                          # Konfigurasi, Utility & Dataset
+│   ├── app/                          # Next.js App Router (16.4.6)
+│   │   ├── page.tsx                  # Beranda (Hero slideshow WebP, dynamic ShowcaseSlider)
+│   │   ├── about/page.tsx            # Tentang Kami (Visi, Misi, Logo dinamis dari site_about)
+│   │   ├── struktur/page.tsx         # Halaman Mandiri Struktur & Minimalist Circuit Diagram
+│   │   ├── proker/
+│   │   │   ├── page.tsx              # Katalog seluruh program kerja + Sticky Filter Bar
+│   │   │   └── [slug]/page.tsx       # Rincian detail program kerja + ProkerGallery lightbox
+│   │   ├── keuangan/page.tsx         # Transparansi Kas Publik (Opsi A, Filter, Pagination, CSV)
+│   │   ├── contact/page.tsx          # Hubungi Kami & Formulir Pesan (insert contact_messages)
+│   │   ├── login/page.tsx            # Login Pengurus (Username Jabatan / Email + Toggle Password)
+│   │   ├── vault/page.tsx            # Portal Pengurus RBAC (await connection() + 5 tab modul)
+│   │   ├── robots.ts                 # Crawler directives (/vault, /login, /api diblokir)
+│   │   ├── sitemap.ts                # Sitemap XML dinamis dari getPublicProkers()
+│   │   ├── layout.tsx                # Root Layout (metadataBase/OG, Lenis, Header, Footer)
+│   │   └── globals.css               # Tailwind 4, overflow-x: clip, 3D Flip, Print LPJ
+│   ├── components/
+│   │   ├── auth/                     # LoginFormClient
+│   │   ├── common/                   # Header, Footer, MobileDrawer, ScrambleText, SmoothScroller
+│   │   ├── home/                     # HeroSection, ShowcaseSlider, ContactSection
+│   │   ├── diagram/                  # OrgBlueprint (CircuitConnector + SvgBusLines), DivisionDrawer
+│   │   ├── keuangan/                 # PublicFinanceClient
+│   │   ├── proker/                   # ProkerCard, ProkerCoverPlaceholder, ProkerFilterBar, ProkerGallery
+│   │   ├── ui/                       # CustomSelect (scrollable dropdown anti-Lenis hijacking)
+│   │   └── vault/                    # VaultShellClient, FinanceVaultTab, ProkerManagerTab, DivisionManagerTab, AboutManagerTab, InboxTab
+│   ├── lib/
+│   │   ├── auth/session.ts           # getCurrentPengurus() & role permission guards
 │   │   ├── data/
-│   │   │   ├── organization.ts       # Dataset resmi 8 divisi & presidium (Tupoksi, peran, proker)
-│   │   │   └── flagship-proker.ts    # Dataset 5 proker unggulan (termasuk Kolaborasi Komunitas)
+│   │   │   ├── about.ts              # Fallback konten /about (DEFAULT_SITE_ABOUT)
+│   │   │   ├── organization.ts       # Fallback 9 node struktur organisasi
+│   │   │   ├── flagship-proker.ts    # Fallback proker unggulan beranda
+│   │   │   ├── proker.ts             # Fallback katalog program kerja
+│   │   │   ├── queries.ts            # Public RSC queries ("use cache" + cacheTag + fallback)
+│   │   │   └── social.ts             # Sumber tunggal tautan medsos (@himatika.trilogi)
 │   │   ├── supabase/
 │   │   │   ├── client.ts             # Client-side Supabase Browser Client
-│   │   │   ├── server.ts             # Server-side Supabase Server Client (RSC & Actions)
-│   │   │   └── middleware.ts         # Session refresher & route guard logic
-│   │   └── utils.ts                  # Currency formatter (IDR), cn helper, date formatter
-│   ├── actions/                      # Next.js Server Actions (Backend Logic)
-│   │   ├── auth.actions.ts           # Login, logout, session check
-│   │   ├── proker.actions.ts         # Query & filter program kerja
-│   │   └── finance.actions.ts        # Create transaction, upload receipt, get summary
-│   ├── types/                        # TypeScript Type Definitions
-│   │   ├── database.types.ts         # Auto-generated Supabase PostgreSQL types
-│   │   ├── proker.types.ts           # Domain models for work programs
-│   │   └── finance.types.ts          # Domain models for financial ledger
-│   └── middleware.ts                 # Next.js Root Middleware (Route Interceptor)
-├── PROJECT.md                        # Blueprint Proyek
-├── DESIGN.md                         # Spesifikasi Desain & UI/UX
-├── ARCHITECTURE.md                   # Dokumen Arsitektur ini
-├── TASK.md                           # Masterplan & Checklist Pelacak Tugas
-├── GEMINI.md                         # Panduan Aturan & Protokol AI Agent
-└── package.json
+│   │   │   ├── public.ts             # Stateless Anon Client (aman untuk "use cache" & anon insert)
+│   │   │   ├── server.ts             # Cookie-based Supabase Server Client
+│   │   │   ├── storage.ts            # Shared uploadPublicAsset & removeUnusedPublicAssets
+│   │   │   └── middleware.ts         # updateSession() guard /vault & header Cache-Control privat
+│   │   └── utils.ts                  # Currency, CSV exporter, WhatsApp normalizer, date formatter
+│   ├── actions/                      # Next.js Server Actions (Zod + updateTag + revalidatePath)
+│   │   ├── auth.actions.ts           # Login jabatan/email & logout
+│   │   ├── finance.actions.ts        # CRUD transaksi kas & kuitansi vault-receipts
+│   │   ├── proker.actions.ts         # CRUD proker, galeri, hapus/reset poster, & cleanup storage
+│   │   ├── org.actions.ts            # Edit struktur divisi, tupoksi, & foto pengurus
+│   │   ├── about.actions.ts          # Update konten /about, periode, & logo (Admin BPH)
+│   │   └── contact.actions.ts        # Submit kontak publik & kelola kotak masuk (Inbox)
+│   ├── types/
+│   │   ├── database.types.ts
+│   │   └── finance.types.ts
+│   └── proxy.ts                      # Next.js 16 Proxy Route Interceptor
+├── PROJECT.md
+├── DESIGN.md
+├── ARCHITECTURE.md
+├── TASK.md
+└── GEMINI.md
 ```
 
 ---
@@ -143,28 +141,22 @@ himatika_web/
 ```mermaid
 erDiagram
     DIVISIONS ||--o{ WORK_PROGRAMS : "mengelola"
-    DIVISIONS ||--o{ COMMITTEE_MEMBERS : "menaungi"
+    AUTH_USERS ||--|| USER_PROFILES : "memiliki role"
     AUTH_USERS ||--o{ FINANCE_RECORDS : "mencatat"
     FINANCE_CATEGORIES ||--o{ FINANCE_RECORDS : "mengkategorikan"
 
     DIVISIONS {
         uuid id PK
-        text code UK "BPH_SEK, BPH_BEN, BPSDM, dll"
+        text code UK "PRESIDIUM, BPH_SEK, BPH_BEN, BPSDM, dll"
         text name
-        text short_desc
+        text short_title
+        int level
         text leader_name
-        text[] members
+        text leader_image
+        jsonb leaders
+        jsonb member_groups
+        text[] tupoksi
         int order_index
-    }
-
-    COMMITTEE_MEMBERS {
-        uuid id PK
-        uuid division_id FK
-        text name
-        text role
-        text period
-        text nim
-        boolean is_bph
     }
 
     WORK_PROGRAMS {
@@ -172,19 +164,29 @@ erDiagram
         text title
         text slug UK
         uuid division_id FK
+        text division_code
         text status "upcoming | ongoing | completed"
-        text highlight_number "01, 02, etc"
+        text highlight_number
         text short_desc
-        text full_content "Markdown"
-        date execution_date
-        text cover_video_url
+        text full_content
         text cover_image_url
+        text[] gallery_images
+        jsonb rundown
+        jsonb contact_person
         boolean is_featured
+    }
+
+    USER_PROFILES {
+        uuid id PK_FK "auth.users(id)"
+        text full_name
+        app_role role "admin | bendahara | medkraf"
+        text division_code
+        boolean is_active
     }
 
     FINANCE_CATEGORIES {
         uuid id PK
-        text name "Iuran Kas, Sponsor, dll"
+        text name
         text type "income | expense"
     }
 
@@ -196,9 +198,30 @@ erDiagram
         uuid category_id FK
         date transaction_date
         uuid recorded_by FK "auth.users"
-        text receipt_url "Storage URL"
+        text receipt_url "Private vault-receipts path"
         text notes
-        timestamp created_at
+        timestamptz created_at
+    }
+
+    CONTACT_MESSAGES {
+        uuid id PK
+        text name
+        text email
+        text subject
+        text message
+        text status "unread | read | archived"
+        timestamptz created_at
+    }
+
+    SITE_ABOUT {
+        text id PK "'default' singleton"
+        text intro_primary
+        text intro_secondary
+        text vision_text
+        text period_label
+        text logo_image_url
+        jsonb missions
+        timestamptz updated_at
     }
 ```
 
@@ -414,19 +437,15 @@ sequenceDiagram
 
 ## 7. Optimasi Kinerja, Caching, & Skalabilitas
 
-1. **Hemat Kuota Supabase Free-Tier**:
-   * Halaman katalog proker, profil struktur, dan transparansi kas publik menggunakan Next.js 16 Cache Components (`"use cache"` + `cacheLife("minutes")` + `cacheTag`), dan di-invalidate seketika saat ada mutasi lewat `updateTag()` + `revalidatePath()`. Halaman privat `/vault` memanggil `await connection()` di dalam `<Suspense>` agar selalu dirender per request.
-   * **Anti-Pause Supabase Free Plan (Rencana Fase 8)**: Project Free Plan otomatis di-*pause* setelah 7 hari tanpa aktivitas database; direncanakan penambahan Route Handler `/api/keep-alive` (`await connection()` + query ringan ke `divisions`) dengan Vercel Cron `0 0 */3 * *` (tiap 3 hari). *(Kapasitas Free Plan saat ini per 20 Nov 2026: DB terpakai `11 MB` / `500 MB`, Storage `13 kB` / `1 GB`)*.
-2. **Optimasi Aset Multimedia di Edge**:
-   * Gambar kegiatan yang diunggah ke storage di-*transform* melalui URL CDN Supabase:
-     * Rasio diperkecil otomatis dan dikonversi ke format WebP generasi baru.
+1. **Hemat Kuota Supabase Free-Tier & Cache Next.js 16**:
+   * Halaman publik (`/`, `/proker`, `/proker/[slug]`, `/struktur`, `/keuangan`, `/about`, dan `/sitemap.xml`) memakai Next.js 16 Cache Components (`"use cache"` + `cacheLife("minutes")` + `cacheTag`), di-invalidate instan oleh Server Actions lewat `updateTag()` + `revalidatePath()`. Halaman privat `/vault` memanggil `await connection()` di dalam `<Suspense>` untuk SSR per-request.
+   * **Anti-Pause Supabase Free Plan (Target Fase 8)**: Project Free Plan otomatis di-*pause* setelah 7 hari tanpa aktivitas; pada Fase 8 ditambahkan `/api/keep-alive` (`await connection()` + query ringan ke `divisions`) dan `vercel.json` cron (`0 0 */3 * *`).
+2. **Optimasi Aset Media & SEO (Tuntas Fase 7)**:
+   * 22 aset gambar lokal `public/image/` dikompresi ke `.webp` via `sharp` (`11.884 KB` → `2.679 KB`), ditambah `images.formats: ["image/avif", "image/webp"]` pada `next.config.ts`.
+   * Gambar `public-assets` yang diganti atau dihapus via `/vault` (proker & `/about`) dibersihkan otomatis melalui `src/lib/supabase/storage.ts`.
+   * Routing guard & header privat dijalankan lewat konvensi Next.js 16 `src/proxy.ts` (mengecualikan `sitemap.xml`, `robots.txt`, dan file statis).
 3. **Optimasi Database Indexing**:
-   * Penambahan index pada kolom yang sering difilter:
-     ```sql
-     create index idx_proker_status on work_programs(status);
-     create index idx_proker_division on work_programs(division_id);
-     create index idx_finance_date on finance_records(transaction_date desc);
-     ```
+   * Index aktif mencakup `idx_proker_status`, `idx_proker_division`, `idx_finance_date`, serta `idx_contact_messages_created (created_at desc)`.
 
 ---
 

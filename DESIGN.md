@@ -112,23 +112,23 @@ z-index: 0    -> Background Slideshow & Canvas Grid Noise
 
 #### A. Hero Cinematic Section
 * **Latar Belakang**:
-  * Video loop background sinematik (`muted autoplay loop playsinline`) dengan poster fallback kegiatan asli HIMATIKA beresolusi tinggi dan **berwarna penuh (*full color*)**.
-  * Dilengkapi lapisan overlay vignette halus di tepi layar agar teks putih selalu terbaca tajam dan berwibawa.
+  * Slideshow foto kegiatan asli HIMATIKA berformat `.webp` beresolusi tinggi dan **berwarna penuh (*full color*)** dengan render progresif (hanya slide aktif & transisi keluar) demi *LCP* cepat.
+  * Dilengkapi lapisan overlay vignette halus di tepi layar agar teks tetap terbaca tajam.
 * **Top HUD & Subtext**:
-  * Top HUD: `HIMATIKA UNIVERSITAS TRILOGI` (Font Mono, tracking rapi).
+  * Top HUD: `HIMATIKA UNIVERSITAS TRILOGI` dengan warna kontras tinggi (`text-zinc-200` + `drop-shadow`) agar selalu terbaca jelas di atas seluruh foto latar.
   * Subtext manusiawi ramah mahasiswa: *"Ruang belajar, berkarya, dan berkembang bersama bagi mahasiswa Teknik Informatika Universitas Trilogi."*
 * **Tipografi Lockup**:
   * Baris 1: `HIMPUNAN MAHASISWA` (Monospace `JetBrains Mono`, tracking lebar).
-  * Baris 2: `TEKNIK INFORMATIKA` (Masif font `Anton`, `clamp(3.5rem, 9vw, 8.5rem)`).
+  * Baris 2: `TEKNIK INFORMATIKA` (Masif font `Anton`, `clamp(2.75rem, 8.5vw, 8.5rem)`).
   * Baris 3: `UNIVERSITAS TRILOGI` (Font `Anton`, diwarnai **Biru Almamater HIMATIKA `#2563eb`** sesuai lambang universitas).
 * **Bottom Controls**:
-  * Indikator scroll di sudut kiri bawah: `EKSPLORASI` dengan garis penunjuk animasi terhubung ke Lenis scroll.
+  * Indikator scroll di sudut kiri bawah: `EKSPLORASI` dengan animasi panah terhubung ke Lenis scroll, serta label lokasi `JAKARTA SELATAN` (`text-zinc-300`) di kanan bawah.
 
-#### B. Featured Showcase Slider (5 Program Kerja Unggulan)
+#### B. Featured Showcase Slider (Program Kerja Unggulan)
 * **Layout**: Split komposisi 2 sisi (55% visual preview + 45% metadata):
-  * **Sisi Kiri (55%)**: Preview foto dokumentasi asli kegiatan berwarna tajam (T-Camp, IT Expo, Tech Workshop, Company Visit MNC, dan Kolaborasi Komunitas).
+  * **Sisi Kiri (55%)**: Preview foto dokumentasi asli kegiatan (atau `ProkerCoverPlaceholder` editorial jika poster belum dipasang/dihapus).
     * Khusus logo `kolaborasi.png` yang berlatar putih: disajikan di dalam container berlatar putih bersih dengan `object-contain` dan tanpa dark vignette.
-  * **Sisi Kanan (45%)**: Counter monospaced (`01 / 05` s.d. `05 / 05`), badge divisi/kategori (dengan badge biru lembut khusus untuk `KOLABORASI SEMUA DIVISI`), judul kegiatan, deskripsi ringkas, dan tombol `LIHAT DETAIL PROGRAM →`.
+  * **Sisi Kanan (45%)**: Counter monospaced dinamis (`01 / NN` mengikuti seluruh proker bertanda `is_featured`), badge divisi/kategori (dengan badge biru lembut khusus untuk `KOLABORASI SEMUA DIVISI`), judul kegiatan, deskripsi ringkas, dan tombol `LIHAT DETAIL PROGRAM →`.
 * **Navigasi Slider**:
   * Progress bar linear dinamis yang terisi halus saat slide berganti.
   * Tombol navigasi panah kiri/kanan dengan hover styling.
@@ -142,9 +142,9 @@ z-index: 0    -> Background Slideshow & Canvas Grid Noise
 ### 3.3 Halaman Tentang Kami (`/about`) & Struktur Pengurus (`/struktur`)
 
 #### A. Halaman Tentang Kami (`/about`)
-* **Hero Identitas**: Logo HIMATIKA mandiri berukuran besar (hingga 320px) berdampingan natural dengan narasi pendirian ormawa tanpa bingkai kotak/crosshair luar yang mengurung.
-* **Visi Kami**: Teks terkurasi: *"Menjadikan HIMATIKA Universitas Trilogi sebagai ruang tumbuh bagi mahasiswa Teknik Informatika yang unggul, berintegritas, inovatif, dan siap berkontribusi di industri teknologi."*
-* **Empat Pilar Misi**: Disajikan dalam kartu modular dengan bahasa lugas mahasiswa (Akademik & Riset, Kepemimpinan & Solidaritas, Kemitraan Aktif, Inovasi & Kontribusi Nyata), tanpa status bar operasional pabrik.
+* **Hero Identitas**: Logo HIMATIKA mandiri berukuran besar (hingga 320px, dapat diganti/direset admin dari `/vault`) berdampingan natural dengan narasi pendirian ormawa tanpa bingkai kotak/crosshair luar yang mengurung.
+* **Visi Kami**: Teks editorial dinamis dari `site_about` (dapat diperbarui via `/vault`).
+* **Misi Organisasi**: Disajikan dalam kartu modular dengan bahasa lugas mahasiswa (mendukung 1–8 poin misi dinamis dari tabel `site_about`), tanpa status bar operasional pabrik.
 
 #### B. Halaman Khusus Struktur Pengurus (`/struktur`)
 * **Halaman Mandiri**: Terpisah secara bersih untuk memberikan ruang lega pada diagram hierarki organisasi.
@@ -155,7 +155,7 @@ graph TD
     classDef bph fill:#0c0c0e,stroke:#ffffff,stroke-width:1px,color:#f4f4f6;
     classDef div fill:#0c0c0e,stroke:rgba(255,255,255,0.15),stroke-width:1px,color:#a1a1aa;
 
-    KAHIM["KAHIM & WAKAHIM<br/><small style='color:#3b82f6'>PRESIDIUM UTAMA</small>"]:::leader
+    KAHIM["KAHIM & WAKAHIM<br/><small style='color:#3b82f6'>PIMPINAN HIMPUNAN</small>"]:::leader
     
     KAHIM --> BPH_SEK["SEKRETARIS<br/><small>Administrasi & Kearsipan</small>"]:::bph
     KAHIM --> BPH_BEN["BENDAHARA<br/><small>Keuangan & Anggaran</small>"]:::bph
@@ -169,9 +169,9 @@ graph TD
 ```
 
 #### Spesifikasi Visual & Interaksi Node Diagram:
-* **Gaya Garis**: Jalur sirkuit bus (*motherboard circuit bus*) dengan connector dots biru menyala dan divider garis putus-putus presisi.
+* **Gaya Garis & Kartu Minimalis**: Jalur sirkuit bus SVG presisi (`CircuitConnector` + `SvgBusLines`) yang selaras dengan jumlah kolom tiap breakpoint (2 cabang untuk BPH, 2/3 cabang adaptif untuk Divisi) dengan badge tingkat di tengah rel; idle frame desktop tampil minimalis dengan titik biru & monogram kode bersih.
 * **Interaksi Hover 3D Photo Flip & Glitch Reveal**:
-  * Saat kursor mengarah ke kartu pimpinan/koordinator, foto resmi pengurus (`fais.png`, `yudis.png`, dll.) muncul seketika dengan animasi 3D perspective flip (`rotateY(-90deg) -> 0deg`) dan scanline sweep biru elektrik.
+  * Saat kursor mengarah ke kartu pimpinan/koordinator, foto resmi pengurus (`fais.webp`, `yudis.webp`, atau foto unggahan Storage) muncul seketika dengan animasi 3D perspective flip dan scanline sweep biru elektrik (`prefers-reduced-motion` aman).
   * Kartu tetap 100% stabil (tidak membalikkan teks) dan seluruh area kartu dapat diklik langsung untuk membuka panel inspeksi.
 * **Mekanisme Interaksi Drawer (Slide-Over Panel - `DivisionDrawer.tsx`)**:
   * Mengklik node divisi membuka panel drawer samping selebar 540px di desktop (atau fullscreen di ponsel).
@@ -243,14 +243,13 @@ const lenis = new Lenis({
 });
 ```
 
-### 4.2 GSAP ScrollTrigger & SplitText Timelines
-* **Headline Reveal**: Huruf-huruf judul terpecah menjadi `span` terpisah dan muncul bergeser ke atas secara bertahap (*stagger 0.03s*) saat pertama kali masuk ke viewport.
-* **Fade-up Container**: Setiap kartu program kerja dan seksi halaman masuk dengan transisi `opacity: 0 -> 1` dan `translateY: 40px -> 0px` dengan durasi 0.8s kurva `power3.out`.
-* **Interactive Hover Magnetic**: Tombol bulat (seperti panah slider atau close button drawer) memiliki efek magnetik lembut mengikuti posisi kursor pengguna sejauh maksimal 8px.
+### 4.2 GSAP Hero Timeline & Animasi Terkalibrasi
+* **Hero Entrance Reveal**: Judul dan subtext masuk secara halus dengan kurva `power4.out` berdurasi terkalibrasi **`<= 0.7s`** agar terasa responsif di semua perangkat.
+* **Dukungan `prefers-reduced-motion`**: Baik GSAP hero timeline, Lenis `SmoothScroller`, maupun keyframe CSS (`3D Flip`, `scanline-sweep`, equalizer) otomatis nonaktif jika pengguna mengaktifkan preferensi pengurangan gerak di OS/browser.
 
 ### 4.3 Optimasi Responsif Mobile
-* Animasi berat berbasis JS dimatikan atau disederhanakan pada layar dengan lebar `< 768px`.
-* Mengganti animasi mouse hover dengan feedback sentuhan instan CSS `:active { opacity: 0.7; transform: scale(0.98); }`.
+* Menggunakan `overflow-x: clip` pada `html, body` agar bebas *horizontal scroll overflow* di `360px–414px` tanpa memutus elemen `position: sticky` (seperti `ProkerFilterBar`).
+* Mengganti animasi mouse hover dengan feedback sentuhan dan menampilkan potret struktur langsung secara statis pada layar mobile.
 * Menghindari efek yang memicu *reflow layout* terus menerus; hanya menganimasikan properti GPU-accelerated: `transform` dan `opacity`.
 
 ---
@@ -259,26 +258,21 @@ const lenis = new Lenis({
 
 | Breakpoint | Target Perangkat | Penyesuaian Layout Spesifik |
 | :--- | :--- | :--- |
-| **Desktop Ultra** (`≥ 1440px`) | Monitor Studio & PC Desktop | Max width `1440px`, cursor magnetik aktif, typography masif `8vw`. |
-| **Laptop / Desktop** (`1024px – 1439px`) | MacBook, Laptop Umum | Skala container `1100px`, padding samping 40px, slider 2 kolom. |
-| **Tablet** (`768px – 1023px`) | iPad, Galaxy Tab | Navbar beralih ke semi-compact, showcase proker ditumpuk vertikal dengan swipe touch. |
-| **Mobile** (`< 768px`) | iPhone, Android Smartphone | Fullscreen hamburger drawer, Single-column card grid, Diagram beralih ke daftar pohon interaktif/akordeon vertikal, video autoplay dikompresi maksimal. |
+| **Desktop Ultra** (`≥ 1440px`) | Monitor Studio & PC Desktop | Max width `1440px`, 3 kolom grid Divisi + sirkuit SVG 3 cabang, typography masif `8.5rem`. |
+| **Laptop / Desktop** (`1024px – 1439px`) | MacBook, Laptop Umum | 2 kolom grid Divisi + sirkuit SVG 2 cabang (`md..lg`) atau 3 cabang (`xl`), slider 2 kolom. |
+| **Tablet** (`768px – 1023px`) | iPad, Galaxy Tab | Navbar compact, BPH & Divisi 2 kolom dengan sirkuit 2 cabang, showcase swipe touch. |
+| **Mobile** (`< 768px`) | iPhone, Android Smartphone (`360px–414px`) | Fullscreen hamburger drawer (`MobileDrawer`), Single-column card grid, potret struktur langsung terlihat. |
 
 ---
 
 ## 6. Standar Aset & Optimasi Media
 
-1. **Video Background**:
-   * Format: `.webm` (primer) dengan fallback `.mp4` (H.264 profil baseline).
-   * Resolusi: Maksimal 1080p untuk desktop, 720p untuk mobile.
-   * Frame Rate: 24 FPS (memberikan kesan film/cinematic).
-   * Bitrate Target: Di bawah 1.5 Mbps, ukuran file maksimal 3.5 MB.
-2. **Gambar & Banner**:
-   * Disajikan via Supabase Storage Image Transformation URL:
-     * Thumbnail Mobile: `width=480&format=webp&quality=80`
-     * Detail Desktop: `width=1280&format=webp&quality=85`
+1. **Gambar Lokal (`public/image/`)**:
+   * Seluruh 22 foto kegiatan & potret pengurus terkompresi dalam format **`.webp`** via `sharp` (total `~2,68 MB`, turun dari `~11,88 MB`), menyisakan `logohima.png` (`26,9 KB`) & `kolaborasi.png` (`15 KB`) dalam PNG.
+2. **Gambar Dinamis & Optimasi Next.js (`next.config.ts`)**:
+   * `images.formats: ["image/avif", "image/webp"]` aktif untuk menyajikan format teringan ke browser client; unggahan gambar lewat `/vault` dibatasi maks. `5 MB` (JPG, PNG, WebP) ke bucket `public-assets` dengan pembersihan otomatis file usang.
 3. **Ikon Grafis**:
-   * Menggunakan pustaka minimalis **Lucide React**. Ketebalan garis diatur konsisten `stroke-width: 1.5px` untuk mempertahankan gaya monospaced yang tajam.
+   * Menggunakan pustaka minimalis **Lucide React** untuk menjaga konsistensi UI monospaced yang tajam.
 
 ---
 

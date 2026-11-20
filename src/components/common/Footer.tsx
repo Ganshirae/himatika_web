@@ -6,6 +6,7 @@ import Image from "next/image";
 import { ArrowUpRight, ArrowUp } from "lucide-react";
 import { useLenisScroll } from "./SmoothScroller";
 import ScrambleText from "./ScrambleText";
+import { SOCIAL_LINKS } from "@/lib/data/social";
 
 const DIVISIONS = [
   { label: "BPH (SEK & BEN)", href: "/struktur" },
@@ -15,14 +16,6 @@ const DIVISIONS = [
   { label: "MINAT & BAKAT", href: "/proker?division=PMB" },
   { label: "SARANA & LOGISTIK", href: "/proker?division=SARLOG" },
   { label: "MEDIA KREATIF", href: "/proker?division=MEDKRAF" },
-];
-
-const SOCIAL_LINKS = [
-  { label: "INSTAGRAM", handle: "@himatikator", href: "https://instagram.com/himatikator" },
-  { label: "GITHUB", handle: "himatikator", href: "https://github.com/himatikator" },
-  { label: "LINKEDIN", handle: "himatika-trilogi", href: "https://linkedin.com" },
-  { label: "EMAIL", handle: "himatika@trilogi.ac.id", href: "mailto:himatika@trilogi.ac.id" },
-  { label: "CAMPUS", handle: "universitas-trilogi.ac.id", href: "https://universitas-trilogi.ac.id" },
 ];
 
 export default function Footer() {
@@ -174,22 +167,28 @@ export default function Footer() {
               MEDIA SOSIAL
             </h4>
             <ul className="space-y-2.5 font-mono text-xs">
-              {SOCIAL_LINKS.map((soc) => (
-                <li key={soc.label}>
-                  <a
-                    href={soc.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between py-1 border-b border-hairline/40 hover:border-blue-500/40 hover:text-blue-400 transition-colors group"
-                  >
-                    <span>{soc.label}</span>
-                    <span className="text-[10px] text-muted group-hover:text-blue-400 flex items-center gap-1">
-                      {soc.handle}
-                      <ArrowUpRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                    </span>
-                  </a>
-                </li>
-              ))}
+              {SOCIAL_LINKS.map((soc) => {
+                const isExternal = soc.href !== "#";
+                return (
+                  <li key={soc.label}>
+                    <a
+                      href={soc.href}
+                      target={isExternal ? "_blank" : undefined}
+                      rel={isExternal ? "noopener noreferrer" : undefined}
+                      onClick={(e) => {
+                        if (!isExternal) e.preventDefault();
+                      }}
+                      className="flex items-center justify-between py-1 border-b border-hairline/40 hover:border-blue-500/40 hover:text-blue-400 transition-colors group"
+                    >
+                      <span>{soc.label}</span>
+                      <span className="text-[11px] text-secondary group-hover:text-blue-400 flex items-center gap-1.5">
+                        <span>{soc.handle}</span>
+                        <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      </span>
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 

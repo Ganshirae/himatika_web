@@ -1,6 +1,6 @@
 # PROJECT BLUEPRINT: HIMATIKA REVAMP 2026/2027
 > **Dokumen Arsitektur, Desain, & Spesifikasi Teknis Pembaruan Website Himpunan Mahasiswa Teknik Informatika (HIMATIKA)**  
-> **Status:** Fase 0 – Fase 6 + Penguatan Portal Pengurus Selesai (Tinggal Uji Lanjut `bendahara`/`medkraf`, Lalu Fase 7 — Audit Mobile & Optimasi)  
+> **Status:** Fase 0 – Fase 7 (Siap Audit Lighthouse, Commit Git, & Fase 8 Deploy Vercel)  
 > **Target Release:** Periode 2026/2027  
 
 ---
@@ -83,47 +83,47 @@ flowchart TD
 ```
 
 ### 3.1 Halaman Beranda (`/`)
-* **Navbar Minimalis Melayang**: Posisikan di tepi atas, transparan, menyebar kiri (`HIMATIKA TRILOGI`), tengah (Pure Negative Space), dan kanan (Menu Tautan + Tombol User Profil ke `/login`). Efek *text scramble* saat hover.
-* **Hero Section Sinematik**:
-  * Teks raksasa: `HIMPUNAN MAHASISWA TEKNIK INFORMATIKA UNIVERSITAS TRILOGI`.
-  * Top HUD: `HIMATIKA UNIVERSITAS TRILOGI`.
+* **Hero Section**: Headline masif `TEKNIK INFORMATIKA` + `UNIVERSITAS TRILOGI` dengan warna aksen Biru HIMATIKA (`#2563eb`).
+  * Top HUD kontras tinggi (`text-zinc-200` + `drop-shadow`) bertuliskan `HIMATIKA UNIVERSITAS TRILOGI` & judul slide aktif, plus `JAKARTA SELATAN` di bawah.
   * Subtext manusiawi ramah mahasiswa: *"Ruang belajar, berkarya, dan berkembang bersama bagi mahasiswa Teknik Informatika Universitas Trilogi."*
-  * Background video looping gerak lambat dalam format kompresi ringan.
+  * Background slideshow foto kegiatan asli full-color terkompresi `.webp` dengan render progresif (hanya slide aktif & transisi keluar) untuk *LCP* cepat.
   * Tombol navigasi scroll bawah: `EKSPLORASI`.
-* **Featured Showcase Slider**: Slider 5 program kerja unggulan resmi dengan nomor urut (`01 / 05` s.d. `05 / 05`), progress bar linear dinamis, styling khusus badge biru untuk proker berkategori `KOLABORASI SEMUA DIVISI`, dan dukungan swipe layar sentuh.
+* **Featured Showcase Slider**: Slider dinamis untuk seluruh program kerja bertanda unggulan (`is_featured`) dengan nomor urut (`01 / NN`), progress bar linear dinamis, styling khusus badge biru untuk `KOLABORASI SEMUA DIVISI`, placeholder editorial jika tanpa poster (`ProkerCoverPlaceholder`), dan dukungan swipe layar sentuh.
 * **Banner Struktur Organisasi**: Seksi editorial pengantar dengan tombol CTA langsung ke halaman `/struktur`.
 
-### 3.2 Halaman Tentang Kami (`/about`)
-* **Hero Identitas Resmi**: Logo HIMATIKA berukuran besar (hingga 320px) berdampingan natural dengan narasi pendirian ormawa. Bebas dari bingkai luar dan crosshair.
-* **Visi Kami**: Kutipan editorial terkurasi: *"Menjadikan HIMATIKA Universitas Trilogi sebagai ruang tumbuh bagi mahasiswa Teknik Informatika yang unggul, berintegritas, inovatif, dan siap berkontribusi di industri teknologi."*
-* **Empat Misi Utama**: Disajikan dalam kartu modular dengan bahasa lugas dan membumi (Akademik & Riset, Kepemimpinan & Solidaritas, Kemitraan Aktif, Inovasi & Kontribusi Nyata).
+### 3.2 Halaman Tentang Kami (`/about`) [DINAMIS - `site_about`]
+* **Hero Identitas Resmi**: Logo HIMATIKA berukuran besar (hingga 320px, dapat diganti/direset dari `/vault`) berdampingan natural dengan narasi pendirian ormawa yang diambil dari tabel Supabase `site_about`.
+* **Visi & Periode Aktif**: Kutipan visi dinamis beserta label `PERIODE 2026/2027` yang ikut tersinkron ke halaman `/struktur`.
+* **Misi Organisasi**: Disajikan dalam kartu modular dinamis (1–8 poin misi) dengan bahasa lugas dan membumi.
 * **Bridging CTA Box**: Menghubungkan pengunjung ke `/proker` dan `/struktur`.
 
 ### 3.3 Halaman Khusus Struktur Pengurus (`/struktur`)
 * **Halaman Mandiri**: Terpisah dari `/about` untuk memberikan fokus penuh pada diagram hierarki kepengurusan.
 * **Interactive Blueprint / Circuit Diagram**:
-  * Menghubungkan Presidium Utama (Kahim & Wakahim), BPH (Sekretaris & Bendahara), dan 6 Divisi Pelaksana.
-  * **Interaksi Hover 3D Flip & Glitch Reveal**: Saat kursor mengarah ke salah satu node diagram, foto koordinator/kadiv langsung muncul dengan animasi 3D perspective flip dan scanline sweep biru elektrik.
-  * **Slide-over Division Drawer**: Mengklik node mana pun membuka panel drawer samping yang memuat rincian tupoksi, susunan anggota pengurus, dan daftar proker terkait.
+  * Menghubungkan **Pimpinan Himpunan** (kode internal `PRESIDIUM`: Kahim & Wakahim), BPH (Sekretaris & Bendahara), dan 6 Divisi Pelaksana melalui jalur sirkuit SVG minimalis selaras kolom di tiap breakpoint (`CircuitConnector` + `SvgBusLines`).
+  * **Interaksi Hover 3D Flip & Glitch Reveal**: Saat kursor mengarah ke salah satu node diagram, foto koordinator/kadiv langsung muncul dengan animasi 3D perspective flip dan scanline sweep biru elektrik (di mobile foto langsung terlihat).
+  * **Slide-over Division Drawer**: Mengklik node mana pun membuka panel drawer samping yang memuat rincian tupoksi, susunan anggota pengurus, dan daftar proker terkait (tersinkron otomatis dengan `work_programs`).
   * Seluruh kartu tetap 100% stabil (tidak berputar membalikkan teks) dan dapat diklik di mana saja.
 
 ### 3.4 Halaman Khusus Program Kerja (`/proker`) [SELESAI - FASE 5]
-* **Katalog Komprehensif**: Menampilkan semua program kerja HIMATIKA dari arsip lama (Workshop Teknologi, T-Expo, T-Camp, Company Visit, Dukungan Karir, Kolaborasi Teknologi) ditambah proker divisi aktif.
-* **Sticky Filter Bar**: Filter status (`Semua`, `Upcoming`, `Ongoing`, `Completed`) dan filter divisi/kategori (termasuk `KOLABORASI SEMUA DIVISI`).
-* **Detail Card & Dynamic Route (`/proker/[slug]`)**: Menampilkan tanggal pelaksanaan, sasaran peserta, deskripsi tujuan, galeri dokumentasi foto, dan tombol pendaftaran.
+* **Katalog Komprehensif**: Menampilkan semua program kerja HIMATIKA dari database `work_programs` (dengan seed fallback lokal `src/lib/data/proker.ts`).
+* **Sticky Filter Bar**: Filter status (`Semua`, `Akan Datang`, `Sedang Berjalan`, `Selesai`) dan filter divisi/kategori (termasuk `KOLABORASI SEMUA DIVISI` & `PIMPINAN HIMPUNAN`). Memakai `overflow-x: clip` pada body agar sticky bar menempel mulus di desktop & mobile.
+* **Detail Card & Dynamic Route (`/proker/[slug]`)**: Menampilkan tanggal pelaksanaan, lokasi, sasaran peserta, deskripsi & tujuan, rundown kegiatan, galeri dokumentasi foto lightbox (otomatis tersembunyi jika galeri 0 foto), tombol kontak WhatsApp panitia, serta CTA pendaftaran.
 
-### 3.5 Halaman Kontak (`/contact`)
-* Rincian kontak resmi (Alamat Kampus Trilogi Kalibata, Telepon Prodi, Email resmi `himatika@trilogi.ac.id`, Jam respons operasional).
-* Formulir pesan langsung terhubung ke email pengurus.
+### 3.5 Halaman Kontak (`/contact`) [TERHUBUNG SUPABASE]
+* Rincian kontak resmi (Alamat Kampus Trilogi Kalibata, Telepon Prodi, Email resmi `himatika@trilogi.ac.id`, Jam respons operasional) dengan semantic `<h1>` di rute `/contact`.
+* Formulir kirim pesan nyata terhubung ke tabel Supabase `contact_messages` (RLS `anon INSERT`) yang masuk langsung ke tab **`KOTAK MASUK`** di `/vault`.
 
-### 3.6 Transparansi Kas Publik (`/keuangan`) & Portal Pengurus (`/vault`) [SELESAI - FASE 6]
+### 3.6 Transparansi Kas Publik (`/keuangan`) & Portal Pengurus (`/vault`) [SELESAI - FASE 6 & PENYEMPURNAAN]
 * **Akses Terbatas (*Restricted Access*)**:
-  * Halaman login `/login` untuk pengurus terdaftar (`bendahara`, `medkraf`, `admin` via tabel `user_profiles`) dengan dukungan **Username Jabatan** (`admin`, `bendahara`, `medkraf` → dipetakan ke `<username>@himatika.internal`), email standar, dan tombol ikon mata tampil/sembunyi kata sandi. Halaman publik transparansi kas (Opsi A) tersedia di `/keuangan`.
-  * Terproteksi Supabase Auth + Next.js Middleware Route Guard.
-* **Dashboard Finansial**:
-  * Saldo Kas Aktif, Total Pemasukan, Total Pengeluaran, pencatatan transaksi kas baru, dan upload bukti kuitansi privat.
-  * **Tabel Transaksi Kas**: Daftar arus kas masuk/keluar per tanggal, nama kegiatan/keperluan, nominal, dan penanggung jawab input.
-  * **Verifikasi Bukti Kuitansi**: Dukungan upload dan preview foto/PDF nota digital yang disimpan di Supabase Storage (`vault-receipts` Private Bucket) melalui *Signed URL* (60 detik).
+  * Halaman login `/login` untuk pengurus terdaftar (`bendahara`, `medkraf`, `admin` via tabel `user_profiles`) dengan dukungan **Username Jabatan** (`admin`, `bendahara`, `medkraf` → dipetakan ke `<username>@himatika.internal`), email standar, dan tombol ikon mata tampil/sembunyi kata sandi. Halaman publik transparansi kas (Opsi A) tersedia di `/keuangan` (filter bulan/tahun, pagination, & ekspor CSV).
+  * Terproteksi Supabase Auth + Next.js 16 `src/proxy.ts` Route Guard.
+* **Dashboard Finansial & Modul Pengurus**:
+  * **Kas & Kuitansi**: Saldo Kas Aktif, Total Pemasukan, Total Pengeluaran, tambah/edit/hapus transaksi kas, preview nota privat via *Signed URL* (`vault-receipts`), ekspor CSV, dan cetak laporan LPJ.
+  * **Kelola Program Kerja**: Tambah/edit/hapus proker, editor rundown & WhatsApp, multi-foto galeri dokumentasi (dapat ditambah atau dikosongkan total `0` foto), **hapus/reset poster utama**, serta pembersihan file usang otomatis di `public-assets` (`src/lib/supabase/storage.ts`). *(Checkbox UI wadah latar putih sudah dihapus dari form Vault.)*
+  * **Kelola Struktur**: Edit 9 node organisasi, tupoksi, anggota, dan unggah foto pimpinan/koordinator (`public-assets`).
+  * **Kelola Tentang** *(Khusus `admin`)*: Edit deskripsi profil, visi, daftar misi, label periode aktif, serta unggah/reset logo halaman `/about`.
+  * **Kotak Masuk**: Kelola pesan publik dari `/contact`, filter status (`Belum Dibaca`, `Sudah Dibaca`, `Diarsipkan`), tombol balas email, ubah status & hapus (`admin`/`medkraf`; `bendahara` mode baca).
 
 #### Matriks Hak Akses & Rincian 3 Akun Pengurus (RBAC)
 
@@ -133,36 +133,10 @@ flowchart TD
 | **Email Internal** | `bendahara@himatika.internal` | `medkraf@himatika.internal` | `admin@himatika.internal` |
 | **Divisi (`division_code`)** | `BPH_BEN` | `MEDKRAF` | `PRESIDIUM` |
 | **Lihat Ringkasan & Buku Kas** | ✅ Penuh | 👁️ Baca Saja | ✅ Penuh |
-| **Tambah/Hapus Transaksi Kas & Lihat Nota Privat** | ✅ Bisa | ❌ Tidak | ✅ Bisa |
-| **Tambah/Edit/Hapus Program Kerja & Upload Poster** | ❌ Tidak | ✅ Bisa | ✅ Bisa |
-| **Edit Struktur Organisasi & Divisi (`/struktur`)** | ❌ Tidak | ❌ Tidak | ✅ Bisa |
-
-1. **Akun `bendahara` (Bendahara — Kas & Kuitansi)**
-   * **Tab yang tampil:** `KAS & KUITANSI`.
-   * **Yang bisa dilakukan:**
-     * Melihat ringkasan saldo (`Saldo Kas Aktif`, `Total Pemasukan`, `Total Pengeluaran`) dan seluruh daftar transaksi kas termasuk catatan privat (`notes`).
-     * Mencatat transaksi kas baru (`Pemasukan` / `Pengeluaran`), memilih kategori kas, tanggal, nominal, catatan privat, serta mengunggah bukti nota (JPG, PNG, WebP, atau PDF maks. 5 MB ke bucket privat `vault-receipts`).
-     * Membuka pratinjau bukti nota privat via *Signed URL* (berlaku 60 detik).
-     * Menghapus transaksi kas (otomatis menghapus file nota terkait di storage).
-     * Perubahan otomatis tersinkron ke halaman publik `/keuangan` (publik hanya melihat saldo & mutasi tanpa foto nota/catatan privat).
-   * **Batasan:** Tidak dapat mengelola Program Kerja maupun mengubah Struktur Organisasi.
-
-2. **Akun `medkraf` (Media Kreatif — Program Kerja)**
-   * **Tab yang tampil:** `KELOLA PROGRAM KERJA` (tab default) dan `KAS & KUITANSI` (Mode Baca / *Read-Only*).
-   * **Yang bisa dilakukan:**
-     * Menambah dan mengedit program kerja (judul, slug, nomor urut, divisi/`KOLABORASI SEMUA DIVISI`, jadwal, lokasi, sasaran peserta, ringkasan, deskripsi lengkap, tujuan, link pendaftaran, tanda proker unggulan beranda, dan opsi latar putih).
-     * Mengunggah gambar poster/cover program kerja (JPG, PNG, WebP maks. 5 MB ke bucket `public-assets`).
-     * Mengubah status program kerja (`upcoming`, `ongoing`, `completed`) dan menghapus program kerja.
-     * Perubahan otomatis tersinkron ke halaman publik `/`, `/proker`, dan `/proker/[slug]`.
-     * Melihat ringkasan saldo dan riwayat transaksi di tab `KAS & KUITANSI` dalam mode *Read-Only*.
-   * **Batasan:** Tidak dapat menambah/menghapus transaksi kas, tidak dapat membuka foto bukti nota privat, dan tidak dapat mengubah Struktur Organisasi.
-
-3. **Akun `admin` (Admin BPH — Akses Penuh)**
-   * **Tab yang tampil:** `KAS & KUITANSI`, `KELOLA PROGRAM KERJA`, dan `KELOLA STRUKTUR`.
-   * **Yang bisa dilakukan:**
-     * Memiliki seluruh kemampuan akun **`bendahara`** (kelola kas, unggah & lihat nota privat, hapus transaksi).
-     * Memiliki seluruh kemampuan akun **`medkraf`** (tambah, edit, ubah status, unggah poster, dan hapus program kerja).
-     * **Khusus Admin (`KELOLA STRUKTUR`):** Mengedit 9 entitas kepengurusan (`PRESIDIUM`, `BPH_SEK`, `BPH_BEN`, `BPSDM`, `HUMAS`, `RISET`, `PMB`, `SARLOG`, `MEDKRAF`) meliputi nama divisi, judul singkat, deskripsi, jabatan, nama, serta **upload/ganti foto pimpinan & koordinator** (mendukung 2 foto sekaligus untuk `PRESIDIUM`, disimpan ke bucket `public-assets`), daftar Tupoksi, bidang fokus, dan susunan jumlah anggota. Perubahan langsung tersinkron ke `/struktur` dan `/about`.
+| **Tambah/Edit/Hapus Kas, Lihat Nota Privat, & Cetak LPJ** | ✅ Bisa | ❌ Tidak | ✅ Bisa |
+| **Kelola Proker, Galeri, Poster, & Cleanup Storage** | ❌ Tidak | ✅ Bisa | ✅ Bisa |
+| **Lihat / Kelola Kotak Masuk (`/contact` → `/vault`)** | 👁️ Baca Saja | ✅ Penuh | ✅ Penuh |
+| **Edit Struktur (`/struktur`) & Halaman Tentang (`/about`)** | ❌ Tidak | ❌ Tidak | ✅ Bisa |
 
 ### 3.7 UI/UX Standards ("Jos Los Gandos")
 * **Performa Tinggi**: Skor Google Lighthouse > 90 untuk Performance, Accessibility, dan SEO.
@@ -317,84 +291,77 @@ on conflict (code) do nothing;
 
 ## 6. Struktur Direktori Proyek Baru
 
-Struktur direktori standar Next.js yang disiapkan untuk menampung seluruh fitur:
+Struktur direktori aktual Next.js 16 (App Router) setelah selesainya Fase 7:
 
 ```text
 himatika_web/
 ├── archive/                     # File web lama (index.html, style.css) disimpan sebagai cadangan
-│   ├── index.html
-│   └── style/
-├── public/                      # Asset statis yang dapat diakses publik
-│   ├── image/                   # Foto dokumentasi lama & logo HIMATIKA
-│   │   ├── Logo Himatika.png
-│   │   ├── t-camp.jpg
-│   │   └── ...
-│   ├── fonts/                   # Font lokal (Anton SC, JetBrains Mono)
-│   └── videos/                  # Video loop ringkas untuk hero section
+├── public/image/                # 22 foto/potret WebP (~2.68 MB) + logohima.png + kolaborasi.png
 ├── src/
-│   ├── app/                     # Next.js App Router
-│   │   ├── (public)/            # Route Group Publik
-│   │   │   ├── page.tsx         # Halaman Beranda (Cinematic Hero + Teaser Proker)
-│   │   │   ├── about/           # Halaman Tentang Kami & Interactive Diagram
-│   │   │   └── proker/          # Halaman Khusus Katalog Proker
-│   │   │       ├── page.tsx
-│   │   │       └── [slug]/      # Detail satu program kerja
-│   │   ├── (auth)/              # Route Group Autentikasi
-│   │   │   └── login/           # Halaman Login Terminal Pengurus
-│   │   ├── (private)/           # Route Group Khusus Internal
-│   │   │   └── vault/           # Dashboard Keuangan Kas Himatika
-│   │   ├── api/                 # Endpoint integrasi jika diperlukan
-│   │   ├── layout.tsx           # Global Layout (Navbar, Smooth Scroll Wrapper)
-│   │   └── globals.css          # Tailwind CSS & Keyframes
+│   ├── app/
+│   │   ├── page.tsx             # Beranda (Hero slideshow WebP + ShowcaseSlider dinamis)
+│   │   ├── about/page.tsx       # Tentang Kami dinamis dari tabel site_about
+│   │   ├── struktur/page.tsx    # Halaman Mandiri Struktur & Minimalist Circuit Diagram
+│   │   ├── proker/
+│   │   │   ├── page.tsx         # Katalog Proker + Sticky Filter Bar
+│   │   │   └── [slug]/page.tsx  # Rincian Proker + ProkerGallery lightbox
+│   │   ├── keuangan/page.tsx    # Transparansi Kas Publik (Opsi A + Filter + CSV)
+│   │   ├── contact/page.tsx     # Hubungi Kami & Formulir Pesan (contact_messages)
+│   │   ├── login/page.tsx       # Login Pengurus (Username Jabatan / Email)
+│   │   ├── vault/page.tsx       # Portal Pengurus RBAC (5 Modul CMS)
+│   │   ├── robots.ts            # Robots SEO (/vault, /login, /api diblokir)
+│   │   ├── sitemap.ts           # Sitemap XML dinamis
+│   │   ├── layout.tsx           # Global Layout (metadataBase/OG, Lenis, Header, Footer)
+│   │   └── globals.css          # Tailwind CSS 4, overflow-x: clip, 3D Flip keyframes, Print LPJ
 │   ├── components/
-│   │   ├── ui/                  # Komponen UI Dasar (Buttons, Badges, Drawers)
-│   │   ├── home/                # Komponen Beranda (HeroVideo, ScrambleHeader)
-│   │   ├── diagram/             # Interactive Org Chart Component
-│   │   ├── proker/              # ProkerCard, ProkerFilter, ProkerModal
-│   │   └── vault/               # CashflowChart, TransactionTable, ReceiptViewer
+│   │   ├── auth/                # LoginFormClient
+│   │   ├── common/              # Header, Footer, MobileDrawer, ScrambleText, SmoothScroller
+│   │   ├── home/                # HeroSection, ShowcaseSlider, ContactSection
+│   │   ├── diagram/             # OrgBlueprint (CircuitConnector + SvgBusLines), DivisionDrawer
+│   │   ├── keuangan/            # PublicFinanceClient
+│   │   ├── proker/              # ProkerCard, ProkerCoverPlaceholder, ProkerFilterBar, ProkerGallery
+│   │   ├── ui/                  # CustomSelect (scrollable dropdown anti-Lenis)
+│   │   └── vault/               # VaultShellClient, FinanceVaultTab, ProkerManagerTab, DivisionManagerTab, AboutManagerTab, InboxTab
+│   ├── actions/                 # Server Actions (auth, finance, proker, org, about, contact)
 │   ├── lib/
-│   │   ├── supabase/            # Client & Server Helper Supabase
-│   │   │   ├── client.ts
-│   │   │   └── server.ts
-│   │   └── motion/              # Konfigurasi GSAP & Lenis
-│   └── types/                   # TypeScript interfaces (Database Types)
-├── PROJECT.md                   # Dokumen Blueprint ini
-└── package.json
+│   │   ├── auth/session.ts      # Sesi pengurus & otorisasi role
+│   │   ├── data/                # queries.ts ("use cache"), about.ts, organization.ts, proker.ts, flagship-proker.ts, social.ts
+│   │   └── supabase/            # client.ts, public.ts, server.ts, storage.ts, middleware.ts
+│   ├── types/                   # database.types.ts, finance.types.ts
+│   └── proxy.ts                 # Next.js 16 Proxy Interceptor
+├── PROJECT.md
+├── DESIGN.md
+├── ARCHITECTURE.md
+├── TASK.md
+└── GEMINI.md
 ```
 
 ---
 
 ## 7. Rencana Tahapan Eksekusi (Roadmap Milestones)
 
-| Fase | Nama Fase | Fokus Pengerjaan |
-| :--- | :--- | :--- |
-| **Fase 1** | **Fondasi & Inisialisasi** | Inisialisasi Next.js (App Router), integrasi Tailwind, konfigurasi font Google (`Anton SC` & `JetBrains Mono`), dan integrasi Lenis smooth scroll. |
-| **Fase 2** | **Landing Page Sinematik** | Pengerjaan Header fixed dengan efek *text scramble*, Hero section dengan video loop background, dan teaser carousel proker. |
-| **Fase 3** | **About & Interactive Diagram** | Pembangunan halaman About Us dan modul visual diagram struktur organisasi (Node hierarchy tanpa foto) yang responsif. |
-| **Fase 4** | **Katalog Proker & Supabase** | Pembuatan halaman `/proker`, penghubungan data dinamis dari Supabase `work_programs`, dan sistem drawer detail proker. |
-| **Fase 5** | **The Vault (Keuangan Kas Internal)** | Pembuatan antarmuka login terminal, konfigurasi Supabase Auth & RLS, form input kas masuk/keluar, dan dashboard pelaporan. |
-| **Fase 6** | **Polish, Mobile Audit, & Launch** | Audit performa di berbagai smartphone, kompresi aset gambar/video, uji coba keamanan data kas, dan deploy. |
+| Fase | Nama Fase | Status |
+| :--- | :--- | :---: |
+| **Fase 0–4.5** | Fondasi Next.js, Database, Global Nav, Hero/Slider, `/about`, `/struktur`, & Audit Copywriting | ✅ Selesai |
+| **Fase 5–6+** | `/proker` & `[slug]`, `/keuangan` Publik, Portal `/login` & `/vault` (Kas, Proker, Struktur, Kotak Masuk, Kelola Tentang) | ✅ Selesai |
+| **Fase 7** | Konversi WebP (-77,5%) + Sync DB, Audit Mobile Edge `360–414px`, GSAP `<= 0.7s`, SEO (`sitemap`/`robots`), `src/proxy.ts`, 0 Lint Error/Warning | ✅ Siap Lighthouse |
+| **Fase 8** | Konfigurasi Env Production, `/api/keep-alive` + `vercel.json` Cron (tiap 3 hari), & Deployment ke Vercel | ⏳ Berikutnya |
 
 ---
 
 ## 8. Status & Kemajuan Proyek Terkini
 
-Status Kesiapan & Verifikasi Sistem:
-* [x] **Daftar Divisi Resmi**: Sudah terkonfirmasi dan terintegrasi 8 entitas resmi HIMATIKA + Presidium Utama.
-* [x] **Runtime Lokal**: Node.js LTS (`v24.20.0`) dan NPM (`v11.19.0`) aktif di mesin lokal.
-* [x] **Koneksi Supabase MCP**: Terhubung ke proyek **`Website_Himatika`** (`urlpknogetgjfmwdbymk`).
-* [x] **Skema Basis Data Supabase**: 4 tabel (`divisions`, `work_programs`, `finance_categories`, `finance_records`), RLS security, 2 storage bucket (`public-assets`, `vault-receipts`), database view, dan RPC function berhasil dideploy.
-* [x] **Platform Hosting Terpilih**: Vercel (Edge Serverless).
-* [x] **FASE 0 Selesai (Environment & Database Setup)**: Database DDL, RLS, seed data 8 divisi & kategori kas, storage bucket.
-* [x] **FASE 1 Selesai (Fondasi Next.js & Desain Sistem)**: Next.js 16 (Turbopack, TypeScript, Tailwind 4), Google Fonts (`Anton`, `JetBrains_Mono`, `Poppins`), Supabase SSR helpers, middleware route guard.
-* [x] **FASE 2 Selesai (Komponen Global & Navigasi)**: `SmoothScroller` (Lenis), `ScrambleText`, `Header` (Pure negative space di tengah, user profile icon ke `/login`), `MobileDrawer` (Fullscreen brutalist), `Footer` (Technical dossier coordinates).
-* [x] **FASE 3 Selesai (Halaman Beranda Sinematik)**: Slideshow latar belakang foto kegiatan asli berwarna (*full color*), headline masif Anton dengan "UNIVERSITAS TRILOGI" aksen Biru HIMATIKA (`#2563eb`), Showcase Slider proker split-screen dengan sentuhan gestur swipe, dan Quick Metrics blueprint.
-* [x] **FASE 4 Selesai (Tentang Kami & Interactive Org Blueprint)**: Narasi editorial sejarah HIMATIKA sejak 2015, Visi & Misi spesifikasi teknis 4 pilar, 4 Nilai Dasar, Interactive Org Blueprint (SVG circuit bus & node tree tanpa foto personal anggota), dan slide-over `DivisionDrawer` interaktif.
-* [x] **FASE 5 Selesai (Daftar Program Kerja Dedikasi `/proker` & `/proker/[slug]`)**: Sticky filter status (Semua, Akan Datang, Berjalan, Selesai), filter divisi resmi & filter kolaboratif, brutalist card grid 16:9, halaman dinamis `[slug]` dengan layout split 8:4, rincian teknis acara, rundown kegiatan, tombol WhatsApp kontak panitia, lightbox modal galeri foto interaktif, serta penanganan rute segment config Next.js 16 (`export const instant = false`).
-* [x] **FASE 6 Selesai (Transparansi Kas `/keuangan` & Portal Pengurus RBAC `/vault`)**: Halaman publik `/keuangan` (Opsi A: ringkasan & mutasi non-sensitif), tabel `user_profiles` + RBAC (`bendahara`, `medkraf`, `admin`), Server Actions (`auth`, `finance`, `proker`, `org`) dengan validasi Zod, manajemen nota privat (`vault-receipts` Signed URL), CMS Proker & CMS Struktur terhubung dinamis ke Supabase, serta upgrade keamanan **Next.js `16.4.6`** (`experimental.agentUpgrade: "security"`) dan perbaikan 2 error ESLint bawaan (`SmoothScroller.tsx`, `ProkerCatalogClient.tsx`).
-* [x] **Lanjutan Fase 6 Selesai (Sesi 20 Nov 2026)**: Login **Username Jabatan** (`admin`, `bendahara`, `medkraf` + dukungan email) & tombol ikon mata password (`Eye`/`EyeOff`) pada `/login`, 3 akun terdaftar di `auth.users` & `public.user_profiles`, tab `/vault` (`KELOLA PROGRAM KERJA`, `KELOLA STRUKTUR`), **upload/ganti foto pengurus** ke `public-assets` (`bodySizeLimit: "11mb"`), serta fix Next.js 16 `Cache Components` (`await connection()` di `/vault`) sudah terverifikasi build & diuji ganti foto oleh user.
-* [ ] **Sisa Uji Sebelum Fase 7**: Pengujian interaktif akun `bendahara` (input kas + nota Signed URL & cek `/keuangan`) dan `medkraf` (tab `KELOLA PROGRAM KERJA`). *(Catatan: commit kode sesi 20 Nov sudah masuk di `b2c84c0` branch `Dev`; tinggal commit pembaruan dokumentasi markdown ini).*
-* [ ] **Langkah Selanjutnya**: Eksekusi **FASE 7 (Optimasi Kinerja, Audit Mobile, & UI/UX Polish)** dan **FASE 8 (Deploy Vercel + Vercel Cron `/api/keep-alive` tiap 3 hari untuk cegah auto-pause 7 hari Supabase Free Plan)**. *(Catatan kapasitas Free Plan per 20 Nov 2026: DB `11 MB` / `500 MB`, Storage `13 kB` / `1 GB`)*.
-
+Status Kesiapan & Verifikasi Sistem (per **20 November 2026**):
+* [x] **Daftar Divisi Resmi**: 9 node organisasi aktif (`PRESIDIUM` berlabel tampilan **`PIMPINAN HIMPUNAN`**, 2 BPH, 6 Divisi Pelaksana) terhubung dinamis ke `/struktur`.
+* [x] **Skema Database Supabase (`Website_Himatika` / `urlpknogetgjfmwdbymk`)**:
+  * Tabel aktif dengan RLS: `divisions` (`9` baris), `work_programs` (`12` baris), `finance_categories` (`8` baris), `finance_records`, `user_profiles` (`3` akun: `admin`, `bendahara`, `medkraf`), **`contact_messages`**, dan **`site_about`**.
+  * 2 storage bucket aktif (`public-assets` untuk gambar publik dengan auto-cleanup file usang; `vault-receipts` privat untuk nota kas).
+* [x] **Sesi 20 Nov 2026 (Penyempurnaan CMS + Fase 7) Selesai & Terverifikasi**:
+  * Seluruh fitur baru CMS (`KOTAK MASUK`, `KELOLA TENTANG`, hapus/reset poster proker, kosongkan galeri 0 foto, edit/CSV/LPJ kas, dropdown `CustomSelect`), perapihan diagram `/struktur` + label `PIMPINAN HIMPUNAN`, kontras HUD Hero, media sosial resmi tunggal **`@himatika.trilogi`** (`social.ts`), konversi aset `.webp` + sync DB, migrasi `src/proxy.ts`, serta `sitemap.ts`/`robots.ts` lulus **`tsc --noEmit` (`0` error)** dan **`npm run lint` (`0` error, `0` warning)**.
+  * `npm run build` dan audit headless Edge (`360x800`, `390x844`, `414x896` pada 9 rute utama: `0` overflow, `0` broken images, sticky filter bar aktif) telah diverifikasi pada Fase 7.
+* [ ] **Langkah Sesi Berikutnya**:
+  1. Review perubahan working tree lokal & lakukan `git commit` pada branch `Dev` (commit terakhir masih `9dcdcf3`).
+  2. Uji klik interaktif di `/vault` (`KELOLA TENTANG`, `KOTAK MASUK`, edit kas, hapus foto proker) + jalankan audit angka formal **Google Lighthouse** (> 90).
+  3. Masuk **FASE 8**: tambahkan `/api/keep-alive` + `vercel.json` cron (`0 0 */3 * *`), pasang env vars di Vercel, dan deploy produksi.
 
 *(Dokumen ini diperbarui secara berkala sebagai sumber kebenaran teknis proyek).*
