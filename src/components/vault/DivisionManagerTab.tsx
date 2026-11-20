@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Edit3, X, Loader2, Upload, RotateCcw } from "lucide-react";
 import { updateDivisionStructure } from "@/actions/org.actions";
+import { useLockBodyScroll } from "@/components/common/SmoothScroller";
 import type { DivisionRow } from "@/types/database.types";
 
 interface DivisionManagerTabProps {
@@ -59,6 +60,8 @@ export function DivisionManagerTab({ divisions }: DivisionManagerTabProps) {
     text: string;
   } | null>(null);
   const leadersRef = useRef<LeaderDraft[]>([]);
+
+  useLockBodyScroll(Boolean(editing));
 
   useEffect(() => {
     leadersRef.current = leadersDraft;
@@ -241,11 +244,13 @@ export function DivisionManagerTab({ divisions }: DivisionManagerTabProps) {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto"
+          data-lenis-prevent
+          className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto overscroll-contain"
           onClick={closeModal}
         >
           <div
-            className="w-full max-w-2xl bg-surface border border-hairline shadow-2xl my-8 max-h-[90vh] overflow-y-auto"
+            data-lenis-prevent
+            className="w-full max-w-2xl bg-surface border border-hairline shadow-2xl my-8 max-h-[90vh] overflow-y-auto overscroll-contain"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between px-6 py-4 border-b border-hairline sticky top-0 bg-surface z-10">

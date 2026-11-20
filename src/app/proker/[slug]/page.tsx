@@ -140,27 +140,29 @@ export default async function ProkerDetailPage({
           {/* Left Column: Narrative, Details, Rundown, Gallery (8 cols) */}
           <div className="lg:col-span-8 space-y-12">
             {/* Main Visual Cover */}
-            <div
-              className={`relative aspect-[16/9] w-full overflow-hidden border border-white/10 rounded ${
-                proker.isWhiteBackground ? "bg-white" : "bg-black"
-              }`}
-            >
-              <Image
-                src={proker.coverImage}
-                alt={proker.title}
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 800px"
-                className={`transition-all duration-300 ${
-                  proker.isWhiteBackground
-                    ? "object-contain p-8 sm:p-14"
-                    : "object-cover"
+            {proker.coverImage && (
+              <div
+                className={`relative aspect-[16/9] w-full overflow-hidden border border-white/10 rounded ${
+                  proker.isWhiteBackground ? "bg-white" : "bg-black"
                 }`}
-              />
-              {!proker.isWhiteBackground && (
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-              )}
-            </div>
+              >
+                <Image
+                  src={proker.coverImage}
+                  alt={proker.title}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 800px"
+                  className={`transition-all duration-300 ${
+                    proker.isWhiteBackground
+                      ? "object-contain p-8 sm:p-14"
+                      : "object-cover"
+                  }`}
+                />
+                {!proker.isWhiteBackground && (
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                )}
+              </div>
+            )}
 
             {/* Section 1: Latar Belakang & Deskripsi Naratif */}
             <section className="space-y-4">

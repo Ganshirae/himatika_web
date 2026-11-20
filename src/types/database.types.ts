@@ -123,3 +123,15 @@ export interface WorkProgramRow {
   is_featured: boolean;
   created_at: string;
 }
+
+export type ContactMessageStatus = "unread" | "read" | "archived";
+
+export interface ContactMessageRow {
+  id: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  status: ContactMessageStatus;
+  created_at: string;
+}

@@ -14,7 +14,8 @@ const ALLOWED_RECEIPT_TYPES = new Set([
   "application/pdf",
 ]);
 
-const createFinanceSchema = z.object({
+const financePayloadSchema = z.object({
+  id: z.string().uuid().optional().or(z.literal("")),
   title: z.string().trim().min(3, "Keterangan transaksi minimal 3 karakter.").max(160),
   amount: z.coerce
     .number()
@@ -26,29 +27,68 @@ const createFinanceSchema = z.object({
     .string()
     .regex(/^\d{4}-\d{2}-\d{2}$/, "Format tanggal harus YYYY-MM-DD."),
   notes: z.string().trim().max(500).optional(),
+  existing_receipt_url: z.string().trim().optional(),
+  remove_receipt: z.boolean().optional(),
 });
 
+async function uploadPrivateReceipt(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  receiptFile: File
+): Promise<{ path?: string; error?: string }> {
+  if (receiptFile.size > MAX_RECEIPT_BYTES) {
+    return { error: "Ukuran file bukti nota maksimal 5 MB." };
+  }
+  if (!ALLOWED_RECEIPT_TYPES.has(receiptFile.type)) {
+    return { error: "Format bukti nota harus JPG, PNG, WebP, atau PDF." };
+  }
+
+  const ext = receiptFile.name.split(".").pop()?.toLowerCase() || "jpg";
+  const storagePath = `receipts/${crypto.randomUUID()}.${ext}`;
+
+  const { error: uploadError } = await supabase.storage
+    .from("vault-receipts")
+    .upload(storagePath, receiptFile, {
+      contentType: receiptFile.type,
+      upsert: false,
+    });
+
+  if (uploadError) {
+    return { error: `Gagal mengunggah bukti nota: ${uploadError.message}` };
+  }
+
+  return { path: storagePath };
+}
+
+function invalidateFinanceCaches() {
+  updateTag("finance");
+  revalidatePath("/vault");
+  revalidatePath("/keuangan");
+}
+
 /**
- * Record a new cash transaction and optionally upload its receipt to private storage.
+ * Create or update a finance transaction and handle private receipt upload/replacement.
  */
-export async function createFinanceTransaction(
+export async function upsertFinanceTransaction(
   formData: FormData
 ): Promise<ActionResult> {
   const pengurus = await getCurrentPengurus();
   if (!pengurus || !canManageFinance(pengurus.profile.role)) {
     return {
       success: false,
-      message: "Akses ditolak. Hanya Bendahara atau Admin yang dapat mencatat transaksi kas.",
+      message: "Akses ditolak. Hanya Bendahara atau Admin yang dapat mengelola transaksi kas.",
     };
   }
 
-  const parsed = createFinanceSchema.safeParse({
+  const parsed = financePayloadSchema.safeParse({
+    id: formData.get("id") || "",
     title: formData.get("title"),
     amount: formData.get("amount"),
     type: formData.get("type"),
     category_id: formData.get("category_id"),
     transaction_date: formData.get("transaction_date"),
     notes: formData.get("notes") || undefined,
+    existing_receipt_url: formData.get("existing_receipt_url") || "",
+    remove_receipt: formData.get("remove_receipt") === "true",
   });
 
   if (!parsed.success) {
@@ -59,42 +99,54 @@ export async function createFinanceTransaction(
   }
 
   const supabase = await createClient();
-  let receiptPath: string | null = null;
+  const isEdit = Boolean(parsed.data.id);
+  const existingReceipt = parsed.data.existing_receipt_url || null;
+  let nextReceiptPath: string | null = parsed.data.remove_receipt ? null : existingReceipt;
+  let newlyUploadedPath: string | null = null;
 
   const receiptFile = formData.get("receipt");
   if (receiptFile instanceof File && receiptFile.size > 0) {
-    if (receiptFile.size > MAX_RECEIPT_BYTES) {
+    const uploadRes = await uploadPrivateReceipt(supabase, receiptFile);
+    if (uploadRes.error || !uploadRes.path) {
+      return { success: false, message: uploadRes.error ?? "Gagal mengunggah nota." };
+    }
+    newlyUploadedPath = uploadRes.path;
+    nextReceiptPath = uploadRes.path;
+  }
+
+  if (isEdit && parsed.data.id) {
+    const { error: updateError } = await supabase
+      .from("finance_records")
+      .update({
+        title: parsed.data.title,
+        amount: parsed.data.amount,
+        type: parsed.data.type,
+        category_id: parsed.data.category_id,
+        transaction_date: parsed.data.transaction_date,
+        notes: parsed.data.notes ?? null,
+        receipt_url: nextReceiptPath,
+      })
+      .eq("id", parsed.data.id);
+
+    if (updateError) {
+      if (newlyUploadedPath) {
+        await supabase.storage.from("vault-receipts").remove([newlyUploadedPath]);
+      }
       return {
         success: false,
-        message: "Ukuran file bukti nota maksimal 5 MB.",
+        message: `Gagal memperbarui transaksi: ${updateError.message}`,
       };
     }
 
-    if (!ALLOWED_RECEIPT_TYPES.has(receiptFile.type)) {
-      return {
-        success: false,
-        message: "Format bukti nota harus JPG, PNG, WebP, atau PDF.",
-      };
+    if (existingReceipt && (newlyUploadedPath || parsed.data.remove_receipt)) {
+      await supabase.storage.from("vault-receipts").remove([existingReceipt]);
     }
 
-    const ext = receiptFile.name.split(".").pop()?.toLowerCase() || "jpg";
-    const storagePath = `receipts/${crypto.randomUUID()}.${ext}`;
-
-    const { error: uploadError } = await supabase.storage
-      .from("vault-receipts")
-      .upload(storagePath, receiptFile, {
-        contentType: receiptFile.type,
-        upsert: false,
-      });
-
-    if (uploadError) {
-      return {
-        success: false,
-        message: `Gagal mengunggah bukti nota: ${uploadError.message}`,
-      };
-    }
-
-    receiptPath = storagePath;
+    invalidateFinanceCaches();
+    return {
+      success: true,
+      message: "Transaksi kas berhasil diperbarui.",
+    };
   }
 
   const { error: insertError } = await supabase.from("finance_records").insert({
@@ -104,13 +156,13 @@ export async function createFinanceTransaction(
     category_id: parsed.data.category_id,
     transaction_date: parsed.data.transaction_date,
     notes: parsed.data.notes ?? null,
-    receipt_url: receiptPath,
+    receipt_url: nextReceiptPath,
     recorded_by: pengurus.userId,
   });
 
   if (insertError) {
-    if (receiptPath) {
-      await supabase.storage.from("vault-receipts").remove([receiptPath]);
+    if (newlyUploadedPath) {
+      await supabase.storage.from("vault-receipts").remove([newlyUploadedPath]);
     }
     return {
       success: false,
@@ -118,14 +170,20 @@ export async function createFinanceTransaction(
     };
   }
 
-  updateTag("finance");
-  revalidatePath("/vault");
-  revalidatePath("/keuangan");
-
+  invalidateFinanceCaches();
   return {
     success: true,
     message: "Transaksi kas berhasil dicatat.",
   };
+}
+
+/**
+ * Backward-compatible alias for creating a new finance transaction.
+ */
+export async function createFinanceTransaction(
+  formData: FormData
+): Promise<ActionResult> {
+  return upsertFinanceTransaction(formData);
 }
 
 /**
@@ -168,10 +226,7 @@ export async function deleteFinanceTransaction(id: string): Promise<ActionResult
     await supabase.storage.from("vault-receipts").remove([existing.receipt_url]);
   }
 
-  updateTag("finance");
-  revalidatePath("/vault");
-  revalidatePath("/keuangan");
-
+  invalidateFinanceCaches();
   return {
     success: true,
     message: "Transaksi kas berhasil dihapus.",

@@ -2,30 +2,68 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { X, Upload, Loader2 } from "lucide-react";
-import { createFinanceTransaction } from "@/actions/finance.actions";
-import type { FinanceCategoryRow, FinanceType } from "@/types/finance.types";
+import { X, Upload, Loader2, Trash2 } from "lucide-react";
+import { upsertFinanceTransaction } from "@/actions/finance.actions";
+import { useLockBodyScroll } from "@/components/common/SmoothScroller";
+import { CustomSelect } from "@/components/ui/CustomSelect";
+import type {
+  FinanceCategoryRow,
+  FinanceType,
+  VaultTransactionItem,
+} from "@/types/finance.types";
 
 interface TransactionFormModalProps {
   isOpen: boolean;
+  editingTransaction?: VaultTransactionItem | null;
   onClose: () => void;
   categories: FinanceCategoryRow[];
 }
 
 export function TransactionFormModal({
   isOpen,
+  editingTransaction = null,
   onClose,
   categories,
 }: TransactionFormModalProps) {
-  const router = useRouter();
-  const [txType, setTxType] = useState<FinanceType>("income");
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [submitting, setSubmitting] = useState(false);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  useLockBodyScroll(isOpen);
 
   if (!isOpen) return null;
 
+  return (
+    <TransactionFormDialog
+      key={editingTransaction?.id ?? "new-tx"}
+      editingTransaction={editingTransaction}
+      onClose={onClose}
+      categories={categories}
+    />
+  );
+}
+
+function TransactionFormDialog({
+  editingTransaction,
+  onClose,
+  categories,
+}: {
+  editingTransaction: VaultTransactionItem | null;
+  onClose: () => void;
+  categories: FinanceCategoryRow[];
+}) {
+  const router = useRouter();
+  const isEdit = Boolean(editingTransaction);
+  const [txType, setTxType] = useState<FinanceType>(
+    editingTransaction?.type ?? "income"
+  );
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [removeExistingReceipt, setRemoveExistingReceipt] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
   const filteredCategories = categories.filter((cat) => cat.type === txType);
+  const defaultCategory =
+    editingTransaction && editingTransaction.type === txType
+      ? (editingTransaction.categoryId ?? filteredCategories[0]?.id ?? "")
+      : (filteredCategories[0]?.id ?? "");
+
   const today = new Date().toISOString().slice(0, 10);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -38,7 +76,7 @@ export function TransactionFormModal({
       formData.set("receipt", selectedFile);
     }
 
-    const res = await createFinanceTransaction(formData);
+    const res = await upsertFinanceTransaction(formData);
     setSubmitting(false);
 
     if (!res.success) {
@@ -55,20 +93,22 @@ export function TransactionFormModal({
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto"
+      data-lenis-prevent
+      className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto overscroll-contain"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-lg bg-surface border border-hairline shadow-2xl my-8"
+        data-lenis-prevent
+        className="w-full max-w-lg bg-surface border border-hairline shadow-2xl my-8 max-h-[90vh] overflow-y-auto overscroll-contain"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-6 py-4 border-b border-hairline">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-hairline sticky top-0 bg-surface z-10">
           <div>
             <span className="font-mono text-[10px] text-blue-400 uppercase tracking-wider block">
               MODUL BENDAHARA
             </span>
             <h3 className="font-display text-xl uppercase text-main">
-              CATAT TRANSAKSI KAS BARU
+              {isEdit ? "EDIT TRANSAKSI KAS" : "CATAT TRANSAKSI KAS BARU"}
             </h3>
           </div>
           <button
@@ -82,6 +122,18 @@ export function TransactionFormModal({
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          <input type="hidden" name="id" value={editingTransaction?.id ?? ""} />
+          <input
+            type="hidden"
+            name="existing_receipt_url"
+            value={editingTransaction?.receiptUrl ?? ""}
+          />
+          <input
+            type="hidden"
+            name="remove_receipt"
+            value={removeExistingReceipt ? "true" : "false"}
+          />
+
           {errorMsg && (
             <div className="p-3 border border-red-500/30 bg-red-500/10 text-red-400 font-mono text-xs">
               {errorMsg}
@@ -129,6 +181,7 @@ export function TransactionFormModal({
               name="title"
               type="text"
               required
+              defaultValue={editingTransaction?.title ?? ""}
               placeholder="Contoh: Konsumsi Rapat Kerja T-Camp"
               className="w-full bg-canvas border border-hairline focus:border-blue-500 px-3.5 py-2.5 font-sans text-sm text-main outline-none"
             />
@@ -146,6 +199,7 @@ export function TransactionFormModal({
                 min={1}
                 step="1"
                 required
+                defaultValue={editingTransaction?.amount ?? ""}
                 placeholder="250000"
                 className="w-full bg-canvas border border-hairline focus:border-blue-500 px-3.5 py-2.5 font-mono text-sm text-main outline-none"
               />
@@ -159,7 +213,7 @@ export function TransactionFormModal({
                 id="tx-date"
                 name="transaction_date"
                 type="date"
-                defaultValue={today}
+                defaultValue={editingTransaction?.transactionDate ?? today}
                 required
                 className="w-full bg-canvas border border-hairline focus:border-blue-500 px-3.5 py-2.5 font-mono text-sm text-main outline-none"
               />
@@ -167,21 +221,20 @@ export function TransactionFormModal({
           </div>
 
           <div className="space-y-1.5">
-            <label htmlFor="tx-category" className="font-mono text-xs text-secondary block">
+            <label className="font-mono text-xs text-secondary block">
               KATEGORI KAS
             </label>
-            <select
-              id="tx-category"
+            <CustomSelect
+              key={`${txType}-${defaultCategory}`}
               name="category_id"
-              required
-              className="w-full bg-canvas border border-hairline focus:border-blue-500 px-3.5 py-2.5 font-mono text-xs text-main outline-none"
-            >
-              {filteredCategories.map((cat) => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.name}
-                </option>
-              ))}
-            </select>
+              ariaLabel="Kategori Kas"
+              defaultValue={defaultCategory}
+              options={filteredCategories.map((cat) => ({
+                value: cat.id,
+                label: cat.name,
+              }))}
+              buttonClassName="py-2.5 px-3.5"
+            />
           </div>
 
           <div className="space-y-1.5">
@@ -192,30 +245,66 @@ export function TransactionFormModal({
               id="tx-notes"
               name="notes"
               rows={2}
+              defaultValue={editingTransaction?.notes ?? ""}
               placeholder="Catatan verifikasi bendahara (tidak tampil di halaman publik)..."
               className="w-full bg-canvas border border-hairline focus:border-blue-500 px-3.5 py-2 font-sans text-xs text-main outline-none resize-none"
             />
           </div>
 
           {/* Drag & Drop Receipt Upload */}
-          <div className="space-y-1.5">
+          <div className="space-y-2">
             <label className="font-mono text-xs text-secondary block">
               BUKTI NOTA / KUITANSI (PRIVAT, MAX 5MB)
             </label>
+
+            {isEdit && editingTransaction?.receiptUrl && !removeExistingReceipt && !selectedFile && (
+              <div className="flex items-center justify-between gap-3 px-3 py-2 border border-hairline bg-canvas font-mono text-[11px]">
+                <span className="text-emerald-400 truncate">
+                  Nota tersimpan saat ini: {editingTransaction.receiptUrl.split("/").pop()}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setRemoveExistingReceipt(true)}
+                  className="inline-flex items-center gap-1 text-red-400 hover:text-red-300 shrink-0 cursor-pointer"
+                >
+                  <Trash2 className="w-3 h-3" />
+                  <span>HAPUS NOTA</span>
+                </button>
+              </div>
+            )}
+
+            {removeExistingReceipt && !selectedFile && (
+              <div className="flex items-center justify-between gap-2 px-3 py-2 border border-amber-500/30 bg-amber-500/10 font-mono text-[11px] text-amber-300">
+                <span>Nota lama akan dihapus saat disimpan.</span>
+                <button
+                  type="button"
+                  onClick={() => setRemoveExistingReceipt(false)}
+                  className="underline cursor-pointer"
+                >
+                  Batalkan
+                </button>
+              </div>
+            )}
+
             <label
               onDragOver={(e) => e.preventDefault()}
               onDrop={(e) => {
                 e.preventDefault();
                 const file = e.dataTransfer.files[0];
-                if (file) setSelectedFile(file);
+                if (file) {
+                  setSelectedFile(file);
+                  setRemoveExistingReceipt(false);
+                }
               }}
               className="flex flex-col items-center justify-center gap-2 p-4 border border-dashed border-hairline hover:border-blue-500/60 bg-canvas cursor-pointer transition-colors"
             >
               <Upload className="w-5 h-5 text-blue-400" />
               <span className="font-mono text-[11px] text-secondary text-center">
                 {selectedFile
-                  ? `Terpilih: ${selectedFile.name}`
-                  : "Klik atau seret foto nota (JPG / PNG / WebP / PDF)"}
+                  ? `File baru: ${selectedFile.name}`
+                  : isEdit
+                    ? "Klik atau seret file baru untuk mengganti nota (opsional)"
+                    : "Klik atau seret foto nota (JPG / PNG / WebP / PDF)"}
               </span>
               <input
                 type="file"
@@ -224,6 +313,7 @@ export function TransactionFormModal({
                 onChange={(e) => {
                   const file = e.target.files?.[0] ?? null;
                   setSelectedFile(file);
+                  if (file) setRemoveExistingReceipt(false);
                 }}
               />
             </label>
@@ -243,7 +333,13 @@ export function TransactionFormModal({
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-mono text-xs font-semibold disabled:opacity-50 cursor-pointer"
             >
               {submitting && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-              <span>{submitting ? "MENYIMPAN..." : "SIMPAN TRANSAKSI"}</span>
+              <span>
+                {submitting
+                  ? "MENYIMPAN..."
+                  : isEdit
+                    ? "SIMPAN PERUBAHAN"
+                    : "SIMPAN TRANSAKSI"}
+              </span>
             </button>
           </div>
         </form>

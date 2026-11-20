@@ -35,7 +35,7 @@ function mapRowToProkerItem(row: WorkProgramRow, index: number): ProkerItem {
     fullDesc,
     objectives: row.objectives ?? [],
     rundown: Array.isArray(row.rundown) ? row.rundown : [],
-    coverImage: row.cover_image_url || "/image/tcamp2024.jpg",
+    coverImage: row.cover_image_url || undefined,
     isWhiteBackground: Boolean(row.is_white_background),
     galleryImages: row.gallery_images ?? [],
     registrationLink: row.registration_link ?? undefined,
@@ -44,11 +44,29 @@ function mapRowToProkerItem(row: WorkProgramRow, index: number): ProkerItem {
   };
 }
 
-function mapRowToOrgNode(row: DivisionRow): OrgNode {
+function mapRowToOrgNode(
+  row: DivisionRow,
+  liveProkers: ProkerItem[]
+): OrgNode {
   const level = (row.level === 1 || row.level === 2 || row.level === 3 ? row.level : 3) as
     | 1
     | 2
     | 3;
+
+  // Match work programs belonging to this division (Presidium also includes KOLABORASI initiatives)
+  const matchedProkers = liveProkers
+    .filter(
+      (p) =>
+        p.divisionCode === row.code ||
+        (row.code === "PRESIDIUM" && p.divisionCode === "KOLABORASI")
+    )
+    .map((p) => ({
+      title: p.title,
+      slug: p.slug,
+      status: p.status,
+    }));
+
+  const fallbackProkers = Array.isArray(row.active_prokers) ? row.active_prokers : [];
 
   return {
     id: row.id,
@@ -64,7 +82,7 @@ function mapRowToOrgNode(row: DivisionRow): OrgNode {
     leaderImage: row.leader_image ?? undefined,
     leaders: Array.isArray(row.leaders) ? row.leaders : [],
     members: Array.isArray(row.member_groups) ? row.member_groups : [],
-    activeProkers: Array.isArray(row.active_prokers) ? row.active_prokers : [],
+    activeProkers: matchedProkers.length > 0 ? matchedProkers : fallbackProkers,
     focusAreas: row.focus_areas ?? [],
   };
 }
@@ -188,19 +206,23 @@ export async function getPublicOrgNodes(): Promise<OrgNode[]> {
   "use cache";
   cacheLife("minutes");
   cacheTag("divisions");
+  cacheTag("prokers");
 
   try {
     const supabase = createPublicClient();
-    const { data, error } = await supabase
-      .from("divisions")
-      .select("*")
-      .order("order_index", { ascending: true });
+    const [{ data, error }, liveProkers] = await Promise.all([
+      supabase
+        .from("divisions")
+        .select("*")
+        .order("order_index", { ascending: true }),
+      getPublicProkers(),
+    ]);
 
     if (error || !data || data.length === 0) {
       return ORG_NODES;
     }
 
-    return (data as DivisionRow[]).map(mapRowToOrgNode);
+    return (data as DivisionRow[]).map((row) => mapRowToOrgNode(row, liveProkers));
   } catch {
     return ORG_NODES;
   }

@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { X, ArrowRight, ExternalLink } from "lucide-react";
 import { OrgNode } from "@/lib/data/organization";
+import { useLockBodyScroll } from "@/components/common/SmoothScroller";
 
 interface DivisionDrawerProps {
   isOpen: boolean;
@@ -19,7 +20,9 @@ export default function DivisionDrawer({
 }: DivisionDrawerProps) {
   const drawerRef = useRef<HTMLDivElement>(null);
 
-  // Tangani tombol ESC dan klik di luar untuk menutup drawer
+  useLockBodyScroll(isOpen);
+
+  // Tangani tombol ESC untuk menutup drawer
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") {
@@ -29,12 +32,10 @@ export default function DivisionDrawer({
 
     if (isOpen) {
       document.addEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "hidden";
     }
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "";
     };
   }, [isOpen, onClose]);
 
@@ -76,7 +77,10 @@ export default function DivisionDrawer({
         </div>
 
         {/* Scrollable Body Content */}
-        <div className="flex-1 overflow-y-auto px-6 sm:px-8 py-7 space-y-8 custom-scrollbar">
+        <div
+          data-lenis-prevent
+          className="flex-1 overflow-y-auto overscroll-contain px-6 sm:px-8 py-7 space-y-8 custom-scrollbar"
+        >
           {/* Judul & Metadata Divisi */}
           <div className="space-y-3">
             <div className="flex items-center gap-2">

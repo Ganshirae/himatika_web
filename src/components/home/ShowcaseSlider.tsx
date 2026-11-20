@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Calendar, Layers } from "lucide-react";
 import { FLAGSHIP_PROKERS, FeaturedProker } from "@/lib/data/flagship-proker";
+import { ProkerCoverPlaceholder } from "@/components/proker/ProkerCoverPlaceholder";
 
 interface ShowcaseSliderProps {
   prokers?: FeaturedProker[];
@@ -17,8 +18,11 @@ export default function ShowcaseSlider({ prokers = FLAGSHIP_PROKERS }: ShowcaseS
   const total = prokers.length;
   const safeIndex = total > 0 ? currentIndex % total : 0;
   const currentProker = prokers[safeIndex];
+  const hasCoverImage = Boolean(currentProker?.coverImage);
   const useWhiteBg = Boolean(
-    currentProker?.isWhiteBackground || currentProker?.coverImage.includes("kolaborasi")
+    hasCoverImage &&
+      (currentProker?.isWhiteBackground ||
+        currentProker?.coverImage?.includes("kolaborasi"))
   );
 
   const handleNext = useCallback(() => {
@@ -109,23 +113,32 @@ export default function ShowcaseSlider({ prokers = FLAGSHIP_PROKERS }: ShowcaseS
             }`}>
               
               {/* Proker Banner Image */}
-              <Image
-                key={currentProker.id}
-                src={currentProker.coverImage}
-                alt={currentProker.title}
-                fill
-                sizes="(max-width: 1024px) 100vw, 55vw"
-                priority
-                className={`transition-all duration-700 group-hover:scale-105 ${
-                  useWhiteBg
-                    ? "object-contain p-6 sm:p-10"
-                    : "object-cover"
-                }`}
-              />
+              {currentProker.coverImage ? (
+                <>
+                  <Image
+                    key={currentProker.id}
+                    src={currentProker.coverImage}
+                    alt={currentProker.title}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 55vw"
+                    priority
+                    className={`transition-all duration-700 group-hover:scale-105 ${
+                      useWhiteBg
+                        ? "object-contain p-6 sm:p-10"
+                        : "object-cover"
+                    }`}
+                  />
 
-              {/* Subtle Bottom Vignette (hanya untuk foto dokumentasi) */}
-              {!useWhiteBg && (
-                <div className="absolute inset-0 bg-gradient-to-t from-canvas/80 via-transparent to-transparent pointer-events-none" />
+                  {/* Subtle Bottom Vignette (hanya untuk foto dokumentasi) */}
+                  {!useWhiteBg && (
+                    <div className="absolute inset-0 bg-gradient-to-t from-canvas/80 via-transparent to-transparent pointer-events-none" />
+                  )}
+                </>
+              ) : (
+                <ProkerCoverPlaceholder
+                  title={currentProker.title}
+                  divisionCode={currentProker.divisionCode}
+                />
               )}
 
               {/* Status Badges Overlay */}

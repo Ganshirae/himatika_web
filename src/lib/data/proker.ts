@@ -20,7 +20,7 @@ export interface ProkerItem {
   fullDesc: string[];
   objectives: string[];
   rundown?: RundownItem[];
-  coverImage: string;
+  coverImage?: string | null;
   isWhiteBackground?: boolean;
   galleryImages?: string[];
   registrationLink?: string;

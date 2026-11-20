@@ -8,13 +8,13 @@ import { useLenisScroll } from "./SmoothScroller";
 import ScrambleText from "./ScrambleText";
 
 const DIVISIONS = [
-  "BPH (SEK & BEN)",
-  "BPSDM",
-  "HUMAS",
-  "RISET & KEILMUAN",
-  "MINAT & BAKAT",
-  "SARANA & LOGISTIK",
-  "MEDIA KREATIF",
+  { label: "BPH (SEK & BEN)", href: "/struktur" },
+  { label: "BPSDM", href: "/proker?division=BPSDM" },
+  { label: "HUMAS", href: "/proker?division=HUMAS" },
+  { label: "RISET & KEILMUAN", href: "/proker?division=RISET" },
+  { label: "MINAT & BAKAT", href: "/proker?division=PMB" },
+  { label: "SARANA & LOGISTIK", href: "/proker?division=SARLOG" },
+  { label: "MEDIA KREATIF", href: "/proker?division=MEDKRAF" },
 ];
 
 const SOCIAL_LINKS = [
@@ -33,7 +33,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="w-full bg-surface/60 border-t border-hairline text-secondary relative z-10">
+    <footer className="w-full bg-surface/60 border-t border-hairline text-secondary relative z-10 print:hidden">
       {/* Upper Grid Section */}
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-14 py-12 lg:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
@@ -102,6 +102,15 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  href="/struktur"
+                  className="hover:text-blue-400 transition-colors flex items-center gap-1.5 group"
+                >
+                  <span className="text-muted group-hover:text-blue-400">›</span>
+                  <ScrambleText text="STRUKTUR PENGURUS" />
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/about"
                   className="hover:text-blue-400 transition-colors flex items-center gap-1.5 group"
                 >
@@ -116,6 +125,15 @@ export default function Footer() {
                 >
                   <span className="text-muted group-hover:text-blue-400">›</span>
                   <ScrambleText text="TRANSPARANSI KAS" />
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="hover:text-blue-400 transition-colors flex items-center gap-1.5 group"
+                >
+                  <span className="text-muted group-hover:text-blue-400">›</span>
+                  <ScrambleText text="HUBUNGI KAMI" />
                 </Link>
               </li>
               <li>
@@ -136,9 +154,15 @@ export default function Footer() {
               DIVISI KAMI
             </h4>
             <ul className="space-y-2 font-mono text-[11px] text-muted">
-              {DIVISIONS.map((divName) => (
-                <li key={divName} className="hover:text-main transition-colors">
-                  • {divName}
+              {DIVISIONS.map((div) => (
+                <li key={div.label}>
+                  <Link
+                    href={div.href}
+                    className="hover:text-blue-400 transition-colors inline-flex items-center gap-1"
+                  >
+                    <span>•</span>
+                    <span>{div.label}</span>
+                  </Link>
                 </li>
               ))}
             </ul>

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { X, ExternalLink, Loader2, FileText } from "lucide-react";
 import { getReceiptSignedUrl } from "@/actions/finance.actions";
+import { useLockBodyScroll } from "@/components/common/SmoothScroller";
 
 interface ReceiptViewerModalProps {
   receiptPath: string | null;
@@ -22,6 +23,8 @@ export function ReceiptViewerModal({
   onClose,
 }: ReceiptViewerModalProps) {
   const [loadState, setLoadState] = useState<ReceiptLoadState | null>(null);
+
+  useLockBodyScroll(Boolean(receiptPath));
 
   useEffect(() => {
     if (!receiptPath) return;
@@ -61,7 +64,8 @@ export function ReceiptViewerModal({
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-md flex items-center justify-center p-4"
+      data-lenis-prevent
+      className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto overscroll-contain"
       onClick={onClose}
     >
       <div

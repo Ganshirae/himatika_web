@@ -8,6 +8,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getCurrentPengurus } from "@/lib/auth/session";
 import { VaultShellClient } from "@/components/vault/VaultShellClient";
 import type {
+  ContactMessageRow,
   DivisionRow,
   FinanceCategoryRow,
   FinanceRecordRow,
@@ -36,30 +37,40 @@ async function VaultContent() {
 
   const supabase = await createClient();
 
-  const [summaryRes, recordsRes, categoriesRes, prokersRes, divisionsRes] =
-    await Promise.all([
-      supabase.rpc("get_financial_summary"),
-      supabase
-        .from("finance_records")
-        .select(
-          "id, title, amount, type, category_id, transaction_date, recorded_by, receipt_url, notes, created_at, finance_categories(name)"
-        )
-        .order("transaction_date", { ascending: false })
-        .order("created_at", { ascending: false }),
-      supabase
-        .from("finance_categories")
-        .select("id, name, type")
-        .order("name", { ascending: true }),
-      supabase
-        .from("work_programs")
-        .select("*")
-        .order("highlight_number", { ascending: true, nullsFirst: false })
-        .order("created_at", { ascending: true }),
-      supabase
-        .from("divisions")
-        .select("*")
-        .order("order_index", { ascending: true }),
-    ]);
+  const [
+    summaryRes,
+    recordsRes,
+    categoriesRes,
+    prokersRes,
+    divisionsRes,
+    messagesRes,
+  ] = await Promise.all([
+    supabase.rpc("get_financial_summary"),
+    supabase
+      .from("finance_records")
+      .select(
+        "id, title, amount, type, category_id, transaction_date, recorded_by, receipt_url, notes, created_at, finance_categories(name)"
+      )
+      .order("transaction_date", { ascending: false })
+      .order("created_at", { ascending: false }),
+    supabase
+      .from("finance_categories")
+      .select("id, name, type")
+      .order("name", { ascending: true }),
+    supabase
+      .from("work_programs")
+      .select("*")
+      .order("highlight_number", { ascending: true, nullsFirst: false })
+      .order("created_at", { ascending: true }),
+    supabase
+      .from("divisions")
+      .select("*")
+      .order("order_index", { ascending: true }),
+    supabase
+      .from("contact_messages")
+      .select("id, name, email, subject, message, status, created_at")
+      .order("created_at", { ascending: false }),
+  ]);
 
   const rawSummary = Array.isArray(summaryRes.data)
     ? summaryRes.data[0]
@@ -96,6 +107,7 @@ async function VaultContent() {
       categories={(categoriesRes.data ?? []) as FinanceCategoryRow[]}
       prokers={(prokersRes.data ?? []) as WorkProgramRow[]}
       divisions={(divisionsRes.data ?? []) as DivisionRow[]}
+      messages={(messagesRes.data ?? []) as ContactMessageRow[]}
     />
   );
 }

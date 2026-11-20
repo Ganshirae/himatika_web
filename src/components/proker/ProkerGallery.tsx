@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Sparkles, X, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
+import { useLockBodyScroll } from "@/components/common/SmoothScroller";
 
 interface ProkerGalleryProps {
   title: string;
@@ -11,6 +12,8 @@ interface ProkerGalleryProps {
 
 export function ProkerGallery({ title, images }: ProkerGalleryProps) {
   const [activeModalIndex, setActiveModalIndex] = useState<number | null>(null);
+
+  useLockBodyScroll(activeModalIndex !== null);
 
   if (!images || images.length === 0) return null;
 

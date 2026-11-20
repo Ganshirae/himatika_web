@@ -1,7 +1,17 @@
 "use client";
 
 import React, { useState } from "react";
-import { MapPin, Phone, Mail, Send, CheckCircle2, ArrowUpRight, Clock } from "lucide-react";
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Send,
+  CheckCircle2,
+  ArrowUpRight,
+  Clock,
+  AlertCircle,
+} from "lucide-react";
+import { submitContactMessage } from "@/actions/contact.actions";
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -12,21 +22,42 @@ export default function ContactSection() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) return;
+    if (
+      !formData.name.trim() ||
+      !formData.email.trim() ||
+      !formData.subject.trim() ||
+      !formData.message.trim()
+    ) {
+      setErrorMsg("Mohon lengkapi semua kolom yang wajib diisi.");
+      return;
+    }
 
     setIsSubmitting(true);
-    // Simulasi transmisi pesan ke pengurus
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setErrorMsg(null);
+
+    try {
+      const result = await submitContactMessage(formData);
+      if (!result.success) {
+        setErrorMsg(result.message);
+        return;
+      }
       setIsSubmitted(true);
-    }, 800);
+    } catch {
+      setErrorMsg(
+        "Terjadi gangguan koneksi saat mengirim pesan. Silakan coba lagi."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleReset = () => {
     setFormData({ name: "", email: "", subject: "", message: "" });
+    setErrorMsg(null);
     setIsSubmitted(false);
   };
 
@@ -175,7 +206,7 @@ export default function ContactSection() {
                     PESAN BERHASIL TERKIRIM!
                   </h3>
                   <p className="text-xs sm:text-sm text-neutral-300 font-sans max-w-md mx-auto leading-relaxed">
-                    Makasih banyak, <strong>{formData.name}</strong>! Pesanmu sudah kami terima. Pengurus bakal segera hubungi kamu balik lewat email <em>{formData.email}</em> ya.
+                    Makasih banyak, <strong>{formData.name}</strong>! Pesanmu sudah masuk ke kotak masuk pengurus HIMATIKA. Tim kami bakal segera hubungi kamu balik lewat email <em>{formData.email}</em>.
                   </p>
                   <div className="pt-4">
                     <button
@@ -255,6 +286,16 @@ export default function ContactSection() {
                     />
                   </div>
 
+                  {errorMsg && (
+                    <div
+                      role="alert"
+                      className="p-3.5 border border-red-500/40 bg-red-500/10 text-red-400 font-mono text-xs flex items-start gap-2.5 rounded-xs"
+                    >
+                      <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                      <span>{errorMsg}</span>
+                    </div>
+                  )}
+
                   {/* Tombol Submit */}
                   <div className="pt-2">
                     <button
@@ -274,7 +315,7 @@ export default function ContactSection() {
                   </div>
 
                   <p className="font-mono text-[11px] text-muted text-center pt-1">
-                    Pesan kamu bakal langsung terkirim ke email resmi pengurus himatika@trilogi.ac.id.
+                    Pesan kamu langsung tersimpan di kotak masuk pengurus HIMATIKA, atau email ke himatika@trilogi.ac.id.
                   </p>
                 </form>
               )}

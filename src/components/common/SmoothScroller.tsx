@@ -18,6 +18,26 @@ const LenisContext = createContext<LenisContextType>({
 
 export const useLenisScroll = () => useContext(LenisContext);
 
+/**
+ * Pause Lenis smooth scrolling and lock background body scroll while a modal or drawer is open.
+ */
+export function useLockBodyScroll(isLocked: boolean) {
+  const { stopScroll, startScroll } = useLenisScroll();
+
+  useEffect(() => {
+    if (!isLocked) return;
+
+    stopScroll();
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      startScroll();
+    };
+  }, [isLocked, stopScroll, startScroll]);
+}
+
 export default function SmoothScroller({ children }: { children: React.ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null);
   const pathname = usePathname();
@@ -32,6 +52,13 @@ export default function SmoothScroller({ children }: { children: React.ReactNode
       smoothWheel: true,
       wheelMultiplier: 1.0,
       touchMultiplier: 1.5,
+      allowNestedScroll: true,
+      prevent: (node) =>
+        node.hasAttribute("data-lenis-prevent") ||
+        node.getAttribute("role") === "dialog" ||
+        node.tagName === "SELECT" ||
+        node.tagName === "OPTION" ||
+        node.tagName === "TEXTAREA",
     });
 
     lenisRef.current = lenis;

@@ -6,6 +6,7 @@ import {
   Wallet,
   CalendarDays,
   GitBranch,
+  Inbox,
   LogOut,
   ArrowUpRight,
   ShieldCheck,
@@ -14,8 +15,10 @@ import { logoutUser } from "@/actions/auth.actions";
 import { FinanceVaultTab } from "./FinanceVaultTab";
 import { ProkerManagerTab } from "./ProkerManagerTab";
 import { DivisionManagerTab } from "./DivisionManagerTab";
+import { InboxTab } from "./InboxTab";
 import type {
   AppRole,
+  ContactMessageRow,
   DivisionRow,
   FinanceCategoryRow,
   FinancialSummary,
@@ -32,9 +35,10 @@ interface VaultShellClientProps {
   categories: FinanceCategoryRow[];
   prokers: WorkProgramRow[];
   divisions: DivisionRow[];
+  messages: ContactMessageRow[];
 }
 
-type VaultTab = "finance" | "proker" | "divisions";
+type VaultTab = "finance" | "proker" | "divisions" | "inbox";
 
 const ROLE_LABEL: Record<AppRole, string> = {
   admin: "ADMIN BPH (AKSES PENUH)",
@@ -50,20 +54,23 @@ export function VaultShellClient({
   categories,
   prokers,
   divisions,
+  messages,
 }: VaultShellClientProps) {
   const canEditFinance = profile.role === "bendahara" || profile.role === "admin";
   const canEditProker = profile.role === "medkraf" || profile.role === "admin";
   const canEditOrg = profile.role === "admin";
+
+  const unreadInboxCount = messages.filter((m) => m.status === "unread").length;
 
   const defaultTab: VaultTab =
     profile.role === "medkraf" ? "proker" : "finance";
   const [activeTab, setActiveTab] = useState<VaultTab>(defaultTab);
 
   return (
-    <div className="min-h-screen bg-canvas text-main pt-24 sm:pt-32 pb-16 px-4 sm:px-8 lg:px-14">
+    <div className="min-h-screen bg-canvas text-main pt-24 sm:pt-32 pb-16 px-4 sm:px-8 lg:px-14 print:pt-4 print:pb-4 print:bg-white print:text-black">
       <div className="max-w-[1440px] mx-auto space-y-8">
         {/* Top Portal Banner */}
-        <div className="p-6 sm:p-8 bg-surface border border-hairline flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div className="p-6 sm:p-8 bg-surface border border-hairline flex flex-col lg:flex-row lg:items-center justify-between gap-6 print:hidden">
           <div className="space-y-2">
             <div className="inline-flex items-center gap-2 font-mono text-xs text-blue-400 uppercase tracking-wider">
               <ShieldCheck className="w-4 h-4" />
@@ -97,7 +104,7 @@ export function VaultShellClient({
         </div>
 
         {/* Role-Based Module Switcher */}
-        <div className="flex flex-wrap items-center gap-2 border-b border-hairline pb-4 font-mono text-xs">
+        <div className="flex flex-wrap items-center gap-2 border-b border-hairline pb-4 font-mono text-xs print:hidden">
           <button
             type="button"
             onClick={() => setActiveTab("finance")}
@@ -140,6 +147,30 @@ export function VaultShellClient({
               <span>KELOLA STRUKTUR</span>
             </button>
           )}
+
+          <button
+            type="button"
+            onClick={() => setActiveTab("inbox")}
+            className={`inline-flex items-center gap-2 px-4 py-2.5 border transition-colors cursor-pointer ${
+              activeTab === "inbox"
+                ? "border-blue-500 bg-blue-600 text-white"
+                : "border-hairline bg-surface text-secondary hover:text-main"
+            }`}
+          >
+            <Inbox className="w-4 h-4" />
+            <span>KOTAK MASUK</span>
+            {unreadInboxCount > 0 && (
+              <span
+                className={`px-1.5 py-0.5 text-[10px] border ${
+                  activeTab === "inbox"
+                    ? "border-white/30 bg-white/15 text-white"
+                    : "border-blue-500/40 bg-blue-500/15 text-blue-400"
+                }`}
+              >
+                {unreadInboxCount}
+              </span>
+            )}
+          </button>
         </div>
 
         {/* Active Module Content */}
@@ -158,6 +189,10 @@ export function VaultShellClient({
 
         {activeTab === "divisions" && canEditOrg && (
           <DivisionManagerTab divisions={divisions} />
+        )}
+
+        {activeTab === "inbox" && (
+          <InboxTab messages={messages} canManageInbox={canEditProker} />
         )}
       </div>
     </div>

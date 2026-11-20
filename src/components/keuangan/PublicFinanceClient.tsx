@@ -5,13 +5,17 @@ import Link from "next/link";
 import {
   ArrowDownLeft,
   ArrowUpRight,
+  Calendar,
+  ChevronLeft,
+  ChevronRight,
+  Download,
+  Filter,
   Lock,
   Search,
   Wallet,
-  Calendar,
-  Filter,
 } from "lucide-react";
-import { formatRupiah } from "@/lib/utils";
+import { downloadFinanceCsv, formatRupiah } from "@/lib/utils";
+import { CustomSelect } from "@/components/ui/CustomSelect";
 import type {
   FinanceCategoryRow,
   FinancialSummary,
@@ -24,6 +28,8 @@ interface PublicFinanceClientProps {
   categories: FinanceCategoryRow[];
 }
 
+const PAGE_SIZE = 15;
+
 function formatDateID(dateStr: string): string {
   const parsed = new Date(dateStr);
   if (Number.isNaN(parsed.getTime())) return dateStr;
@@ -34,6 +40,17 @@ function formatDateID(dateStr: string): string {
   }).format(parsed);
 }
 
+function formatMonthLabel(monthKey: string): string {
+  const [year, month] = monthKey.split("-").map(Number);
+  if (!year || !month) return monthKey;
+  return new Intl.DateTimeFormat("id-ID", {
+    month: "long",
+    year: "numeric",
+  })
+    .format(new Date(year, month - 1, 1))
+    .toUpperCase();
+}
+
 export function PublicFinanceClient({
   summary,
   transactions,
@@ -41,7 +58,24 @@ export function PublicFinanceClient({
 }: PublicFinanceClientProps) {
   const [typeFilter, setTypeFilter] = useState<"all" | "income" | "expense">("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("ALL");
+  const [monthFilter, setMonthFilter] = useState<string>("ALL");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const monthOptions = useMemo(() => {
+    const keys = Array.from(
+      new Set(
+        transactions
+          .map((tx) => tx.transactionDate.slice(0, 7))
+          .filter((k) => /^\d{4}-\d{2}$/.test(k))
+      )
+    ).sort((a, b) => b.localeCompare(a));
+
+    return [
+      { value: "ALL", label: "SEMUA PERIODE" },
+      ...keys.map((k) => ({ value: k, label: formatMonthLabel(k) })),
+    ];
+  }, [transactions]);
 
   const filteredTransactions = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
@@ -49,14 +83,32 @@ export function PublicFinanceClient({
       const matchType = typeFilter === "all" || item.type === typeFilter;
       const matchCategory =
         categoryFilter === "ALL" || item.categoryId === categoryFilter;
+      const matchMonth =
+        monthFilter === "ALL" || item.transactionDate.startsWith(monthFilter);
       const matchSearch =
         query === "" ||
         item.title.toLowerCase().includes(query) ||
         item.categoryName.toLowerCase().includes(query);
 
-      return matchType && matchCategory && matchSearch;
+      return matchType && matchCategory && matchMonth && matchSearch;
     });
-  }, [transactions, typeFilter, categoryFilter, searchQuery]);
+  }, [transactions, typeFilter, categoryFilter, monthFilter, searchQuery]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredTransactions.length / PAGE_SIZE));
+  const safePage = Math.min(currentPage, totalPages);
+  const paginatedTransactions = useMemo(() => {
+    const start = (safePage - 1) * PAGE_SIZE;
+    return filteredTransactions.slice(start, start + PAGE_SIZE);
+  }, [filteredTransactions, safePage]);
+
+  const handleExportCsv = () => {
+    const suffix = monthFilter === "ALL" ? "semua-periode" : monthFilter;
+    downloadFinanceCsv(
+      filteredTransactions,
+      `transparansi-kas-himatika-${suffix}.csv`,
+      false
+    );
+  };
 
   return (
     <div className="min-h-screen bg-canvas text-main">
@@ -139,8 +191,8 @@ export function PublicFinanceClient({
       {/* Filter & Ledger Section */}
       <section className="px-4 sm:px-8 lg:px-14 py-10 sm:py-14">
         <div className="max-w-[1440px] mx-auto space-y-6">
-          {/* Sticky Filter Bar */}
-          <div className="p-4 sm:p-5 bg-surface border border-hairline flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          {/* Filter Bar */}
+          <div className="p-4 sm:p-5 bg-surface border border-hairline flex flex-col xl:flex-row xl:items-center justify-between gap-4">
             {/* Type Tabs */}
             <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
               {(
@@ -153,7 +205,10 @@ export function PublicFinanceClient({
                 <button
                   key={tab.value}
                   type="button"
-                  onClick={() => setTypeFilter(tab.value)}
+                  onClick={() => {
+                    setTypeFilter(tab.value);
+                    setCurrentPage(1);
+                  }}
                   className={`px-3.5 py-2 border transition-colors cursor-pointer ${
                     typeFilter === tab.value
                       ? "border-blue-500 bg-blue-600 text-white"
@@ -165,41 +220,70 @@ export function PublicFinanceClient({
               ))}
             </div>
 
-            {/* Category & Search */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-              <div className="relative flex items-center">
-                <Filter className="w-3.5 h-3.5 text-muted absolute left-3 pointer-events-none" />
-                <select
-                  aria-label="Filter kategori kas"
-                  value={categoryFilter}
-                  onChange={(e) => setCategoryFilter(e.target.value)}
-                  className="bg-canvas border border-hairline focus:border-blue-500 pl-9 pr-4 py-2 font-mono text-xs text-main outline-none"
-                >
-                  <option value="ALL">SEMUA KATEGORI</option>
-                  {categories.map((cat) => (
-                    <option key={cat.id} value={cat.id}>
-                      {cat.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+            {/* Period, Category, Search, & Export */}
+            <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3">
+              <CustomSelect
+                ariaLabel="Filter periode kas"
+                value={monthFilter}
+                onChange={(val) => {
+                  setMonthFilter(val);
+                  setCurrentPage(1);
+                }}
+                leadingIcon={<Calendar className="w-3.5 h-3.5" />}
+                options={monthOptions}
+                className="sm:w-52"
+              />
+
+              <CustomSelect
+                ariaLabel="Filter kategori kas"
+                value={categoryFilter}
+                onChange={(val) => {
+                  setCategoryFilter(val);
+                  setCurrentPage(1);
+                }}
+                leadingIcon={<Filter className="w-3.5 h-3.5" />}
+                options={[
+                  { value: "ALL", label: "SEMUA KATEGORI" },
+                  ...categories.map((cat) => ({
+                    value: cat.id,
+                    label: cat.name,
+                  })),
+                ]}
+                className="sm:w-56"
+              />
 
               <div className="relative flex items-center">
                 <Search className="w-3.5 h-3.5 text-muted absolute left-3 pointer-events-none" />
                 <input
                   type="text"
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setCurrentPage(1);
+                  }}
                   placeholder="Cari keterangan transaksi..."
-                  className="w-full sm:w-64 bg-canvas border border-hairline focus:border-blue-500 pl-9 pr-3 py-2 font-mono text-xs text-main placeholder:text-muted outline-none"
+                  className="w-full sm:w-56 bg-canvas border border-hairline focus:border-blue-500 pl-9 pr-3 py-2 font-mono text-xs text-main placeholder:text-muted outline-none"
                 />
               </div>
+
+              {filteredTransactions.length > 0 && (
+                <button
+                  type="button"
+                  onClick={handleExportCsv}
+                  className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 border border-hairline hover:border-blue-500/60 bg-canvas text-secondary hover:text-main font-mono text-xs transition-colors cursor-pointer"
+                >
+                  <Download className="w-3.5 h-3.5 text-blue-400" />
+                  <span>UNDUH CSV</span>
+                </button>
+              )}
             </div>
           </div>
 
           {/* Result Count */}
-          <div className="flex items-center justify-between font-mono text-xs text-muted">
-            <span>MENAMPILKAN {filteredTransactions.length} TRANSAKSI</span>
+          <div className="flex flex-wrap items-center justify-between gap-2 font-mono text-xs text-muted">
+            <span>
+              MENAMPILKAN {paginatedTransactions.length} DARI {filteredTransactions.length} TRANSAKSI
+            </span>
             <span>PEMBUKUAN PUBLIK TERVERIFIKASI</span>
           </div>
 
@@ -228,7 +312,7 @@ export function PublicFinanceClient({
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/[0.06] text-sm">
-                    {filteredTransactions.map((tx) => (
+                    {paginatedTransactions.map((tx) => (
                       <tr
                         key={tx.id}
                         className="hover:bg-surface-hover transition-colors"
@@ -272,7 +356,7 @@ export function PublicFinanceClient({
 
               {/* Mobile Card List */}
               <div className="md:hidden space-y-3">
-                {filteredTransactions.map((tx) => (
+                {paginatedTransactions.map((tx) => (
                   <div
                     key={tx.id}
                     className="p-4 border border-hairline bg-surface space-y-3"
@@ -310,6 +394,37 @@ export function PublicFinanceClient({
                   </div>
                 ))}
               </div>
+
+              {/* Pagination Bar */}
+              {totalPages > 1 && (
+                <div className="flex items-center justify-between pt-2 font-mono text-xs">
+                  <span className="text-muted">
+                    HALAMAN {safePage} / {totalPages}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      disabled={safePage <= 1}
+                      onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                      className="inline-flex items-center gap-1 px-3 py-2 border border-hairline bg-surface text-secondary hover:text-main disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
+                    >
+                      <ChevronLeft className="w-3.5 h-3.5" />
+                      <span>SEBELUMNYA</span>
+                    </button>
+                    <button
+                      type="button"
+                      disabled={safePage >= totalPages}
+                      onClick={() =>
+                        setCurrentPage((p) => Math.min(totalPages, p + 1))
+                      }
+                      className="inline-flex items-center gap-1 px-3 py-2 border border-hairline bg-surface text-secondary hover:text-main disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
+                    >
+                      <span>BERIKUTNYA</span>
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+              )}
             </>
           )}
         </div>

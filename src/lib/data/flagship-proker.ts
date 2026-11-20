@@ -8,7 +8,7 @@ export interface FeaturedProker {
   status: "upcoming" | "ongoing" | "completed";
   executionDate: string;
   shortDesc: string;
-  coverImage: string;
+  coverImage?: string | null;
   isWhiteBackground?: boolean;
 }
 

@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Calendar, MapPin, ArrowRight, CheckCircle2, Clock, Activity } from "lucide-react";
 import { ProkerItem } from "@/lib/data/proker";
+import { ProkerCoverPlaceholder } from "./ProkerCoverPlaceholder";
 
 interface ProkerCardProps {
   proker: ProkerItem;
@@ -44,24 +45,33 @@ export function ProkerCard({ proker }: ProkerCardProps) {
       {/* Media Cover */}
       <div
         className={`relative aspect-[16/9] w-full overflow-hidden ${
-          proker.isWhiteBackground ? "bg-white" : "bg-black"
+          proker.coverImage && proker.isWhiteBackground ? "bg-white" : "bg-black"
         }`}
       >
-        <Image
-          src={proker.coverImage}
-          alt={proker.title}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className={`transition-transform duration-700 ease-out group-hover:scale-105 ${
-            proker.isWhiteBackground
-              ? "object-contain p-8 sm:p-12"
-              : "object-cover"
-          }`}
-        />
+        {proker.coverImage ? (
+          <>
+            <Image
+              src={proker.coverImage}
+              alt={proker.title}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className={`transition-transform duration-700 ease-out group-hover:scale-105 ${
+                proker.isWhiteBackground
+                  ? "object-contain p-8 sm:p-12"
+                  : "object-cover"
+              }`}
+            />
 
-        {/* Soft dark vignette on non-white images */}
-        {!proker.isWhiteBackground && (
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c0e] via-transparent to-transparent opacity-80" />
+            {/* Soft dark vignette on non-white images */}
+            {!proker.isWhiteBackground && (
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c0e] via-transparent to-transparent opacity-80" />
+            )}
+          </>
+        ) : (
+          <ProkerCoverPlaceholder
+            title={proker.title}
+            divisionCode={proker.divisionCode}
+          />
         )}
 
         {/* Floating Top Badges */}
