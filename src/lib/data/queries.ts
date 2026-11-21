@@ -78,8 +78,6 @@ function mapRowToOrgNode(
       status: p.status,
     }));
 
-  const fallbackProkers = Array.isArray(row.active_prokers) ? row.active_prokers : [];
-
   return {
     id: row.id,
     code: row.code,
@@ -94,7 +92,7 @@ function mapRowToOrgNode(
     leaderImage: row.leader_image ?? undefined,
     leaders: Array.isArray(row.leaders) ? row.leaders : [],
     members: Array.isArray(row.member_groups) ? row.member_groups : [],
-    activeProkers: matchedProkers.length > 0 ? matchedProkers : fallbackProkers,
+    activeProkers: matchedProkers,
     focusAreas: row.focus_areas ?? [],
   };
 }

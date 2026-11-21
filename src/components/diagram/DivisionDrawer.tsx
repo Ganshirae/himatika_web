@@ -211,50 +211,53 @@ export default function DivisionDrawer({
             </div>
           </div>
 
-          {/* Section 3: Program Kerja Utama */}
-          <div className="space-y-3">
-            <div className="flex items-center justify-between border-b border-hairline pb-2">
-              <span className="font-mono text-xs tracking-widest text-muted uppercase">
-                PROGRAM KERJA DIVISI
-              </span>
-            </div>
+          {/* Section 3: Program Kerja Utama (Hanya tampil jika divisi memiliki proker di /proker) */}
+          {selectedNode.activeProkers.length > 0 && (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between border-b border-hairline pb-2">
+                <span className="font-mono text-xs tracking-widest text-muted uppercase">
+                  PROGRAM KERJA DIVISI
+                </span>
+              </div>
 
-            <div className="space-y-2">
-              {selectedNode.activeProkers.map((proker, idx) => (
-                <div
-                  key={idx}
-                  className="p-3 bg-surface/30 border border-hairline rounded-xs flex items-center justify-between gap-3 hover:border-blue-600/40 transition-colors"
-                >
-                  <div className="min-w-0">
-                    <span className="font-mono text-xs text-main block truncate font-medium">
-                      {proker.title}
-                    </span>
-                    <span className="font-mono text-[10px] text-muted">
-                      STATUS:{" "}
-                      <span
-                        className={
-                          proker.status === "completed"
-                            ? "text-emerald-400"
-                            : proker.status === "ongoing"
-                            ? "text-blue-400"
-                            : "text-amber-400"
-                        }
-                      >
-                        {proker.status.toUpperCase()}
-                      </span>
-                    </span>
-                  </div>
-
-                  <Link href={`/proker/${proker.slug}`}
-                    className="shrink-0 p-1.5 text-muted hover:text-main border border-hairline hover:border-white/20 bg-canvas/80 rounded-xs transition-colors"
-                    title="Lihat Detail Program"
+              <div className="space-y-2">
+                {selectedNode.activeProkers.map((proker, idx) => (
+                  <div
+                    key={proker.slug || idx}
+                    className="p-3 bg-surface/30 border border-hairline rounded-xs flex items-center justify-between gap-3 hover:border-blue-600/40 transition-colors"
                   >
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              ))}
+                    <div className="min-w-0">
+                      <span className="font-mono text-xs text-main block truncate font-medium">
+                        {proker.title}
+                      </span>
+                      <span className="font-mono text-[10px] text-muted">
+                        STATUS:{" "}
+                        <span
+                          className={
+                            proker.status === "completed"
+                              ? "text-emerald-400"
+                              : proker.status === "ongoing"
+                              ? "text-blue-400"
+                              : "text-amber-400"
+                          }
+                        >
+                          {proker.status.toUpperCase()}
+                        </span>
+                      </span>
+                    </div>
+
+                    <Link
+                      href={`/proker/${proker.slug}`}
+                      className="shrink-0 p-1.5 text-muted hover:text-main border border-hairline hover:border-white/20 bg-canvas/80 rounded-xs transition-colors"
+                      title="Lihat Detail Program"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Section 4: Bidang Fokus (Core Competencies) */}
           <div className="space-y-3">
