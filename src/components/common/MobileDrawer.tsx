@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { User, ArrowUpRight, X } from "lucide-react";
 import { useLenisScroll } from "./SmoothScroller";
 import ScrambleText from "./ScrambleText";
+import { SOCIAL_LINKS } from "@/lib/data/social";
 
 interface MobileDrawerProps {
   isOpen: boolean;
@@ -16,8 +17,11 @@ interface MobileDrawerProps {
 const navItems = [
   { num: "01", label: "BERANDA", href: "/" },
   { num: "02", label: "PROGRAM KERJA", href: "/proker" },
-  { num: "03", label: "TENTANG KAMI", href: "/about" },
-  { num: "04", label: "PORTAL PENGURUS", href: "/login", isAuth: true },
+  { num: "03", label: "STRUKTUR PENGURUS", href: "/struktur" },
+  { num: "04", label: "TRANSPARANSI KAS", href: "/keuangan" },
+  { num: "05", label: "TENTANG KAMI", href: "/about" },
+  { num: "06", label: "HUBUNGI KAMI", href: "/contact" },
+  { num: "07", label: "PORTAL PENGURUS", href: "/login", isAuth: true },
 ];
 
 export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
@@ -103,7 +107,7 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
             >
               <div className="flex items-baseline gap-4">
                 <span className="font-mono text-xs text-muted tracking-widest group-hover:text-blue-400 transition-colors">
-                  {item.num} //
+                  {item.num}
                 </span>
                 <span
                   className={`font-display text-3xl sm:text-4xl tracking-tight transition-all duration-200 ${
@@ -134,36 +138,29 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
         <div className="flex items-center justify-between text-[11px] font-mono text-muted">
           <div className="flex items-center gap-2">
             <span className="inline-block w-2 h-2 rounded-full bg-blue-500" />
-            <span className="text-secondary">HIMATIKA TRILOGI // 2026-2027</span>
+            <span className="text-secondary">HIMATIKA TRILOGI • 2026-2027</span>
           </div>
           <span>JKT, ID</span>
         </div>
 
-        <div className="flex items-center justify-between pt-1 font-mono text-xs text-secondary">
-          <a
-            href="https://instagram.com/himatikator"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-blue-400 transition-colors"
-          >
-            [INSTAGRAM]
-          </a>
-          <a
-            href="https://github.com/himatikator"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-blue-400 transition-colors"
-          >
-            [GITHUB]
-          </a>
-          <a
-            href="https://linkedin.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-blue-400 transition-colors"
-          >
-            [LINKEDIN]
-          </a>
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-1 font-mono text-[11px] text-secondary">
+          {SOCIAL_LINKS.map((soc) => {
+            const isExternal = soc.href !== "#";
+            return (
+              <a
+                key={soc.label}
+                href={soc.href}
+                target={isExternal ? "_blank" : undefined}
+                rel={isExternal ? "noopener noreferrer" : undefined}
+                onClick={(e) => {
+                  if (!isExternal) e.preventDefault();
+                }}
+                className="hover:text-blue-400 transition-colors"
+              >
+                [{soc.label} • {soc.handle.toUpperCase()}]
+              </a>
+            );
+          })}
         </div>
       </div>
     </div>

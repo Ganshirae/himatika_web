@@ -92,19 +92,19 @@ z-index: 0    -> Background Slideshow & Canvas Grid Noise
 
 ```text
 [ DESKTOP VIEWPORT ]
-+-----------------------------------------------------------------------------------------+
-| [LOGO + HIMATIKA TRILOGI]         [ PURE NEGATIVE SPACE ]         [BERANDA] [PROKER] [TENTANG] [(User)] |
-+-----------------------------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------------------------------------+
+| [LOGO + HIMATIKA TRILOGI]   [ PURE NEGATIVE SPACE ]   [BERANDA] [PROKER] [STRUKTUR] [KEUANGAN] [TENTANG] [KONTAK] [(User)] |
++-----------------------------------------------------------------------------------------------------------------------+
 ```
 
 * **Struktur**:
   * **Sisi Kiri**: Logo resmi HIMATIKA + Teks merek `HIMATIKA TRILOGI` (Font `Anton`). Teks merek dilengkapi animasi interaktif **ScrambleText** saat kursor mendekat. Subtitle "Dept. of Informatics" ditiadakan demi kesederhanaan visual.
   * **Sisi Tengah**: **Pure Negative Space** (murni kosong dan bersih tanpa teks status robotik "SYS: ONLINE").
-  * **Sisi Kanan**: Menu navigasi publik: `BERANDA` (`/`), `PROKER` (`/proker`), `TENTANG` (`/about`), dan tombol ikon profil minimalis **User Profile (`<User />`)** yang mengarahkan ke Portal Pengurus (`/login`).
+  * **Sisi Kanan**: Menu navigasi publik: `BERANDA` (`/`), `PROKER` (`/proker`), `STRUKTUR` (`/struktur`), `KEUANGAN` (`/keuangan`), `TENTANG` (`/about`), `KONTAK` (`/contact`), dan tombol ikon profil minimalis **User Profile (`<User />`)** yang mengarahkan ke Portal Pengurus (`/login`).
 * **Adaptasi Mobile**:
   * Menu navigasi desktop disembunyikan.
   * Menampilkan tombol hamburger minimalis 2 garis tipis.
-  * Ketika ditekan: Membuka *fullscreen brutalist drawer* dengan menu vertikal raksasa font `Anton` beranimasi acak huruf.
+  * Ketika ditekan: Membuka *fullscreen brutalist drawer* dengan menu vertikal raksasa font `Anton` beranimasi acak huruf tanpa notasi slash.
 
 ---
 
@@ -112,32 +112,43 @@ z-index: 0    -> Background Slideshow & Canvas Grid Noise
 
 #### A. Hero Cinematic Section
 * **Latar Belakang**:
-  * Slideshow otomatis foto dokumentasi kegiatan asli HIMATIKA beresolusi tinggi dan **berwarna penuh (*full color*)** (bukan hitam-putih buatan).
-  * Dilengkapi efek transisi *Ken Burns zoom* perlahan dan vignette halus di tepi layar agar teks putih selalu terbaca tajam dan berwibawa.
+  * Slideshow foto kegiatan asli HIMATIKA berformat `.webp` beresolusi tinggi dan **berwarna penuh (*full color*)** dengan render progresif (hanya slide aktif & transisi keluar) demi *LCP* cepat.
+  * Dilengkapi lapisan overlay vignette halus di tepi layar agar teks tetap terbaca tajam.
+* **Top HUD & Subtext**:
+  * Top HUD: `HIMATIKA UNIVERSITAS TRILOGI` dengan warna kontras tinggi (`text-zinc-200` + `drop-shadow`) agar selalu terbaca jelas di atas seluruh foto latar.
+  * Subtext manusiawi ramah mahasiswa: *"Ruang belajar, berkarya, dan berkembang bersama bagi mahasiswa Teknik Informatika Universitas Trilogi."*
 * **Tipografi Lockup**:
   * Baris 1: `HIMPUNAN MAHASISWA` (Monospace `JetBrains Mono`, tracking lebar).
-  * Baris 2: `TEKNIK INFORMATIKA` (Masif font `Anton`, `clamp(3.5rem, 9vw, 8.5rem)`).
-  * Baris 3: `UNIVERSITAS TRILOGI` (Font `Anton`, diwarnai **Biru Tua HIMATIKA `#2563eb`** sesuai lambang universitas).
+  * Baris 2: `TEKNIK INFORMATIKA` (Masif font `Anton`, `clamp(2.75rem, 8.5vw, 8.5rem)`).
+  * Baris 3: `UNIVERSITAS TRILOGI` (Font `Anton`, diwarnai **Biru Almamater HIMATIKA `#2563eb`** sesuai lambang universitas).
 * **Bottom Controls**:
-  * Indikator scroll di sudut kiri bawah: `SCROLL TO EXPLORE` dengan garis penunjuk animasi.
+  * Indikator scroll di sudut kiri bawah: `EKSPLORASI` dengan animasi panah terhubung ke Lenis scroll, serta label lokasi `JAKARTA SELATAN` (`text-zinc-300`) di kanan bawah.
 
-#### B. Featured Showcase Slider (Program Kerja Pilihan)
+#### B. Featured Showcase Slider (Program Kerja Unggulan)
 * **Layout**: Split komposisi 2 sisi (55% visual preview + 45% metadata):
-  * **Sisi Kiri (55%)**: Foto dokumentasi asli kegiatan berwarna tajam (T-Camp, IT Expo, Workshop, Company Visit MNC).
-  * **Sisi Kanan (45%)**: Counter monospaced (`01 / 04`), nama divisi, judul kegiatan, deskripsi ringkas, dan tombol tautan detail.
+  * **Sisi Kiri (55%)**: Preview foto dokumentasi asli kegiatan (atau `ProkerCoverPlaceholder` editorial jika poster belum dipasang/dihapus).
+    * Khusus logo `kolaborasi.png` yang berlatar putih: disajikan di dalam container berlatar putih bersih dengan `object-contain` dan tanpa dark vignette.
+  * **Sisi Kanan (45%)**: Counter monospaced dinamis (`01 / NN` mengikuti seluruh proker bertanda `is_featured`), badge divisi/kategori (dengan badge biru lembut khusus untuk `KOLABORASI HIMPUNAN`), judul kegiatan, deskripsi ringkas, dan tombol `LIHAT DETAIL PROGRAM →`.
 * **Navigasi Slider**:
   * Progress bar linear dinamis yang terisi halus saat slide berganti.
   * Tombol navigasi panah kiri/kanan dengan hover styling.
   * Dukungan sentuhan gestur **horizontal touch swipe** pada smartphone.
 
-#### C. Quick Metrics Blueprint
-* Menampilkan 4 metrik historis: Tahun Berdiri (`2015`), 8 Divisi Resmi (`08`), 24+ Program Kerja (`24+`), dan 500+ Kader & Alumni (`500+`).
+#### C. Seksi Pengantar Struktur Organisasi
+* Seksi editorial pengantar dengan judul *"KENALI PENGURUS & BIDANG KERJA"* dan tombol CTA langsung ke halaman `/struktur`.
 
 ---
 
-### 3.3 Halaman Tentang Kami: Interactive Org Blueprint (Tanpa Foto Individu)
+### 3.3 Halaman Tentang Kami (`/about`) & Struktur Pengurus (`/struktur`)
 
-> **Prinsip Fundamental**: Mengeliminasi kartu foto individu untuk menghindari tampilan yang tidak seragam dan memberikan kesan sistem arsitektur komputer murni.
+#### A. Halaman Tentang Kami (`/about`)
+* **Hero Identitas**: Logo HIMATIKA mandiri berukuran besar (hingga 320px, dapat diganti/direset admin dari `/vault`) berdampingan natural dengan narasi pendirian ormawa tanpa bingkai kotak/crosshair luar yang mengurung.
+* **Visi Kami**: Teks editorial dinamis dari `site_about` (dapat diperbarui via `/vault`).
+* **Galeri Foto Kegiatan (`AboutGallerySection`)**: Grid asimetris 1–6 foto dokumentasi *full-color* (dikelola Admin HIMATIKA & Medkraf via `/vault`) di antara Visi dan Misi dengan animasi scroll gabungan *Editorial Curtain Rise* (`scaleY` masker tersingkap dari bawah ke atas) dan *Staggered Moment Grid* (`y: 52 → 0`, jeda `0.12s`, `prefers-reduced-motion` aman).
+* **Misi Organisasi**: Disajikan dalam kartu modular dengan bahasa lugas mahasiswa (mendukung 1–8 poin misi dinamis dari tabel `site_about`), tanpa status bar operasional pabrik.
+
+#### B. Halaman Khusus Struktur Pengurus (`/struktur`)
+* **Halaman Mandiri**: Terpisah secara bersih untuk memberikan ruang lega pada diagram hierarki organisasi.
 
 ```mermaid
 graph TD
@@ -145,7 +156,7 @@ graph TD
     classDef bph fill:#0c0c0e,stroke:#ffffff,stroke-width:1px,color:#f4f4f6;
     classDef div fill:#0c0c0e,stroke:rgba(255,255,255,0.15),stroke-width:1px,color:#a1a1aa;
 
-    KAHIM["KAHIM & WAKAHIM<br/><small style='color:#3b82f6'>PRESIDIUM UTAMA</small>"]:::leader
+    KAHIM["KAHIM & WAKAHIM<br/><small style='color:#3b82f6'>PIMPINAN HIMPUNAN</small>"]:::leader
     
     KAHIM --> BPH_SEK["SEKRETARIS<br/><small>Administrasi & Kearsipan</small>"]:::bph
     KAHIM --> BPH_BEN["BENDAHARA<br/><small>Keuangan & Anggaran</small>"]:::bph
@@ -158,24 +169,21 @@ graph TD
     KAHIM --> DIV_MEDKRAF["MEDIA KREATIF<br/><small>Desain & Multimedia</small>"]:::div
 ```
 
-#### Spesifikasi Visual Node Diagram:
-* **Gaya Garis**: Jalur sirkuit bus (*motherboard circuit bus*) dengan connector dots biru menyala dan divider garis putus-putus presisi.
-* **Dual View Modes**: Pengguna dapat berganti antara tampilan **Circuit Bus** dan **Grid Matrix**.
-* **Kotak Node (Bagan)**:
-  * Bentuk: Persegi panjang berpresisi sudut tegas dengan crosshairs pojok.
-  * Status Normal: Background `#0c0c0e`, border hairline tipis, teks abu-abu terang.
-  * Status Hover: Border menyala aksen biru HIMATIKA (`#2563eb`), teks judul membesar sedikit, kursor berubah menjadi pointer.
+#### Spesifikasi Visual & Interaksi Node Diagram:
+* **Gaya Garis & Kartu Minimalis**: Jalur sirkuit bus SVG presisi (`CircuitConnector` + `SvgBusLines`) yang selaras dengan jumlah kolom tiap breakpoint (2 cabang untuk BPH, 2/3 cabang adaptif untuk Divisi) dengan badge tingkat di tengah rel; idle frame desktop tampil minimalis dengan bingkai corner hairline, inisial monogram tipis di atas garis aksen biru halus, serta label peran singkat tanpa mengulang nama divisi.
+* **Interaksi Hover 3D Photo Flip & Glitch Reveal**:
+  * Saat kursor mengarah ke kartu pimpinan/koordinator, foto resmi pengurus (`fais.webp`, `yudis.webp`, atau foto unggahan Storage) muncul seketika dengan animasi 3D perspective flip dan scanline sweep biru elektrik (`prefers-reduced-motion` aman).
+  * Kartu tetap 100% stabil (tidak membalikkan teks) dan seluruh area kartu dapat diklik langsung untuk membuka panel inspeksi.
 * **Mekanisme Interaksi Drawer (Slide-Over Panel - `DivisionDrawer.tsx`)**:
-  * Ketika pengunjung mengklik salah satu node divisi (misal: **MEDIA KREATIF** atau **PRESIDIUM**):
-  * Layar tidak berpindah halaman. Dari sisi kanan meluncur panel hitam selebar 540px di desktop (atau fullscreen di ponsel).
-  * Isi Drawer:
-    * Tag Level & Kode: `[INSPECTION PANEL // SPEC: MEDKRAF]`.
-    * Nama lengkap dan ringkasan peran.
-    * 01 // Tugas Pokok & Fungsi (Tupoksi) dalam format poin-poin bernomor.
-    * 02 // Struktur Pimpinan, nama koordinator, dan jumlah personel staf.
-    * 03 // Program Kerja naungan divisi terkait (dengan tautan langsung ke katalog proker).
-    * 04 // Bidang Fokus (#VISUAL DESIGN, #MULTIMEDIA, dll).
-    * Tombol tutup cepat via tombol `[ESC]` atau tombol klik.
+  * Mengklik node divisi membuka panel drawer samping selebar 540px di desktop (atau fullscreen di ponsel).
+  * Isi Drawer (Bebas Notasi AI-Slop):
+    * Tag Header: `DETAIL BIDANG [DIVISI]`.
+    * Nama lengkap divisi dan ringkasan peran ramah mahasiswa.
+    * Tugas Pokok & Fungsi (Tupoksi) dalam format poin-poin terstruktur.
+    * Struktur pimpinan dengan foto koordinator dan susunan `{count} Anggota`.
+    * Daftar Program Kerja naungan divisi terkait.
+    * Bidang Fokus Utama (#VISUAL DESIGN, #MULTIMEDIA, dll).
+    * Tombol tutup cepat via tombol `[ESC]` atau tombol backdrop.
 
 ---
 
@@ -194,17 +202,21 @@ graph TD
 
 ---
 
-### 3.5 The Vault: Portal Keuangan Kas Internal (`/vault`)
+### 3.5 Transparansi Kas Publik (`/keuangan`) & Portal Pengurus (`/vault`)
 
 Khusus diperuntukkan bagi pengurus internal HIMATIKA (terproteksi Supabase Auth & RLS).
 
-#### A. Antarmuka Login (Restricted Terminal)
+#### A. Antarmuka Login (`PORTAL PENGURUS` di `/login`)
 * Latar belakang gelap dengan kotak otentikasi minimalis di tengah layar.
-* Header: `[RESTRICTED AREA // HIMATIKA CLEARANCE LEVEL 1]`.
-* Input Form: Email dan Password dengan border garis tipis yang menyala saat aktif.
+* Header: `PORTAL PENGURUS` (bebas notasi `//` dan bebas jargon militer). Rute publik transparansi kas Opsi A berada di `/keuangan`.
+* Input Form: Username Jabatan atau Email Pengurus terdaftar dan Kata Sandi (dilengkapi tombol ikon mata `Eye` / `EyeOff` untuk tampil/sembunyi password) dengan border garis tipis yang menyala saat aktif.
 * Pesan Keamanan: *Unauthorized access attempts are monitored and logged.*
 
-#### B. Dashboard Keuangan (Setelah Login Berhasil)
+#### B. Dashboard Portal Pengurus (`/vault`)
+* **Navigasi Tab Berbasis Peran (Bahasa Lugas Tanpa Jargon `CMS`)**:
+  * **`KAS & KUITANSI`** (Bendahara & Admin full akses; Medkraf read-only tanpa nota privat)
+  * **`KELOLA PROGRAM KERJA`** (Medkraf & Admin)
+  * **`KELOLA STRUKTUR`** (Khusus Admin — dilengkapi thumbnail avatar & modal **Pimpinan & Foto Pengurus** untuk pratinjau/upload foto 1 koordinator maupun 2 pimpinan `PRESIDIUM`)
 * **Baris Metrik Ringkasan (KPI Cards)**:
   * **Saldo Kas Saat Ini**: Angka monospaced masif (contoh: `Rp 14.850.000`), teks hijau menyala.
   * **Total Kas Masuk**: Ditampilkan dengan ikon panah masuk hijau.
@@ -232,14 +244,13 @@ const lenis = new Lenis({
 });
 ```
 
-### 4.2 GSAP ScrollTrigger & SplitText Timelines
-* **Headline Reveal**: Huruf-huruf judul terpecah menjadi `span` terpisah dan muncul bergeser ke atas secara bertahap (*stagger 0.03s*) saat pertama kali masuk ke viewport.
-* **Fade-up Container**: Setiap kartu program kerja dan seksi halaman masuk dengan transisi `opacity: 0 -> 1` dan `translateY: 40px -> 0px` dengan durasi 0.8s kurva `power3.out`.
-* **Interactive Hover Magnetic**: Tombol bulat (seperti panah slider atau close button drawer) memiliki efek magnetik lembut mengikuti posisi kursor pengguna sejauh maksimal 8px.
+### 4.2 GSAP Hero Timeline & Animasi Terkalibrasi
+* **Hero Entrance Reveal**: Judul dan subtext masuk secara halus dengan kurva `power4.out` berdurasi terkalibrasi **`<= 0.7s`** agar terasa responsif di semua perangkat.
+* **Dukungan `prefers-reduced-motion`**: Baik GSAP hero timeline, Lenis `SmoothScroller`, maupun keyframe CSS (`3D Flip`, `scanline-sweep`, equalizer) otomatis nonaktif jika pengguna mengaktifkan preferensi pengurangan gerak di OS/browser.
 
 ### 4.3 Optimasi Responsif Mobile
-* Animasi berat berbasis JS dimatikan atau disederhanakan pada layar dengan lebar `< 768px`.
-* Mengganti animasi mouse hover dengan feedback sentuhan instan CSS `:active { opacity: 0.7; transform: scale(0.98); }`.
+* Menggunakan `overflow-x: clip` pada `html, body` agar bebas *horizontal scroll overflow* di `360px–414px` tanpa memutus elemen `position: sticky` (seperti `ProkerFilterBar`).
+* Mengganti animasi mouse hover dengan feedback sentuhan dan menampilkan potret struktur langsung secara statis pada layar mobile.
 * Menghindari efek yang memicu *reflow layout* terus menerus; hanya menganimasikan properti GPU-accelerated: `transform` dan `opacity`.
 
 ---
@@ -248,26 +259,21 @@ const lenis = new Lenis({
 
 | Breakpoint | Target Perangkat | Penyesuaian Layout Spesifik |
 | :--- | :--- | :--- |
-| **Desktop Ultra** (`≥ 1440px`) | Monitor Studio & PC Desktop | Max width `1440px`, cursor magnetik aktif, typography masif `8vw`. |
-| **Laptop / Desktop** (`1024px – 1439px`) | MacBook, Laptop Umum | Skala container `1100px`, padding samping 40px, slider 2 kolom. |
-| **Tablet** (`768px – 1023px`) | iPad, Galaxy Tab | Navbar beralih ke semi-compact, showcase proker ditumpuk vertikal dengan swipe touch. |
-| **Mobile** (`< 768px`) | iPhone, Android Smartphone | Fullscreen hamburger drawer, Single-column card grid, Diagram beralih ke daftar pohon interaktif/akordeon vertikal, video autoplay dikompresi maksimal. |
+| **Desktop Ultra** (`≥ 1440px`) | Monitor Studio & PC Desktop | Max width `1440px`, 3 kolom grid Divisi + sirkuit SVG 3 cabang, typography masif `8.5rem`. |
+| **Laptop / Desktop** (`1024px – 1439px`) | MacBook, Laptop Umum | 2 kolom grid Divisi + sirkuit SVG 2 cabang (`md..lg`) atau 3 cabang (`xl`), slider 2 kolom. |
+| **Tablet** (`768px – 1023px`) | iPad, Galaxy Tab | Navbar compact, BPH & Divisi 2 kolom dengan sirkuit 2 cabang, showcase swipe touch. |
+| **Mobile** (`< 768px`) | iPhone, Android Smartphone (`360px–414px`) | Fullscreen hamburger drawer (`MobileDrawer`), Single-column card grid, potret struktur langsung terlihat. |
 
 ---
 
 ## 6. Standar Aset & Optimasi Media
 
-1. **Video Background**:
-   * Format: `.webm` (primer) dengan fallback `.mp4` (H.264 profil baseline).
-   * Resolusi: Maksimal 1080p untuk desktop, 720p untuk mobile.
-   * Frame Rate: 24 FPS (memberikan kesan film/cinematic).
-   * Bitrate Target: Di bawah 1.5 Mbps, ukuran file maksimal 3.5 MB.
-2. **Gambar & Banner**:
-   * Disajikan via Supabase Storage Image Transformation URL:
-     * Thumbnail Mobile: `width=480&format=webp&quality=80`
-     * Detail Desktop: `width=1280&format=webp&quality=85`
+1. **Gambar Lokal (`public/image/`)**:
+   * Seluruh 22 foto kegiatan & potret pengurus terkompresi dalam format **`.webp`** via `sharp` (total `~2,68 MB`, turun dari `~11,88 MB`), menyisakan `logohima.png` (`26,9 KB`) & `kolaborasi.png` (`15 KB`) dalam PNG.
+2. **Gambar Dinamis & Optimasi Next.js (`next.config.ts`)**:
+   * `images.formats: ["image/avif", "image/webp"]` aktif untuk menyajikan format teringan ke browser client; unggahan gambar lewat `/vault` dibatasi maks. `5 MB` (JPG, PNG, WebP) ke bucket `public-assets` dengan pembersihan otomatis file usang.
 3. **Ikon Grafis**:
-   * Menggunakan pustaka minimalis **Lucide React**. Ketebalan garis diatur konsisten `stroke-width: 1.5px` untuk mempertahankan gaya monospaced yang tajam.
+   * Menggunakan pustaka minimalis **Lucide React** untuk menjaga konsistensi UI monospaced yang tajam.
 
 ---
 

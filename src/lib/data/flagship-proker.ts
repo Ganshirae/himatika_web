@@ -8,22 +8,23 @@ export interface FeaturedProker {
   status: "upcoming" | "ongoing" | "completed";
   executionDate: string;
   shortDesc: string;
-  coverImage: string;
+  coverImage?: string | null;
+  isWhiteBackground?: boolean;
 }
 
 export const FLAGSHIP_PROKERS: FeaturedProker[] = [
   {
     id: "proker-01",
     number: "01",
-    title: "T-CAMP 2026: KADERISASI & LEADERSHIP",
+    title: "T-CAMP 2026: SOLIDARITAS & KEPEMIMPINAN",
     slug: "t-camp-2026",
     divisionCode: "BPSDM",
-    divisionName: "BADAN PENGEMBANGAN SDM",
+    divisionName: "KOLABORASI HIMPUNAN",
     status: "upcoming",
     executionDate: "NOVEMBER 2026",
     shortDesc:
-      "Program kaderisasi tahunan dan latihan kepemimpinan mahasiswa Teknik Informatika dengan fokus pada solidaritas, etika rekayasa perangkat lunak, dan budaya riset kolaboratif.",
-    coverImage: "/image/tcamp2024.jpg",
+      "Program pembinaan karakter dan kepemimpinan mahasiswa Teknik Informatika untuk mempererat solidaritas, etika berorganisasi, dan kebersamaan angkatan.",
+    coverImage: "/image/tcamp2024.webp",
   },
   {
     id: "proker-02",
@@ -36,7 +37,7 @@ export const FLAGSHIP_PROKERS: FeaturedProker[] = [
     executionDate: "DESEMBER 2026",
     shortDesc:
       "Pameran inovasi teknologi tahunan, kompetisi karya software mahasiswa, turnamen esports kampus, dan showcase produk akhir berbasis teknologi tepat guna.",
-    coverImage: "/image/t-expo.jpg",
+    coverImage: "/image/t-expo.webp",
   },
   {
     id: "proker-03",
@@ -61,7 +62,21 @@ export const FLAGSHIP_PROKERS: FeaturedProker[] = [
     status: "completed",
     executionDate: "SEPTEMBER 2026",
     shortDesc:
-      "Studi ekskursi dan kunjungan industri ke perusahaan teknologi nasional (MNC Group, Jakarta Smart City) untuk memperluas jejaring profesional dan wawasan rekayasa industri.",
-    coverImage: "/image/Company Visit MNC.jpg",
+      "Kunjungan industri ke perusahaan teknologi nasional (seperti MNC Group dan Jakarta Smart City) untuk memperluas wawasan karir dan dunia kerja profesional.",
+    coverImage: "/image/Company Visit MNC.webp",
+  },
+  {
+    id: "proker-05",
+    number: "05",
+    title: "KOLABORASI TEKNOLOGI & KOMUNITAS",
+    slug: "kolaborasi-teknologi",
+    divisionCode: "KOLABORASI",
+    divisionName: "KOLABORASI HIMPUNAN",
+    status: "ongoing",
+    executionDate: "PERIODE AKTIF",
+    shortDesc:
+      "Inisiatif kerja sama HIMATIKA bersama himpunan mahasiswa kampus lain dan komunitas developer luar (seperti GDSC) untuk mengadakan workshop bareng, sharing session, dan karya kolaborasi.",
+    coverImage: "/image/kolaborasi.png",
+    isWhiteBackground: true,
   },
 ];

@@ -16,7 +16,10 @@ interface NavLinkItem {
 const NAV_LINKS: NavLinkItem[] = [
   { label: "BERANDA", href: "/" },
   { label: "PROKER", href: "/proker" },
+  { label: "STRUKTUR", href: "/struktur" },
+  { label: "KEUANGAN", href: "/keuangan" },
   { label: "TENTANG", href: "/about" },
+  { label: "KONTAK", href: "/contact" },
 ];
 
 export default function Header() {
@@ -26,7 +29,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-canvas/90 backdrop-blur-md border-b border-hairline transition-all">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-canvas/90 backdrop-blur-md border-b border-hairline transition-all print:hidden">
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-14 h-16 sm:h-20 flex items-center justify-between">
           
           {/* Sisi Kiri: Branding & Logo dengan Efek Animasi Scramble Decoding */}

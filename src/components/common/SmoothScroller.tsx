@@ -1,18 +1,16 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+import React, { createContext, useContext, useEffect, useRef } from "react";
 import Lenis from "lenis";
 import { usePathname } from "next/navigation";
 
 interface LenisContextType {
-  lenis: Lenis | null;
   stopScroll: () => void;
   startScroll: () => void;
   scrollTo: (target: string | number | HTMLElement, options?: Record<string, unknown>) => void;
 }
 
 const LenisContext = createContext<LenisContextType>({
-  lenis: null,
   stopScroll: () => {},
   startScroll: () => {},
   scrollTo: () => {},
@@ -20,12 +18,35 @@ const LenisContext = createContext<LenisContextType>({
 
 export const useLenisScroll = () => useContext(LenisContext);
 
+/**
+ * Pause Lenis smooth scrolling and lock background body scroll while a modal or drawer is open.
+ */
+export function useLockBodyScroll(isLocked: boolean) {
+  const { stopScroll, startScroll } = useLenisScroll();
+
+  useEffect(() => {
+    if (!isLocked) return;
+
+    stopScroll();
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      startScroll();
+    };
+  }, [isLocked, stopScroll, startScroll]);
+}
+
 export default function SmoothScroller({ children }: { children: React.ReactNode }) {
-  const [lenisInstance, setLenisInstance] = useState<Lenis | null>(null);
   const lenisRef = useRef<Lenis | null>(null);
   const pathname = usePathname();
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
     // Only initialize smooth scroll on client side
     const lenis = new Lenis({
       duration: 1.2,
@@ -35,10 +56,16 @@ export default function SmoothScroller({ children }: { children: React.ReactNode
       smoothWheel: true,
       wheelMultiplier: 1.0,
       touchMultiplier: 1.5,
+      allowNestedScroll: true,
+      prevent: (node) =>
+        node.hasAttribute("data-lenis-prevent") ||
+        node.getAttribute("role") === "dialog" ||
+        node.tagName === "SELECT" ||
+        node.tagName === "OPTION" ||
+        node.tagName === "TEXTAREA",
     });
 
     lenisRef.current = lenis;
-    setLenisInstance(lenis);
 
     let rafId: number;
     function raf(time: number) {
@@ -52,7 +79,6 @@ export default function SmoothScroller({ children }: { children: React.ReactNode
       cancelAnimationFrame(rafId);
       lenis.destroy();
       lenisRef.current = null;
-      setLenisInstance(null);
     };
   }, []);
 
@@ -72,13 +98,21 @@ export default function SmoothScroller({ children }: { children: React.ReactNode
   };
 
   const scrollTo = (target: string | number | HTMLElement, options?: Record<string, unknown>) => {
-    lenisRef.current?.scrollTo(target, options);
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(target, options);
+      return;
+    }
+    if (typeof target === "number") {
+      window.scrollTo({ top: target, behavior: "auto" });
+      return;
+    }
+    const element = typeof target === "string" ? document.querySelector(target) : target;
+    element?.scrollIntoView({ behavior: "auto" });
   };
 
   return (
     <LenisContext.Provider
       value={{
-        lenis: lenisInstance,
         stopScroll,
         startScroll,
         scrollTo,

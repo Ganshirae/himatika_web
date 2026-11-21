@@ -34,11 +34,28 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  const pathname = request.nextUrl.pathname;
+
   // Route protection for restricted /vault area
-  if (request.nextUrl.pathname.startsWith("/vault") && !user) {
+  if (pathname.startsWith("/vault")) {
+    if (!user) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/login";
+      url.searchParams.set("error", "unauthorized");
+      return NextResponse.redirect(url);
+    }
+
+    // Prevent browser back-button caching on private dashboard pages
+    supabaseResponse.headers.set(
+      "Cache-Control",
+      "no-store, no-cache, must-revalidate, private"
+    );
+  }
+
+  // Redirect already-authenticated users away from /login
+  if (pathname === "/login" && user) {
     const url = request.nextUrl.clone();
-    url.pathname = "/login";
-    url.searchParams.set("error", "unauthorized");
+    url.pathname = "/vault";
     return NextResponse.redirect(url);
   }
 

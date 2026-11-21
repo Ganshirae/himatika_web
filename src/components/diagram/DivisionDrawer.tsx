@@ -2,8 +2,10 @@
 
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { X, ArrowRight, ExternalLink } from "lucide-react";
 import { OrgNode } from "@/lib/data/organization";
+import { useLockBodyScroll } from "@/components/common/SmoothScroller";
 
 interface DivisionDrawerProps {
   isOpen: boolean;
@@ -18,7 +20,9 @@ export default function DivisionDrawer({
 }: DivisionDrawerProps) {
   const drawerRef = useRef<HTMLDivElement>(null);
 
-  // Tangani tombol ESC dan klik di luar untuk menutup drawer
+  useLockBodyScroll(isOpen);
+
+  // Tangani tombol ESC untuk menutup drawer
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") {
@@ -28,12 +32,10 @@ export default function DivisionDrawer({
 
     if (isOpen) {
       document.addEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "hidden";
     }
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "";
     };
   }, [isOpen, onClose]);
 
@@ -60,7 +62,7 @@ export default function DivisionDrawer({
         <div className="shrink-0 px-6 sm:px-8 py-5 border-b border-hairline flex items-center justify-between bg-surface/50">
           <div className="flex items-center gap-3 font-mono text-xs text-muted">
             <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
-            <span>INSPECTION PANEL // SPEC: {selectedNode.code}</span>
+            <span>DETAIL BIDANG {selectedNode.shortTitle}</span>
           </div>
 
           <button
@@ -75,15 +77,20 @@ export default function DivisionDrawer({
         </div>
 
         {/* Scrollable Body Content */}
-        <div className="flex-1 overflow-y-auto px-6 sm:px-8 py-7 space-y-8 custom-scrollbar">
+        <div
+          data-lenis-prevent
+          className="flex-1 overflow-y-auto overscroll-contain px-6 sm:px-8 py-7 space-y-8 custom-scrollbar"
+        >
           {/* Judul & Metadata Divisi */}
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <span className="font-mono text-xs tracking-wider uppercase px-2.5 py-0.5 bg-blue-600/10 text-blue-400 border border-blue-600/30 rounded-xs">
-                {selectedNode.levelName}
+                {selectedNode.levelName === "PRESIDIUM UTAMA"
+                  ? "PIMPINAN HIMPUNAN"
+                  : selectedNode.levelName}
               </span>
               <span className="font-mono text-xs text-muted/60">
-                NODE #{selectedNode.code}
+                HIMATIKA TRILOGI
               </span>
             </div>
 
@@ -91,7 +98,10 @@ export default function DivisionDrawer({
               id="drawer-title"
               className="font-display text-2xl sm:text-3xl text-main tracking-tight uppercase leading-none"
             >
-              {selectedNode.name}
+              {selectedNode.name.replace(
+                "Presidium Utama",
+                "Pimpinan Himpunan"
+              )}
             </h2>
 
             <p className="text-sm text-muted leading-relaxed font-sans pt-1">
@@ -103,10 +113,7 @@ export default function DivisionDrawer({
           <div className="space-y-3 pt-2">
             <div className="flex items-center justify-between border-b border-hairline pb-2">
               <span className="font-mono text-xs tracking-widest text-muted uppercase">
-                01 // TUGAS POKOK & FUNGSI (TUPOKSI)
-              </span>
-              <span className="font-mono text-[10px] text-muted/60">
-                {selectedNode.tupoksi.length} POIN STRATEGIS
+                TUGAS POKOK &amp; FUNGSI (TUPOKSI)
               </span>
             </div>
 
@@ -131,31 +138,61 @@ export default function DivisionDrawer({
           <div className="space-y-3">
             <div className="flex items-center justify-between border-b border-hairline pb-2">
               <span className="font-mono text-xs tracking-widest text-muted uppercase">
-                02 // STRUKTUR & DISTRIBUSI PERAN
-              </span>
-              <span className="font-mono text-[10px] text-muted/60">
-                LEADERSHIP BLUEPRINT
+                PENGURUS DIVISI
               </span>
             </div>
 
-            <div className="p-4 bg-surface/40 border border-hairline rounded-xs space-y-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <span className="font-mono text-[11px] text-muted block">
-                    JABATAN PIMPINAN:
-                  </span>
-                  <span className="font-mono text-sm font-semibold text-main tracking-wide">
-                    {selectedNode.leaderTitle}
-                  </span>
-                </div>
-                <span className="font-mono text-[11px] px-2 py-0.5 bg-white/5 border border-white/10 text-neutral-300 rounded-xs">
-                  {selectedNode.leaderName}
-                </span>
-              </div>
+            {/* Leader Photos Card */}
+            {(() => {
+              const leaderList =
+                selectedNode.leaders && selectedNode.leaders.length > 0
+                  ? selectedNode.leaders
+                  : selectedNode.leaderImage
+                    ? [
+                        {
+                          name: selectedNode.leaderName,
+                          role: selectedNode.leaderTitle,
+                          image: selectedNode.leaderImage,
+                        },
+                      ]
+                    : [];
 
-              <div className="border-t border-hairline pt-3 space-y-2">
+              if (leaderList.length === 0) return null;
+
+              return (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {leaderList.map((leader, i) => (
+                    <div
+                      key={i}
+                      className="p-3.5 bg-surface/60 border border-hairline rounded-xs flex items-center gap-4 hover:border-blue-500/40 transition-colors"
+                    >
+                      <div className="relative w-24 h-32 sm:w-28 sm:h-36 shrink-0 rounded-xs overflow-hidden bg-black/80 border border-blue-500/40">
+                        <Image
+                          src={leader.image}
+                          alt={leader.name}
+                          fill
+                          sizes="112px"
+                          className="object-cover object-top"
+                        />
+                      </div>
+                      <div className="min-w-0 space-y-1">
+                        <span className="font-mono text-[10px] text-blue-400 block uppercase font-semibold">
+                          {leader.role}
+                        </span>
+                        <h4 className="font-display text-base sm:text-lg text-main uppercase leading-tight">
+                          {leader.name}
+                        </h4>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
+
+            <div className="p-4 bg-surface/40 border border-hairline rounded-xs space-y-3">
+              <div className="border-t border-hairline pt-1 space-y-2">
                 <span className="font-mono text-[11px] text-muted block">
-                  ALOKASI STAF & DISTRIBUSI TUGAS:
+                  SUSUNAN ANGGOTA &amp; PENGURUS:
                 </span>
                 <div className="space-y-1.5 font-mono text-xs">
                   {selectedNode.members.map((member, i) => (
@@ -165,7 +202,7 @@ export default function DivisionDrawer({
                     >
                       <span className="text-neutral-300">{member.role}</span>
                       <span className="text-blue-400 font-semibold">
-                        {member.count} Personel
+                        {member.count} Anggota
                       </span>
                     </div>
                   ))}
@@ -174,59 +211,58 @@ export default function DivisionDrawer({
             </div>
           </div>
 
-          {/* Section 3: Program Kerja Utama */}
-          <div className="space-y-3">
-            <div className="flex items-center justify-between border-b border-hairline pb-2">
-              <span className="font-mono text-xs tracking-widest text-muted uppercase">
-                03 // PROGRAM KERJA TERKAIT
-              </span>
-              <span className="font-mono text-[10px] text-muted/60">
-                AKTIVITAS RESMI
-              </span>
-            </div>
+          {/* Section 3: Program Kerja Utama (Hanya tampil jika divisi memiliki proker di /proker) */}
+          {selectedNode.activeProkers.length > 0 && (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between border-b border-hairline pb-2">
+                <span className="font-mono text-xs tracking-widest text-muted uppercase">
+                  PROGRAM KERJA DIVISI
+                </span>
+              </div>
 
-            <div className="space-y-2">
-              {selectedNode.activeProkers.map((proker, idx) => (
-                <div
-                  key={idx}
-                  className="p-3 bg-surface/30 border border-hairline rounded-xs flex items-center justify-between gap-3 hover:border-blue-600/40 transition-colors"
-                >
-                  <div className="min-w-0">
-                    <span className="font-mono text-xs text-main block truncate font-medium">
-                      {proker.title}
-                    </span>
-                    <span className="font-mono text-[10px] text-muted">
-                      STATUS:{" "}
-                      <span
-                        className={
-                          proker.status === "completed"
-                            ? "text-emerald-400"
-                            : proker.status === "ongoing"
-                            ? "text-blue-400"
-                            : "text-amber-400"
-                        }
-                      >
-                        {proker.status.toUpperCase()}
-                      </span>
-                    </span>
-                  </div>
-
-                  <Link
-                    href={`/proker#${proker.slug}`}
-                    className="shrink-0 p-1.5 text-muted hover:text-main border border-hairline hover:border-white/20 bg-canvas/80 rounded-xs transition-colors"
-                    title="Lihat di Katalog Proker"
+              <div className="space-y-2">
+                {selectedNode.activeProkers.map((proker, idx) => (
+                  <div
+                    key={proker.slug || idx}
+                    className="p-3 bg-surface/30 border border-hairline rounded-xs flex items-center justify-between gap-3 hover:border-blue-600/40 transition-colors"
                   >
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              ))}
+                    <div className="min-w-0">
+                      <span className="font-mono text-xs text-main block truncate font-medium">
+                        {proker.title}
+                      </span>
+                      <span className="font-mono text-[10px] text-muted">
+                        STATUS:{" "}
+                        <span
+                          className={
+                            proker.status === "completed"
+                              ? "text-emerald-400"
+                              : proker.status === "ongoing"
+                              ? "text-blue-400"
+                              : "text-amber-400"
+                          }
+                        >
+                          {proker.status.toUpperCase()}
+                        </span>
+                      </span>
+                    </div>
+
+                    <Link
+                      href={`/proker/${proker.slug}`}
+                      className="shrink-0 p-1.5 text-muted hover:text-main border border-hairline hover:border-white/20 bg-canvas/80 rounded-xs transition-colors"
+                      title="Lihat Detail Program"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Section 4: Bidang Fokus (Core Competencies) */}
           <div className="space-y-3">
             <span className="font-mono text-xs tracking-widest text-muted uppercase block border-b border-hairline pb-2">
-              04 // FOCUS DOMAIN & SPESIFIKASI
+              BIDANG FOKUS UTAMA
             </span>
             <div className="flex flex-wrap gap-2">
               {selectedNode.focusAreas.map((area, idx) => (
@@ -247,7 +283,7 @@ export default function DivisionDrawer({
             href="/proker"
             className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-mono text-xs font-semibold tracking-wider transition-colors uppercase rounded-xs"
           >
-            <span>JELAJAHI KATALOG PROKER</span>
+            <span>LIHAT DAFTAR PROGRAM</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
           <button
