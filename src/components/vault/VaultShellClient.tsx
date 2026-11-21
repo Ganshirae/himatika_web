@@ -51,7 +51,7 @@ type VaultTab = "finance" | "proker" | "hero" | "divisions" | "about" | "inbox";
 const ROLE_LABEL: Record<AppRole, string> = {
   admin: "ADMIN BPH (AKSES PENUH)",
   bendahara: "BENDAHARA (KAS & KUITANSI)",
-  medkraf: "MEDKRAF (PROGRAM KERJA & SLIDER)",
+  medkraf: "MEDKRAF (PROKER, SLIDER & TENTANG)",
 };
 
 export function VaultShellClient({
@@ -155,23 +155,6 @@ export function VaultShellClient({
                 <Images className="w-4 h-4" />
                 <span>SLIDER BERANDA</span>
               </button>
-            </>
-          )}
-
-          {canEditOrg && (
-            <>
-              <button
-                type="button"
-                onClick={() => setActiveTab("divisions")}
-                className={`inline-flex items-center gap-2 px-4 py-2.5 border transition-colors cursor-pointer ${
-                  activeTab === "divisions"
-                    ? "border-blue-500 bg-blue-600 text-white"
-                    : "border-hairline bg-surface text-secondary hover:text-main"
-                }`}
-              >
-                <GitBranch className="w-4 h-4" />
-                <span>KELOLA STRUKTUR</span>
-              </button>
 
               <button
                 type="button"
@@ -186,6 +169,21 @@ export function VaultShellClient({
                 <span>KELOLA TENTANG</span>
               </button>
             </>
+          )}
+
+          {canEditOrg && (
+            <button
+              type="button"
+              onClick={() => setActiveTab("divisions")}
+              className={`inline-flex items-center gap-2 px-4 py-2.5 border transition-colors cursor-pointer ${
+                activeTab === "divisions"
+                  ? "border-blue-500 bg-blue-600 text-white"
+                  : "border-hairline bg-surface text-secondary hover:text-main"
+              }`}
+            >
+              <GitBranch className="w-4 h-4" />
+              <span>KELOLA STRUKTUR</span>
+            </button>
           )}
 
           <button
@@ -235,8 +233,8 @@ export function VaultShellClient({
           <DivisionManagerTab divisions={divisions} />
         )}
 
-        {activeTab === "about" && canEditOrg && (
-          <AboutManagerTab about={about} />
+        {activeTab === "about" && canEditProker && (
+          <AboutManagerTab about={about} canEditProfile={canEditOrg} />
         )}
 
         {activeTab === "inbox" && (

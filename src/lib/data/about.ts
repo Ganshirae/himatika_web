@@ -1,4 +1,8 @@
-import type { AboutMissionJson, SiteAboutRow } from "@/types/database.types";
+import type {
+  AboutGalleryPhotoJson,
+  AboutMissionJson,
+  SiteAboutRow,
+} from "@/types/database.types";
 
 export interface SiteAboutContent {
   introPrimary: string;
@@ -7,6 +11,7 @@ export interface SiteAboutContent {
   periodLabel: string;
   logoImageUrl: string;
   missions: AboutMissionJson[];
+  galleryPhotos: AboutGalleryPhotoJson[];
 }
 
 export const DEFAULT_SITE_ABOUT: SiteAboutContent = {
@@ -44,6 +49,36 @@ export const DEFAULT_SITE_ABOUT: SiteAboutContent = {
       desc: "Mendorong lahirnya karya teknologi tepat guna, penyelenggaraan Trilogi IT Expo tahunan, serta menumbuhkan jiwa technopreneurship mahasiswa.",
     },
   ],
+  galleryPhotos: [
+    {
+      id: "about-1",
+      imageUrl: "/image/tcamp2024.webp",
+      tag: "SOLIDARITAS & KEPEMIMPINAN",
+      caption:
+        "Pembinaan karakter mahasiswa baru dalam malam puncak T-Camp HIMATIKA.",
+    },
+    {
+      id: "about-2",
+      imageUrl: "/image/Company Visit MNC.webp",
+      tag: "WAWASAN INDUSTRI",
+      caption:
+        "Kunjungan langsung mahasiswa Teknik Informatika ke ekosistem industri teknologi nasional.",
+    },
+    {
+      id: "about-3",
+      imageUrl: "/image/t-expo.webp",
+      tag: "INOVASI & KARYA",
+      caption:
+        "Pameran inovasi digital dan karya teknologi mahasiswa di Trilogi IT Expo.",
+    },
+    {
+      id: "about-4",
+      imageUrl: "/image/workshop.webp",
+      tag: "RISET & WORKSHOP",
+      caption:
+        "Sesi eksplorasi pemrograman, workshop teknis, dan belajar kolaboratif bersama.",
+    },
+  ],
 };
 
 export function mapSiteAboutRow(row: SiteAboutRow | null | undefined): SiteAboutContent {
@@ -52,6 +87,12 @@ export function mapSiteAboutRow(row: SiteAboutRow | null | undefined): SiteAbout
     Array.isArray(row.missions) && row.missions.length > 0
       ? row.missions
       : DEFAULT_SITE_ABOUT.missions;
+  const galleryPhotos = Array.isArray(row.gallery_photos)
+    ? row.gallery_photos.filter(
+        (p): p is AboutGalleryPhotoJson =>
+          Boolean(p && typeof p.imageUrl === "string" && p.imageUrl.length > 0)
+      )
+    : DEFAULT_SITE_ABOUT.galleryPhotos;
 
   return {
     introPrimary: row.intro_primary || DEFAULT_SITE_ABOUT.introPrimary,
@@ -60,5 +101,6 @@ export function mapSiteAboutRow(row: SiteAboutRow | null | undefined): SiteAbout
     periodLabel: row.period_label || DEFAULT_SITE_ABOUT.periodLabel,
     logoImageUrl: row.logo_image_url || DEFAULT_SITE_ABOUT.logoImageUrl,
     missions,
+    galleryPhotos,
   };
 }

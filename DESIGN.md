@@ -144,6 +144,7 @@ z-index: 0    -> Background Slideshow & Canvas Grid Noise
 #### A. Halaman Tentang Kami (`/about`)
 * **Hero Identitas**: Logo HIMATIKA mandiri berukuran besar (hingga 320px, dapat diganti/direset admin dari `/vault`) berdampingan natural dengan narasi pendirian ormawa tanpa bingkai kotak/crosshair luar yang mengurung.
 * **Visi Kami**: Teks editorial dinamis dari `site_about` (dapat diperbarui via `/vault`).
+* **Galeri Foto Kegiatan (`AboutGallerySection`)**: Grid asimetris 1–6 foto dokumentasi *full-color* (dikelola Admin BPH & Medkraf via `/vault`) di antara Visi dan Misi dengan animasi scroll gabungan *Editorial Curtain Rise* (`scaleY` masker tersingkap dari bawah ke atas) dan *Staggered Moment Grid* (`y: 52 → 0`, jeda `0.12s`, `prefers-reduced-motion` aman).
 * **Misi Organisasi**: Disajikan dalam kartu modular dengan bahasa lugas mahasiswa (mendukung 1–8 poin misi dinamis dari tabel `site_about`), tanpa status bar operasional pabrik.
 
 #### B. Halaman Khusus Struktur Pengurus (`/struktur`)

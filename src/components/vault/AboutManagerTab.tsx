@@ -15,6 +15,7 @@ import {
   Upload,
 } from "lucide-react";
 import { updateSiteAbout } from "@/actions/about.actions";
+import { AboutGalleryPanel } from "./AboutGalleryPanel";
 import {
   DEFAULT_SITE_ABOUT,
   type SiteAboutContent,
@@ -23,9 +24,13 @@ import type { AboutMissionJson } from "@/types/database.types";
 
 interface AboutManagerTabProps {
   about: SiteAboutContent;
+  canEditProfile: boolean;
 }
 
-export function AboutManagerTab({ about }: AboutManagerTabProps) {
+export function AboutManagerTab({
+  about,
+  canEditProfile,
+}: AboutManagerTabProps) {
   const router = useRouter();
   const [introPrimary, setIntroPrimary] = useState(about.introPrimary);
   const [introSecondary, setIntroSecondary] = useState(about.introSecondary);
@@ -129,48 +134,55 @@ export function AboutManagerTab({ about }: AboutManagerTabProps) {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="p-6 bg-surface border border-hairline flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="space-y-1">
-          <div className="inline-flex items-center gap-2 font-mono text-xs text-blue-400 uppercase tracking-wider">
-            <BookOpen className="w-4 h-4" />
-            <span>MANAJEMEN PROFIL &amp; VISI MISI (/about)</span>
+    <div className="space-y-8">
+      <AboutGalleryPanel
+        photos={about.galleryPhotos}
+        canEditProfile={canEditProfile}
+      />
+
+      {canEditProfile && (
+        <div className="space-y-6">
+          <div className="p-6 bg-surface border border-hairline flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <div className="inline-flex items-center gap-2 font-mono text-xs text-blue-400 uppercase tracking-wider">
+                <BookOpen className="w-4 h-4" />
+                <span>MANAJEMEN PROFIL &amp; VISI MISI (/about)</span>
+              </div>
+              <h2 className="font-display text-2xl sm:text-3xl uppercase tracking-tight text-main">
+                KELOLA HALAMAN TENTANG
+              </h2>
+              <p className="text-xs sm:text-sm text-secondary font-sans">
+                Perbarui profil organisasi, visi, daftar misi, periode kepengurusan, dan logo yang tampil di halaman Tentang Kami.
+              </p>
+            </div>
+
+            <Link
+              href="/about"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 border border-hairline bg-canvas hover:border-blue-500/50 text-secondary hover:text-main font-mono text-xs transition-colors shrink-0"
+            >
+              <span>LIHAT /ABOUT</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </Link>
           </div>
-          <h2 className="font-display text-2xl sm:text-3xl uppercase tracking-tight text-main">
-            KELOLA HALAMAN TENTANG
-          </h2>
-          <p className="text-xs sm:text-sm text-secondary font-sans">
-            Perbarui profil organisasi, visi, daftar misi, periode kepengurusan, dan logo yang tampil di halaman Tentang Kami.
-          </p>
-        </div>
 
-        <Link
-          href="/about"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-4 py-2.5 border border-hairline bg-canvas hover:border-blue-500/50 text-secondary hover:text-main font-mono text-xs transition-colors shrink-0"
-        >
-          <span>LIHAT /ABOUT</span>
-          <ExternalLink className="w-3.5 h-3.5" />
-        </Link>
-      </div>
+          {feedback && (
+            <div
+              className={`p-4 border font-mono text-xs ${
+                feedback.ok
+                  ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-400"
+                  : "border-red-500/40 bg-red-500/10 text-red-400"
+              }`}
+            >
+              {feedback.msg}
+            </div>
+          )}
 
-      {feedback && (
-        <div
-          className={`p-4 border font-mono text-xs ${
-            feedback.ok
-              ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-400"
-              : "border-red-500/40 bg-red-500/10 text-red-400"
-          }`}
-        >
-          {feedback.msg}
-        </div>
-      )}
-
-      <form
-        onSubmit={handleSubmit}
-        className="p-6 bg-surface border border-hairline space-y-6"
-      >
+          <form
+            onSubmit={handleSubmit}
+            className="p-6 bg-surface border border-hairline space-y-6"
+          >
         {/* Logo & Period Row */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pb-6 border-b border-hairline">
           <div className="lg:col-span-7 space-y-3">
@@ -409,6 +421,8 @@ export function AboutManagerTab({ about }: AboutManagerTabProps) {
           </button>
         </div>
       </form>
+        </div>
+      )}
     </div>
   );
 }

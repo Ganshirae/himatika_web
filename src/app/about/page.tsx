@@ -1,9 +1,10 @@
-import React from "react";
+import React, { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import { getSiteAbout } from "@/lib/data/queries";
+import { AboutGallerySection } from "@/components/about/AboutGallerySection";
 
 export const metadata: Metadata = {
   title: "TENTANG KAMI | HIMATIKA UNIVERSITAS TRILOGI",
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
     "Profil resmi, visi, misi, dan identitas Himpunan Mahasiswa Teknik Informatika (HIMATIKA) Universitas Trilogi.",
 };
 
-export default async function AboutPage() {
+async function AboutContent() {
   const about = await getSiteAbout();
 
   return (
@@ -89,6 +90,9 @@ export default async function AboutPage() {
         </div>
       </section>
 
+      {/* SEKSI GALERI FOTO KEGIATAN (EDITORIAL CURTAIN + STAGGERED RISE) */}
+      <AboutGallerySection photos={about.galleryPhotos} />
+
       {/* SEKSI MISI: PILAR UTAMA */}
       <section className="py-20 sm:py-28 max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-14 border-b border-hairline">
         <div className="text-center max-w-3xl mx-auto mb-16">
@@ -162,5 +166,19 @@ export default async function AboutPage() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function AboutPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="w-full bg-canvas text-secondary min-h-screen flex items-center justify-center font-mono text-xs">
+          MEMUAT PROFIL HIMATIKA...
+        </div>
+      }
+    >
+      <AboutContent />
+    </Suspense>
   );
 }

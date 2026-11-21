@@ -143,6 +143,13 @@ export interface AboutMissionJson {
   desc: string;
 }
 
+export interface AboutGalleryPhotoJson {
+  id: string;
+  imageUrl: string;
+  tag: string;
+  caption: string;
+}
+
 export interface SiteAboutRow {
   id: string;
   intro_primary: string;
@@ -151,6 +158,7 @@ export interface SiteAboutRow {
   period_label: string;
   logo_image_url: string;
   missions: AboutMissionJson[];
+  gallery_photos?: AboutGalleryPhotoJson[] | null;
   updated_at: string;
 }
 
