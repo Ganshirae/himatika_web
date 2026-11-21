@@ -71,7 +71,7 @@ Menggunakan pola **Feature-Driven / Layered Architecture** di dalam Next.js App 
 
 ```text
 himatika_web/
-├── archive/                          # Backup kode legacy (index.html, style.css)
+├── archive/                          # Backup kode & config legacy (index.html, style.css, firebase/)
 ├── public/image/                     # 22 foto/potret WebP (~2.68 MB) + logohima.png + kolaborasi.png
 ├── src/
 │   ├── app/                          # Next.js App Router (16.4.6)
