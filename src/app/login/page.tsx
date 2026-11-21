@@ -6,6 +6,10 @@ export const metadata: Metadata = {
   title: "Portal Pengurus | HIMATIKA Universitas Trilogi",
   description:
     "Halaman masuk internal pengurus HIMATIKA Universitas Trilogi untuk pengelolaan kas, program kerja, dan struktur organisasi.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function LoginPage() {

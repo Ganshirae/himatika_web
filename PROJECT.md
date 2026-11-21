@@ -116,7 +116,7 @@ flowchart TD
 
 ### 3.6 Transparansi Kas Publik (`/keuangan`) & Portal Pengurus (`/vault`) [SELESAI - FASE 6 & PENYEMPURNAAN]
 * **Akses Terbatas (*Restricted Access*)**:
-  * Halaman login `/login` untuk pengurus terdaftar (`bendahara`, `medkraf`, `admin` via tabel `user_profiles`) dengan dukungan **Username Jabatan** (`admin`, `bendahara`, `medkraf` → dipetakan ke `<username>@himatika.internal`), email standar, dan tombol ikon mata tampil/sembunyi kata sandi. Halaman publik transparansi kas (Opsi A) tersedia di `/keuangan` (filter bulan/tahun, pagination, & ekspor CSV).
+  * Halaman login `/login` untuk pengurus terdaftar (berbasis role pada tabel `user_profiles`) dengan dukungan **Username Jabatan** atau email akun terdaftar (kredensial internal disamarkan dari dokumentasi publik), serta tombol ikon mata tampil/sembunyi kata sandi. Halaman publik transparansi kas (Opsi A) tersedia di `/keuangan` (filter bulan/tahun, pagination, & ekspor CSV).
   * Terproteksi Supabase Auth + Next.js 16 `src/proxy.ts` Route Guard.
 * **Dashboard Finansial & Modul Pengurus**:
   * **Kas & Kuitansi**: Saldo Kas Aktif, Total Pemasukan, Total Pengeluaran, tambah/edit/hapus transaksi kas, preview nota privat via *Signed URL* (`vault-receipts`), ekspor CSV, dan cetak laporan LPJ.
@@ -125,12 +125,10 @@ flowchart TD
   * **Kelola Tentang** *(Khusus `admin`)*: Edit deskripsi profil, visi, daftar misi, label periode aktif, serta unggah/reset logo halaman `/about`.
   * **Kotak Masuk**: Kelola pesan publik dari `/contact`, filter status (`Belum Dibaca`, `Sudah Dibaca`, `Diarsipkan`), tombol balas email, ubah status & hapus (`admin`/`medkraf`; `bendahara` mode baca).
 
-#### Matriks Hak Akses & Rincian 3 Akun Pengurus (RBAC)
+#### Matriks Hak Akses Role Pengurus (RBAC)
 
-| Fitur / Modul | `bendahara` | `medkraf` | `admin` |
+| Fitur / Modul | Role Bendahara | Role Medkraf | Role Admin |
 | :--- | :---: | :---: | :---: |
-| **Login Username** | `bendahara` | `medkraf` | `admin` |
-| **Email Internal** | `bendahara@himatika.internal` | `medkraf@himatika.internal` | `admin@himatika.internal` |
 | **Divisi (`division_code`)** | `BPH_BEN` | `MEDKRAF` | `PRESIDIUM` |
 | **Lihat Ringkasan & Buku Kas** | ✅ Penuh | 👁️ Baca Saja | ✅ Penuh |
 | **Tambah/Edit/Hapus Kas, Lihat Nota Privat, & Cetak LPJ** | ✅ Bisa | ❌ Tidak | ✅ Bisa |

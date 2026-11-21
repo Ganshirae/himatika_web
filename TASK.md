@@ -210,7 +210,7 @@
 
 - [x] **Task 6.1: Antarmuka Login Portal Pengurus (`/login`)**
   - [x] Refactor form login menjadi clean Portal Pengurus tanpa jargon AI-slop.
-  - [x] Mendukung **Username Jabatan** (`admin`, `bendahara`, `medkraf` → `@himatika.internal`) sekaligus email standar, plus tombol ikon mata tampil/sembunyi kata sandi (`Eye` / `EyeOff`).
+  - [x] Mendukung **Username Jabatan** (terhubung ke mapping domain internal) sekaligus email standar, plus tombol ikon mata tampil/sembunyi kata sandi (`Eye` / `EyeOff`).
   - [x] Hubungkan form dengan Server Action `loginUser` (`src/actions/auth.actions.ts` + Zod + Supabase Auth).
   - [x] Tangani penanganan pesan error (kredensial salah, akun belum aktif/terdaftar di `user_profiles`, unauthorized).
 - [x] **Task 6.2: Route Guard di Next.js Middleware & Cache Components**
@@ -271,7 +271,7 @@
 ---
 
 ## Status Milestone & Catatan Transisi Kerja
-* [x] **Fase 0 s/d Fase 6 Tuntas**: Lingkungan kerja, database Supabase dengan RBAC (`bendahara`, `medkraf`, `admin`), transparansi kas publik (`/keuangan`), portal `/login` (username jabatan + toggle mata password) & `/vault`, serta sinkronisasi data dinamis ke `/`, `/proker`, dan `/struktur`.
+* [x] **Fase 0 s/d Fase 6 Tuntas**: Lingkungan kerja, database Supabase berbasis RBAC (`Bendahara`, `Medkraf`, `Admin`), transparansi kas publik (`/keuangan`), portal `/login` (username jabatan + toggle mata password) & `/vault`, serta sinkronisasi data dinamis ke `/`, `/proker`, dan `/struktur`.
 * [x] **Penyempurnaan Fungsional & CMS Lanjutan (20 Nov 2026)**:
   - [x] Scrollable dropdown [`CustomSelect.tsx`](file:///C:/Users/Haerul/himatika_web/src/components/ui/CustomSelect.tsx) & perbaikan Lenis scroll hijacking di [`SmoothScroller.tsx`](file:///C:/Users/Haerul/himatika_web/src/components/common/SmoothScroller.tsx).
   - [x] Buku kas lanjutan: edit transaksi, hapus nota opsional, ekspor CSV publik & internal, filter periode & pagination di [`PublicFinanceClient.tsx`](file:///C:/Users/Haerul/himatika_web/src/components/keuangan/PublicFinanceClient.tsx), dan mode cetak LPJ.
@@ -286,6 +286,6 @@
   - [x] Audit browser headless Edge (`360x800`, `390x844`, `414x896`): `0` overflow horizontal, `0` gambar rusak, `0` error console across semua rute utama.
 * [ ] **Agenda Sesi Berikutnya (Sebelum & Saat Fase 8)**:
   - [ ] Review perubahan working tree lokal & lakukan `git commit` pada branch `Dev` (commit terakhir masih `9dcdcf3`).
-  - [ ] Uji klik langsung di `/vault` (login `admin` / `bendahara` / `medkraf`) untuk tab **KELOLA TENTANG**, **KOTAK MASUK**, edit transaksi kas, dan hapus/reset foto proker.
+  - [ ] Uji klik langsung di `/vault` (login akun pengurus sesuai hak akses) untuk tab **KELOLA TENTANG**, **KOTAK MASUK**, edit transaksi kas, dan hapus/reset foto proker.
   - [ ] Jalankan audit formal **Google Lighthouse** (> 90) di Chrome DevTools / Vercel Preview.
   - [ ] Eksekusi sisa **FASE 8** di Vercel Dashboard: import repo (`Dev` / `main`), pasang environment variables, atur Supabase Auth URL Configuration, & verifikasi live URL + Lighthouse.

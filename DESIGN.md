@@ -209,7 +209,7 @@ Khusus diperuntukkan bagi pengurus internal HIMATIKA (terproteksi Supabase Auth 
 #### A. Antarmuka Login (`PORTAL PENGURUS` di `/login`)
 * Latar belakang gelap dengan kotak otentikasi minimalis di tengah layar.
 * Header: `PORTAL PENGURUS` (bebas notasi `//` dan bebas jargon militer). Rute publik transparansi kas Opsi A berada di `/keuangan`.
-* Input Form: Username Jabatan / Email Pengurus (`admin`, `bendahara`, `medkraf`, atau email) dan Kata Sandi (dilengkapi tombol ikon mata `Eye` / `EyeOff` untuk tampil/sembunyi password) dengan border garis tipis yang menyala saat aktif.
+* Input Form: Username Jabatan atau Email Pengurus terdaftar dan Kata Sandi (dilengkapi tombol ikon mata `Eye` / `EyeOff` untuk tampil/sembunyi password) dengan border garis tipis yang menyala saat aktif.
 * Pesan Keamanan: *Unauthorized access attempts are monitored and logged.*
 
 #### B. Dashboard Portal Pengurus (`/vault`)
