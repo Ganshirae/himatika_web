@@ -169,7 +169,7 @@ graph TD
 ```
 
 #### Spesifikasi Visual & Interaksi Node Diagram:
-* **Gaya Garis & Kartu Minimalis**: Jalur sirkuit bus SVG presisi (`CircuitConnector` + `SvgBusLines`) yang selaras dengan jumlah kolom tiap breakpoint (2 cabang untuk BPH, 2/3 cabang adaptif untuk Divisi) dengan badge tingkat di tengah rel; idle frame desktop tampil minimalis dengan titik biru & monogram kode bersih.
+* **Gaya Garis & Kartu Minimalis**: Jalur sirkuit bus SVG presisi (`CircuitConnector` + `SvgBusLines`) yang selaras dengan jumlah kolom tiap breakpoint (2 cabang untuk BPH, 2/3 cabang adaptif untuk Divisi) dengan badge tingkat di tengah rel; idle frame desktop tampil minimalis dengan bingkai corner hairline, inisial monogram tipis di atas garis aksen biru halus, serta label peran singkat tanpa mengulang nama divisi.
 * **Interaksi Hover 3D Photo Flip & Glitch Reveal**:
   * Saat kursor mengarah ke kartu pimpinan/koordinator, foto resmi pengurus (`fais.webp`, `yudis.webp`, atau foto unggahan Storage) muncul seketika dengan animasi 3D perspective flip dan scanline sweep biru elektrik (`prefers-reduced-motion` aman).
   * Kartu tetap 100% stabil (tidak membalikkan teks) dan seluruh area kartu dapat diklik langsung untuk membuka panel inspeksi.

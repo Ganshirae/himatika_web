@@ -2,15 +2,18 @@ import HeroSection from "@/components/home/HeroSection";
 import ShowcaseSlider from "@/components/home/ShowcaseSlider";
 import Link from "next/link";
 import { ArrowUpRight, GitBranch, User } from "lucide-react";
-import { getFeaturedProkers } from "@/lib/data/queries";
+import { getFeaturedProkers, getPublicHeroSlides } from "@/lib/data/queries";
 
 export default async function Home() {
-  const featuredProkers = await getFeaturedProkers();
+  const [featuredProkers, heroSlides] = await Promise.all([
+    getFeaturedProkers(),
+    getPublicHeroSlides(),
+  ]);
 
   return (
     <div className="w-full flex flex-col">
       {/* 1. Cinematic Hero Section */}
-      <HeroSection />
+      <HeroSection slides={heroSlides} />
 
       {/* 2. Featured Showcase Slider (Flagship Proker) */}
       <ShowcaseSlider prokers={featuredProkers} />

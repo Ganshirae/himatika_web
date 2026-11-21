@@ -153,3 +153,13 @@ export interface SiteAboutRow {
   missions: AboutMissionJson[];
   updated_at: string;
 }
+
+export interface HeroSlideRow {
+  id: string;
+  title: string;
+  category: string;
+  image_url: string;
+  order_index: number;
+  is_active: boolean;
+  created_at: string;
+}

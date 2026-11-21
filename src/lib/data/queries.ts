@@ -8,10 +8,16 @@ import {
   mapSiteAboutRow,
   type SiteAboutContent,
 } from "@/lib/data/about";
+import {
+  DEFAULT_HERO_SLIDES,
+  mapHeroSlideRow,
+  type HeroSlideItem,
+} from "@/lib/data/hero-slides";
 import type {
   DivisionRow,
   FinanceCategoryRow,
   FinancialSummary,
+  HeroSlideRow,
   PublicFinanceRecordRow,
   SiteAboutRow,
   WorkProgramRow,
@@ -257,5 +263,32 @@ export async function getSiteAbout(): Promise<SiteAboutContent> {
     return mapSiteAboutRow(data as SiteAboutRow);
   } catch {
     return DEFAULT_SITE_ABOUT;
+  }
+}
+
+/**
+ * Fetch active Hero Background Slideshow items for the home page, with static fallback.
+ */
+export async function getPublicHeroSlides(): Promise<HeroSlideItem[]> {
+  "use cache";
+  cacheLife("minutes");
+  cacheTag("hero-slides");
+
+  try {
+    const supabase = createPublicClient();
+    const { data, error } = await supabase
+      .from("hero_slides")
+      .select("*")
+      .eq("is_active", true)
+      .order("order_index", { ascending: true })
+      .order("created_at", { ascending: true });
+
+    if (error || !data || data.length === 0) {
+      return DEFAULT_HERO_SLIDES;
+    }
+
+    return (data as HeroSlideRow[]).map(mapHeroSlideRow);
+  } catch {
+    return DEFAULT_HERO_SLIDES;
   }
 }

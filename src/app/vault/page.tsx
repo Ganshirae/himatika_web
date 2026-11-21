@@ -14,6 +14,7 @@ import type {
   FinanceCategoryRow,
   FinanceRecordRow,
   FinancialSummary,
+  HeroSlideRow,
   SiteAboutRow,
   WorkProgramRow,
 } from "@/types/database.types";
@@ -44,6 +45,7 @@ async function VaultContent() {
     recordsRes,
     categoriesRes,
     prokersRes,
+    heroSlidesRes,
     divisionsRes,
     messagesRes,
     aboutRes,
@@ -64,6 +66,11 @@ async function VaultContent() {
       .from("work_programs")
       .select("*")
       .order("highlight_number", { ascending: true, nullsFirst: false })
+      .order("created_at", { ascending: true }),
+    supabase
+      .from("hero_slides")
+      .select("*")
+      .order("order_index", { ascending: true })
       .order("created_at", { ascending: true }),
     supabase
       .from("divisions")
@@ -110,6 +117,7 @@ async function VaultContent() {
       transactions={transactions}
       categories={(categoriesRes.data ?? []) as FinanceCategoryRow[]}
       prokers={(prokersRes.data ?? []) as WorkProgramRow[]}
+      heroSlides={(heroSlidesRes.data ?? []) as HeroSlideRow[]}
       divisions={(divisionsRes.data ?? []) as DivisionRow[]}
       messages={(messagesRes.data ?? []) as ContactMessageRow[]}
       about={mapSiteAboutRow((aboutRes.data ?? null) as SiteAboutRow | null)}

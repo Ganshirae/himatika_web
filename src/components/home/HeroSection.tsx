@@ -6,32 +6,16 @@ import Link from "next/link";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { gsap } from "gsap";
 import { useLenisScroll } from "@/components/common/SmoothScroller";
+import { DEFAULT_HERO_SLIDES, type HeroSlideItem } from "@/lib/data/hero-slides";
 
-// Authentic HIMATIKA Activity Photos (Full Color Slideshow)
-const HERO_SLIDES = [
-  {
-    image: "/image/tcamp2024.webp",
-    title: "T-CAMP SOLIDARITAS",
-    category: "BPSDM",
-  },
-  {
-    image: "/image/Company Visit MNC.webp",
-    title: "COMPANY VISIT MNC",
-    category: "HUMAS",
-  },
-  {
-    image: "/image/t-expo.webp",
-    title: "TRILOGI IT EXPO",
-    category: "PMB",
-  },
-  {
-    image: "/image/workshop.webp",
-    title: "TECH WORKSHOP",
-    category: "RISET",
-  },
-];
+interface HeroSectionProps {
+  slides?: HeroSlideItem[];
+}
 
-export default function HeroSection() {
+export default function HeroSection({ slides }: HeroSectionProps) {
+  const activeSlides = slides && slides.length > 0 ? slides : DEFAULT_HERO_SLIDES;
+  const slideCount = activeSlides.length;
+
   const containerRef = useRef<HTMLDivElement>(null);
   const title1Ref = useRef<HTMLHeadingElement>(null);
   const title2Ref = useRef<HTMLHeadingElement>(null);
@@ -46,28 +30,42 @@ export default function HeroSection() {
     prevSlide: number | null;
   }>({ activeSlide: 0, prevSlide: null });
 
-  const goToSlide = useCallback((nextIdx: number) => {
-    setSlideState((prev) =>
-      prev.activeSlide === nextIdx
-        ? prev
-        : { activeSlide: nextIdx, prevSlide: prev.activeSlide }
-    );
-  }, []);
+  const safeActive = activeSlide % slideCount;
+  const safePrev =
+    prevSlide !== null && prevSlide < slideCount && prevSlide !== safeActive
+      ? prevSlide
+      : null;
+
+  const goToSlide = useCallback(
+    (nextIdx: number) => {
+      setSlideState((prev) => {
+        const current = prev.activeSlide % slideCount;
+        return current === nextIdx
+          ? prev
+          : { activeSlide: nextIdx, prevSlide: current };
+      });
+    },
+    [slideCount]
+  );
 
   const nextSlide = useCallback(() => {
-    setSlideState((prev) => ({
-      activeSlide: (prev.activeSlide + 1) % HERO_SLIDES.length,
-      prevSlide: prev.activeSlide,
-    }));
-  }, []);
+    setSlideState((prev) => {
+      const current = prev.activeSlide % slideCount;
+      return {
+        activeSlide: (current + 1) % slideCount,
+        prevSlide: current,
+      };
+    });
+  }, [slideCount]);
 
-  // Auto-advance slides every 5.5 seconds
+  // Auto-advance slides every 5.5 seconds when more than 1 slide is active
   useEffect(() => {
+    if (slideCount <= 1) return;
     const timer = setInterval(() => {
       nextSlide();
     }, 5500);
     return () => clearInterval(timer);
-  }, [nextSlide]);
+  }, [nextSlide, slideCount]);
 
   // Entrance Reveal Animation (calibrated <= 0.8s and reduced-motion aware)
   useEffect(() => {
@@ -117,14 +115,14 @@ export default function HeroSection() {
     >
       {/* 1. Cinematic Background: Authentic FULL-COLOR Photo Slideshow */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        {HERO_SLIDES.map((slide, idx) => {
-          const isActive = idx === activeSlide;
-          const isPrevious = idx === prevSlide;
+        {activeSlides.map((slide, idx) => {
+          const isActive = idx === safeActive;
+          const isPrevious = idx === safePrev;
           if (!isActive && !isPrevious) return null;
 
           return (
             <div
-              key={slide.image}
+              key={slide.id}
               className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
                 isActive ? "opacity-100 z-[1]" : "opacity-0 z-0"
               }`}
@@ -174,22 +172,24 @@ export default function HeroSection() {
         {/* Slideshow Indicator Dots */}
         <div className="flex items-center gap-2 pointer-events-auto">
           <span className="font-mono text-[10px] text-zinc-300 tracking-wider hidden sm:inline drop-shadow-[0_1px_8px_rgba(0,0,0,0.85)]">
-            {HERO_SLIDES[activeSlide].title}
+            {activeSlides[safeActive].title}
           </span>
-          <div className="flex items-center gap-1.5 ml-2">
-            {HERO_SLIDES.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => goToSlide(i)}
-                aria-label={`Slide ${i + 1}`}
-                className={`h-1 transition-all ${
-                  i === activeSlide
-                    ? "w-5 bg-blue-500"
-                    : "w-2 bg-white/20 hover:bg-white/40"
-                }`}
-              />
-            ))}
-          </div>
+          {slideCount > 1 && (
+            <div className="flex items-center gap-1.5 ml-2">
+              {activeSlides.map((slide, i) => (
+                <button
+                  key={slide.id}
+                  onClick={() => goToSlide(i)}
+                  aria-label={`Slide ${i + 1}`}
+                  className={`h-1 transition-all cursor-pointer ${
+                    i === safeActive
+                      ? "w-5 bg-blue-500"
+                      : "w-2 bg-white/20 hover:bg-white/40"
+                  }`}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
 

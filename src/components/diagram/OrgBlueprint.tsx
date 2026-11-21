@@ -14,51 +14,97 @@ interface PortraitFrameProps {
   image?: string;
   name: string;
   role: string;
-  monogram: string;
+  fallbackCode: string;
   isHovered: boolean;
   sizeClass: string;
   sizesAttr: string;
   delayMs?: number;
 }
 
+function getLeaderInitials(name: string, fallbackCode: string): string {
+  const words = name
+    .replace(/[^a-zA-Z0-9\s]/g, " ")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+
+  if (words.length >= 2) {
+    return `${words[0][0]}${words[words.length - 1][0]}`.toUpperCase();
+  }
+  if (words.length === 1 && words[0].length >= 2) {
+    return words[0].slice(0, 2).toUpperCase();
+  }
+  return (words[0]?.[0] || fallbackCode.slice(0, 2)).toUpperCase();
+}
+
+function getIdleRoleLabel(role: string): string {
+  const trimmed = role.trim();
+  if (!trimmed) return "PENGURUS";
+  if (/^wakil ketua\b/i.test(trimmed)) return "WAKIL KETUA";
+
+  const coordShort = trimmed.replace(/^koordinator\s+/i, "KOORD. ");
+  if (coordShort.length <= 16) {
+    return coordShort.toUpperCase();
+  }
+
+  const primaryWord = trimmed.replace(/^koordinator\s+/i, "").trim().split(/\s+/)[0];
+  return primaryWord ? `KOORD. ${primaryWord}`.toUpperCase() : "KOORDINATOR";
+}
+
 /**
- * Minimalist architectural portrait frame: clean dark monolith when idle on desktop,
+ * Minimalist architectural portrait frame: clean dark studio plate with subtle
+ * corner viewfinder hairlines and monogram watermark when idle on desktop,
  * revealing the full-color portrait with 3D flip + glitch scanline on hover/focus.
  */
 function PortraitFrame({
   image,
   name,
   role,
-  monogram,
+  fallbackCode,
   isHovered,
   sizeClass,
   sizesAttr,
   delayMs = 0,
 }: PortraitFrameProps) {
+  const initials = getLeaderInitials(name, fallbackCode);
+  const idleRole = getIdleRoleLabel(role);
+
   return (
     <div
-      className={`relative shrink-0 overflow-hidden border bg-[#070709] transition-colors duration-300 ${sizeClass} ${
+      className={`relative shrink-0 overflow-hidden border bg-[#060608] transition-all duration-300 ${sizeClass} ${
         isHovered
           ? "border-blue-500/80 shadow-[0_0_24px_rgba(37,99,235,0.22)]"
-          : "border-white/[0.08]"
+          : "border-white/[0.08] group-hover:border-blue-500/40"
       }`}
     >
-      {/* Minimalist idle surface (Desktop before hover) */}
+      {/* Minimalist idle studio plate (Desktop before hover) */}
       <div
-        className="absolute inset-0 flex flex-col items-center justify-center p-2 text-center"
+        className="absolute inset-0 flex flex-col items-center justify-center p-2.5 text-center"
         aria-hidden="true"
       >
         <div
-          className="absolute inset-0 opacity-25"
+          className="pointer-events-none absolute inset-0"
           style={{
-            backgroundImage:
-              "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.18) 1px, transparent 0)",
-            backgroundSize: "14px 14px",
+            background:
+              "radial-gradient(circle at 50% 30%, rgba(37, 99, 235, 0.11), transparent 72%)",
           }}
         />
-        <span className="relative h-1.5 w-1.5 rounded-full bg-blue-500/70 mb-2" />
-        <span className="relative font-mono text-[10px] font-medium tracking-[0.2em] text-muted uppercase">
-          {monogram}
+
+        {/* Delicate viewfinder corner hairlines */}
+        <span className="pointer-events-none absolute top-1.5 left-1.5 h-1.5 w-1.5 border-t border-l border-white/20" />
+        <span className="pointer-events-none absolute top-1.5 right-1.5 h-1.5 w-1.5 border-t border-r border-white/20" />
+        <span className="pointer-events-none absolute bottom-1.5 left-1.5 h-1.5 w-1.5 border-b border-l border-white/20" />
+        <span className="pointer-events-none absolute bottom-1.5 right-1.5 h-1.5 w-1.5 border-b border-r border-white/20" />
+
+        <div className="relative flex -translate-y-1.5 flex-col items-center">
+          <span className="font-display text-3xl sm:text-4xl tracking-[0.06em] text-white/[0.15] leading-none select-none">
+            {initials}
+          </span>
+          <span className="mt-2.5 h-px w-5 bg-gradient-to-r from-transparent via-blue-500/70 to-transparent" />
+        </div>
+
+        <span className="absolute inset-x-3 bottom-2.5 truncate font-mono text-[8px] font-medium tracking-[0.05em] text-zinc-400/80 uppercase">
+          {idleRole}
         </span>
       </div>
 
@@ -347,7 +393,7 @@ function OrgNodeCard({
                 image={leader.image}
                 name={leader.name}
                 role={leader.role}
-                monogram={node.code.replace("BPH_", "")}
+                fallbackCode={node.code.replace("BPH_", "")}
                 isHovered={isHovered}
                 sizeClass={portraitSize}
                 sizesAttr="(max-width: 640px) 112px, 144px"

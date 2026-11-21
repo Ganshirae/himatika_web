@@ -5,6 +5,7 @@ import Link from "next/link";
 import {
   Wallet,
   CalendarDays,
+  Images,
   GitBranch,
   BookOpen,
   Inbox,
@@ -15,6 +16,7 @@ import {
 import { logoutUser } from "@/actions/auth.actions";
 import { FinanceVaultTab } from "./FinanceVaultTab";
 import { ProkerManagerTab } from "./ProkerManagerTab";
+import { HeroSlidesManagerTab } from "./HeroSlidesManagerTab";
 import { DivisionManagerTab } from "./DivisionManagerTab";
 import { AboutManagerTab } from "./AboutManagerTab";
 import { InboxTab } from "./InboxTab";
@@ -25,6 +27,7 @@ import type {
   DivisionRow,
   FinanceCategoryRow,
   FinancialSummary,
+  HeroSlideRow,
   UserProfile,
   WorkProgramRow,
 } from "@/types/database.types";
@@ -37,17 +40,18 @@ interface VaultShellClientProps {
   transactions: VaultTransactionItem[];
   categories: FinanceCategoryRow[];
   prokers: WorkProgramRow[];
+  heroSlides: HeroSlideRow[];
   divisions: DivisionRow[];
   messages: ContactMessageRow[];
   about: SiteAboutContent;
 }
 
-type VaultTab = "finance" | "proker" | "divisions" | "about" | "inbox";
+type VaultTab = "finance" | "proker" | "hero" | "divisions" | "about" | "inbox";
 
 const ROLE_LABEL: Record<AppRole, string> = {
   admin: "ADMIN BPH (AKSES PENUH)",
   bendahara: "BENDAHARA (KAS & KUITANSI)",
-  medkraf: "MEDKRAF (PROGRAM KERJA)",
+  medkraf: "MEDKRAF (PROGRAM KERJA & SLIDER)",
 };
 
 export function VaultShellClient({
@@ -57,6 +61,7 @@ export function VaultShellClient({
   transactions,
   categories,
   prokers,
+  heroSlides,
   divisions,
   messages,
   about,
@@ -124,18 +129,33 @@ export function VaultShellClient({
           </button>
 
           {canEditProker && (
-            <button
-              type="button"
-              onClick={() => setActiveTab("proker")}
-              className={`inline-flex items-center gap-2 px-4 py-2.5 border transition-colors cursor-pointer ${
-                activeTab === "proker"
-                  ? "border-blue-500 bg-blue-600 text-white"
-                  : "border-hairline bg-surface text-secondary hover:text-main"
-              }`}
-            >
-              <CalendarDays className="w-4 h-4" />
-              <span>KELOLA PROGRAM KERJA</span>
-            </button>
+            <>
+              <button
+                type="button"
+                onClick={() => setActiveTab("proker")}
+                className={`inline-flex items-center gap-2 px-4 py-2.5 border transition-colors cursor-pointer ${
+                  activeTab === "proker"
+                    ? "border-blue-500 bg-blue-600 text-white"
+                    : "border-hairline bg-surface text-secondary hover:text-main"
+                }`}
+              >
+                <CalendarDays className="w-4 h-4" />
+                <span>KELOLA PROGRAM KERJA</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActiveTab("hero")}
+                className={`inline-flex items-center gap-2 px-4 py-2.5 border transition-colors cursor-pointer ${
+                  activeTab === "hero"
+                    ? "border-blue-500 bg-blue-600 text-white"
+                    : "border-hairline bg-surface text-secondary hover:text-main"
+                }`}
+              >
+                <Images className="w-4 h-4" />
+                <span>SLIDER BERANDA</span>
+              </button>
+            </>
           )}
 
           {canEditOrg && (
@@ -205,6 +225,10 @@ export function VaultShellClient({
 
         {activeTab === "proker" && canEditProker && (
           <ProkerManagerTab prokers={prokers} canEditProker={canEditProker} />
+        )}
+
+        {activeTab === "hero" && canEditProker && (
+          <HeroSlidesManagerTab slides={heroSlides} />
         )}
 
         {activeTab === "divisions" && canEditOrg && (
