@@ -152,7 +152,7 @@ export function InboxTab({ messages, canManageInbox }: InboxTabProps) {
         <div className="p-4 border border-hairline bg-surface font-mono text-xs text-secondary flex items-center gap-2.5">
           <AlertCircle className="w-4 h-4 text-blue-400 shrink-0" />
           <span>
-            Mode lihat saja — hanya Admin BPH dan Medkraf yang dapat mengubah status atau menghapus pesan masuk.
+            Mode lihat saja — hanya Admin HIMATIKA dan Medkraf yang dapat mengubah status atau menghapus pesan masuk.
           </span>
         </div>
       )}

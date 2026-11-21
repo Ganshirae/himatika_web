@@ -4,6 +4,7 @@ import "./globals.css";
 import SmoothScroller from "@/components/common/SmoothScroller";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
+import { SITE_URL } from "@/lib/site-url";
 
 const anton = Anton({
   weight: "400",
@@ -24,9 +25,6 @@ const poppins = Poppins({
   variable: "--font-poppins",
   display: "swap",
 });
-
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://himatika-trilogi.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

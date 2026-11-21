@@ -39,7 +39,7 @@ export const ALL_PROKERS: ProkerItem[] = [
     title: "T-CAMP 2026: SOLIDARITAS & KEPEMIMPINAN",
     slug: "t-camp-2026",
     divisionCode: "KOLABORASI",
-    divisionName: "KOLABORASI SEMUA DIVISI",
+    divisionName: "KOLABORASI HIMPUNAN",
     status: "upcoming",
     executionDate: "NOVEMBER 2026",
     location: "Kawasan Agrowisata & Villa Bukit Pelangi, Bogor",
@@ -264,7 +264,7 @@ export const ALL_PROKERS: ProkerItem[] = [
     title: "KOLABORASI TEKNOLOGI & KOMUNITAS",
     slug: "kolaborasi-teknologi",
     divisionCode: "KOLABORASI",
-    divisionName: "KOLABORASI SEMUA DIVISI",
+    divisionName: "KOLABORASI HIMPUNAN",
     status: "ongoing",
     executionDate: "PERIODE AKTIF 2026/2027",
     location: "Kampus Universitas Trilogi & Komunitas Rekanan",
@@ -492,7 +492,7 @@ export const ALL_PROKERS: ProkerItem[] = [
 
 export const DIVISION_FILTER_OPTIONS = [
   { label: "SEMUA DIVISI", value: "ALL" },
-  { label: "KOLABORASI SEMUA DIVISI", value: "KOLABORASI" },
+  { label: "KOLABORASI HIMPUNAN", value: "KOLABORASI" },
   { label: "PRESIDIUM", value: "PRESIDIUM" },
   { label: "BPSDM", value: "BPSDM" },
   { label: "MINAT & BAKAT", value: "PMB" },

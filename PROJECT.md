@@ -88,7 +88,7 @@ flowchart TD
   * Subtext manusiawi ramah mahasiswa: *"Ruang belajar, berkarya, dan berkembang bersama bagi mahasiswa Teknik Informatika Universitas Trilogi."*
   * Background slideshow foto kegiatan asli full-color terkompresi `.webp` dengan render progresif (hanya slide aktif & transisi keluar) untuk *LCP* cepat.
   * Tombol navigasi scroll bawah: `EKSPLORASI`.
-* **Featured Showcase Slider**: Slider dinamis untuk seluruh program kerja bertanda unggulan (`is_featured`) dengan nomor urut (`01 / NN`), progress bar linear dinamis, styling khusus badge biru untuk `KOLABORASI SEMUA DIVISI`, placeholder editorial jika tanpa poster (`ProkerCoverPlaceholder`), dan dukungan swipe layar sentuh.
+* **Featured Showcase Slider**: Slider dinamis untuk seluruh program kerja bertanda unggulan (`is_featured`) dengan nomor urut (`01 / NN`), progress bar linear dinamis, styling khusus badge biru untuk `KOLABORASI HIMPUNAN`, placeholder editorial jika tanpa poster (`ProkerCoverPlaceholder`), dan dukungan swipe layar sentuh.
 * **Banner Struktur Organisasi**: Seksi editorial pengantar dengan tombol CTA langsung ke halaman `/struktur`.
 
 ### 3.2 Halaman Tentang Kami (`/about`) [DINAMIS - `site_about`]
@@ -107,7 +107,7 @@ flowchart TD
 
 ### 3.4 Halaman Khusus Program Kerja (`/proker`) [SELESAI - FASE 5]
 * **Katalog Komprehensif**: Menampilkan semua program kerja HIMATIKA dari database `work_programs` (dengan seed fallback lokal `src/lib/data/proker.ts`).
-* **Sticky Filter Bar**: Filter status (`Semua`, `Akan Datang`, `Sedang Berjalan`, `Selesai`) dan filter divisi/kategori (termasuk `KOLABORASI SEMUA DIVISI` & `PIMPINAN HIMPUNAN`). Memakai `overflow-x: clip` pada body agar sticky bar menempel mulus di desktop & mobile.
+* **Sticky Filter Bar**: Filter status (`Semua`, `Akan Datang`, `Sedang Berjalan`, `Selesai`) dan filter divisi/kategori (termasuk `KOLABORASI HIMPUNAN` & `PIMPINAN HIMPUNAN`). Memakai `overflow-x: clip` pada body agar sticky bar menempel mulus di desktop & mobile.
 * **Detail Card & Dynamic Route (`/proker/[slug]`)**: Menampilkan tanggal pelaksanaan, lokasi, sasaran peserta, deskripsi & tujuan, rundown kegiatan, galeri dokumentasi foto lightbox (otomatis tersembunyi jika galeri 0 foto), tombol kontak WhatsApp panitia, serta CTA pendaftaran.
 
 ### 3.5 Halaman Kontak (`/contact`) [TERHUBUNG SUPABASE]

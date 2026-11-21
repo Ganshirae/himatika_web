@@ -63,7 +63,7 @@ export function LoginFormClient() {
                 PORTAL PENGURUS
               </h1>
               <p className="font-sans text-xs text-secondary mt-1.5 leading-relaxed">
-                Akses internal untuk pencatatan kas (Bendahara), pembaruan program kerja (Media Kreatif), dan pengelolaan struktur (Admin BPH).
+                Akses internal untuk pencatatan kas (Bendahara), pembaruan program kerja (Media Kreatif), dan pengelolaan struktur (Admin HIMATIKA).
               </p>
             </div>
           </div>
@@ -159,7 +159,7 @@ export function LoginFormClient() {
               </div>
               <div className="p-2 border border-hairline bg-surface/40 flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 bg-amber-400 rounded-full shrink-0" />
-                <span>ADMIN BPH</span>
+                <span className="leading-tight">ADMIN HIMATIKA</span>
               </div>
             </div>
           </div>

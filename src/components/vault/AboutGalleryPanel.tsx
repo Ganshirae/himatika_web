@@ -197,7 +197,7 @@ export function AboutGalleryPanel({
         <div className="p-3.5 border border-hairline bg-surface/60 flex items-start gap-2.5 font-mono text-[11px] text-secondary">
           <Info className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
           <span>
-            Peran Medkraf dapat mengelola galeri foto di atas. Teks Profil, Logo, Periode, dan Visi Misi organisasi dikelola oleh Admin BPH.
+            Peran Medkraf dapat mengelola galeri foto di atas. Teks Profil, Logo, Periode, dan Visi Misi organisasi dikelola oleh Admin HIMATIKA.
           </span>
         </div>
       )}

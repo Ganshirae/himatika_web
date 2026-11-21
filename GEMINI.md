@@ -54,7 +54,7 @@
      * Judul/Headline: `Anton` (All-caps, masif, tracking ketat).
      * Data/Status/Nomor/Metadata: `JetBrains Mono` (Monospaced, uppercase, presisi, format `01 / 05`).
      * Body Text: `Poppins` (Clean, abu-abu lembut `#a1a1aa`, nyaman dibaca).
-   * ✔️ **Program Kolaboratif Lintas Divisi**: Untuk proker yang diadakan pimpinan/himpunan di mana seluruh divisi berkontribusi (seperti T-Camp, Kolaborasi Komunitas), gunakan label tag resmi: `KOLABORASI SEMUA DIVISI` dengan aksen badge biru almamater lembut.
+   * ✔️ **Program Kolaboratif Lintas Divisi**: Untuk proker yang diadakan pimpinan/himpunan di mana seluruh divisi berkontribusi (seperti T-Camp, Kolaborasi Komunitas), gunakan label tag resmi: `KOLABORASI HIMPUNAN` dengan aksen badge biru almamater lembut.
    * ✔️ **Penanganan Aset Berlatar Putih**: Untuk logo atau poster berlatar belakang putih murni (seperti `kolaborasi.png`), gunakan wadah latar putih bersih dengan `object-contain` dan nonaktifkan efek dark vignette agar logo tampil tajam tanpa kusam.
 
 3. **Aturan Struktur Organisasi & Halaman Khusus (`/struktur`)**:

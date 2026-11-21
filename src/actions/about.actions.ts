@@ -60,7 +60,7 @@ export async function updateSiteAbout(formData: FormData): Promise<ActionResult>
     return {
       success: false,
       message:
-        "Akses ditolak. Hanya Admin BPH yang dapat memperbarui halaman Tentang.",
+        "Akses ditolak. Hanya Admin HIMATIKA yang dapat memperbarui halaman Tentang.",
     };
   }
 
@@ -217,7 +217,7 @@ function normalizeGalleryArray(raw: unknown): AboutGalleryPhotoJson[] {
 }
 
 /**
- * Add or update a photo in the /about editorial gallery. Accessible to Admin BPH & Medkraf.
+ * Add or update a photo in the /about editorial gallery. Accessible to Admin HIMATIKA & Medkraf.
  */
 export async function upsertAboutGalleryPhoto(
   formData: FormData
@@ -227,7 +227,7 @@ export async function upsertAboutGalleryPhoto(
     return {
       success: false,
       message:
-        "Akses ditolak. Hanya Admin BPH atau Medkraf yang dapat mengelola galeri halaman Tentang.",
+        "Akses ditolak. Hanya Admin HIMATIKA atau Medkraf yang dapat mengelola galeri halaman Tentang.",
     };
   }
 

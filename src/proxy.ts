@@ -10,6 +10,6 @@ export const config = {
     /*
      * Match all request paths except static assets, images, and metadata crawlers.
      */
-    "/((?!_next/static|_next/image|favicon.ico|sitemap\\.xml|robots\\.txt|image/|videos/|.*\\.(?:svg|png|jpg|jpeg|gif|webp|webm)$).*)",
+    "/((?!_next/static|_next/image|favicon.ico|api/keep-alive|sitemap\\.xml|robots\\.txt|image/|videos/|.*\\.(?:svg|png|jpg|jpeg|gif|webp|webm)$).*)",
   ],
 };

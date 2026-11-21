@@ -49,7 +49,7 @@ interface VaultShellClientProps {
 type VaultTab = "finance" | "proker" | "hero" | "divisions" | "about" | "inbox";
 
 const ROLE_LABEL: Record<AppRole, string> = {
-  admin: "ADMIN BPH (AKSES PENUH)",
+  admin: "ADMIN HIMATIKA (AKSES PENUH)",
   bendahara: "BENDAHARA (KAS & KUITANSI)",
   medkraf: "MEDKRAF (PROKER, SLIDER & TENTANG)",
 };

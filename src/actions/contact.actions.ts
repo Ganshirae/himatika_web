@@ -77,7 +77,7 @@ export async function submitContactMessage(input: {
 }
 
 /**
- * Memperbarui status pesan kontak (unread/read/archived) untuk Admin BPH & Medkraf.
+ * Memperbarui status pesan kontak (unread/read/archived) untuk Admin HIMATIKA & Medkraf.
  */
 export async function updateContactMessageStatus(
   id: string,
@@ -95,7 +95,7 @@ export async function updateContactMessageStatus(
     return {
       success: false,
       message:
-        "Akses ditolak. Hanya Admin BPH dan Medkraf yang dapat mengelola kotak masuk.",
+        "Akses ditolak. Hanya Admin HIMATIKA dan Medkraf yang dapat mengelola kotak masuk.",
     };
   }
 
@@ -121,7 +121,7 @@ export async function updateContactMessageStatus(
 }
 
 /**
- * Menghapus pesan kontak dari kotak masuk (Admin BPH & Medkraf).
+ * Menghapus pesan kontak dari kotak masuk (Admin HIMATIKA & Medkraf).
  */
 export async function deleteContactMessage(id: string): Promise<ActionResult> {
   const parsedId = MessageIdSchema.safeParse(id);
@@ -134,7 +134,7 @@ export async function deleteContactMessage(id: string): Promise<ActionResult> {
     return {
       success: false,
       message:
-        "Akses ditolak. Hanya Admin BPH dan Medkraf yang dapat menghapus pesan.",
+        "Akses ditolak. Hanya Admin HIMATIKA dan Medkraf yang dapat menghapus pesan.",
     };
   }
 

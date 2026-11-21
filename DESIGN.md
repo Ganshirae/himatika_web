@@ -128,7 +128,7 @@ z-index: 0    -> Background Slideshow & Canvas Grid Noise
 * **Layout**: Split komposisi 2 sisi (55% visual preview + 45% metadata):
   * **Sisi Kiri (55%)**: Preview foto dokumentasi asli kegiatan (atau `ProkerCoverPlaceholder` editorial jika poster belum dipasang/dihapus).
     * Khusus logo `kolaborasi.png` yang berlatar putih: disajikan di dalam container berlatar putih bersih dengan `object-contain` dan tanpa dark vignette.
-  * **Sisi Kanan (45%)**: Counter monospaced dinamis (`01 / NN` mengikuti seluruh proker bertanda `is_featured`), badge divisi/kategori (dengan badge biru lembut khusus untuk `KOLABORASI SEMUA DIVISI`), judul kegiatan, deskripsi ringkas, dan tombol `LIHAT DETAIL PROGRAM →`.
+  * **Sisi Kanan (45%)**: Counter monospaced dinamis (`01 / NN` mengikuti seluruh proker bertanda `is_featured`), badge divisi/kategori (dengan badge biru lembut khusus untuk `KOLABORASI HIMPUNAN`), judul kegiatan, deskripsi ringkas, dan tombol `LIHAT DETAIL PROGRAM →`.
 * **Navigasi Slider**:
   * Progress bar linear dinamis yang terisi halus saat slide berganti.
   * Tombol navigasi panah kiri/kanan dengan hover styling.
@@ -144,7 +144,7 @@ z-index: 0    -> Background Slideshow & Canvas Grid Noise
 #### A. Halaman Tentang Kami (`/about`)
 * **Hero Identitas**: Logo HIMATIKA mandiri berukuran besar (hingga 320px, dapat diganti/direset admin dari `/vault`) berdampingan natural dengan narasi pendirian ormawa tanpa bingkai kotak/crosshair luar yang mengurung.
 * **Visi Kami**: Teks editorial dinamis dari `site_about` (dapat diperbarui via `/vault`).
-* **Galeri Foto Kegiatan (`AboutGallerySection`)**: Grid asimetris 1–6 foto dokumentasi *full-color* (dikelola Admin BPH & Medkraf via `/vault`) di antara Visi dan Misi dengan animasi scroll gabungan *Editorial Curtain Rise* (`scaleY` masker tersingkap dari bawah ke atas) dan *Staggered Moment Grid* (`y: 52 → 0`, jeda `0.12s`, `prefers-reduced-motion` aman).
+* **Galeri Foto Kegiatan (`AboutGallerySection`)**: Grid asimetris 1–6 foto dokumentasi *full-color* (dikelola Admin HIMATIKA & Medkraf via `/vault`) di antara Visi dan Misi dengan animasi scroll gabungan *Editorial Curtain Rise* (`scaleY` masker tersingkap dari bawah ke atas) dan *Staggered Moment Grid* (`y: 52 → 0`, jeda `0.12s`, `prefers-reduced-motion` aman).
 * **Misi Organisasi**: Disajikan dalam kartu modular dengan bahasa lugas mahasiswa (mendukung 1–8 poin misi dinamis dari tabel `site_about`), tanpa status bar operasional pabrik.
 
 #### B. Halaman Khusus Struktur Pengurus (`/struktur`)

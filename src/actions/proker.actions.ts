@@ -51,7 +51,7 @@ const prokerSchema = z.object({
 });
 
 const DIVISION_NAME_MAP: Record<string, string> = {
-  KOLABORASI: "KOLABORASI SEMUA DIVISI",
+  KOLABORASI: "KOLABORASI HIMPUNAN",
   PRESIDIUM: "PIMPINAN HIMPUNAN",
   BPH_SEK: "SEKRETARIS",
   BPH_BEN: "BENDAHARA",

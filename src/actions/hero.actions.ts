@@ -58,7 +58,7 @@ export async function upsertHeroSlide(formData: FormData): Promise<ActionResult>
     return {
       success: false,
       message:
-        "Akses ditolak. Hanya Admin BPH atau Medkraf yang dapat mengelola slider beranda.",
+        "Akses ditolak. Hanya Admin HIMATIKA atau Medkraf yang dapat mengelola slider beranda.",
     };
   }
 
@@ -177,7 +177,7 @@ export async function toggleHeroSlideActive(
     return {
       success: false,
       message:
-        "Akses ditolak. Hanya Admin BPH atau Medkraf yang dapat mengubah status slide.",
+        "Akses ditolak. Hanya Admin HIMATIKA atau Medkraf yang dapat mengubah status slide.",
     };
   }
 
@@ -224,7 +224,7 @@ export async function reorderHeroSlide(
     return {
       success: false,
       message:
-        "Akses ditolak. Hanya Admin BPH atau Medkraf yang dapat mengatur urutan slide.",
+        "Akses ditolak. Hanya Admin HIMATIKA atau Medkraf yang dapat mengatur urutan slide.",
     };
   }
 
@@ -320,7 +320,7 @@ export async function deleteHeroSlide(id: string): Promise<ActionResult> {
     return {
       success: false,
       message:
-        "Akses ditolak. Hanya Admin BPH atau Medkraf yang dapat menghapus slide.",
+        "Akses ditolak. Hanya Admin HIMATIKA atau Medkraf yang dapat menghapus slide.",
     };
   }
 

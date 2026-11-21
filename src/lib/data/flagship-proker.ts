@@ -19,7 +19,7 @@ export const FLAGSHIP_PROKERS: FeaturedProker[] = [
     title: "T-CAMP 2026: SOLIDARITAS & KEPEMIMPINAN",
     slug: "t-camp-2026",
     divisionCode: "BPSDM",
-    divisionName: "KOLABORASI SEMUA DIVISI",
+    divisionName: "KOLABORASI HIMPUNAN",
     status: "upcoming",
     executionDate: "NOVEMBER 2026",
     shortDesc:
@@ -71,7 +71,7 @@ export const FLAGSHIP_PROKERS: FeaturedProker[] = [
     title: "KOLABORASI TEKNOLOGI & KOMUNITAS",
     slug: "kolaborasi-teknologi",
     divisionCode: "KOLABORASI",
-    divisionName: "KOLABORASI SEMUA DIVISI",
+    divisionName: "KOLABORASI HIMPUNAN",
     status: "ongoing",
     executionDate: "PERIODE AKTIF",
     shortDesc:

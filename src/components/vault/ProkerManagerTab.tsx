@@ -27,7 +27,7 @@ interface ProkerManagerTabProps {
 }
 
 const DIVISION_OPTIONS = [
-  { value: "KOLABORASI", label: "KOLABORASI SEMUA DIVISI" },
+  { value: "KOLABORASI", label: "KOLABORASI HIMPUNAN" },
   { value: "PRESIDIUM", label: "PIMPINAN HIMPUNAN" },
   { value: "BPH_SEK", label: "SEKRETARIS" },
   { value: "BPH_BEN", label: "BENDAHARA" },

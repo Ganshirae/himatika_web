@@ -14,7 +14,7 @@
 [x] FASE 3: Halaman Beranda (Cinematic Hero & Proker Showcase Dinamis)
 [x] FASE 4: Halaman Tentang Kami (/about) & Halaman Dedikasi Struktur (/struktur)
 [x] AUDIT: Pembersihan Menyeluruh "AI Slop" & Humanisasi Copywriting Seluruh Web
-[x] FITUR: Integrasi Proker "Kolaborasi Teknologi & Komunitas" & Tag "Kolaborasi Semua Divisi"
+[x] FITUR: Integrasi Proker "Kolaborasi Teknologi & Komunitas" & Tag "Kolaborasi Himpunan"
 [x] FASE 5: Program Kerja Dedikasi (/proker & /proker/[slug])
 [x] FASE 6: The Vault - Portal Pengurus RBAC (/vault) & Transparansi Kas Publik (/keuangan)
 [x] LANJUTAN FASE 6 & CMS: Kotak Masuk Publik (contact_messages), Kelola Tentang (/about + site_about), Edit/CSV/LPJ Kas, Multi-Foto/Hapus/Reset Poster & Cleanup Storage, Diagram /struktur Minimalis (PIMPINAN HIMPUNAN), & Instagram Resmi (@himatika.trilogi)
@@ -108,14 +108,14 @@
 - [x] **Task 3.2: Featured Showcase Slider (5 Proker Unggulan)**
   - [x] Buat slider proker split-screen (Preview visual 55% + Konten teks 45%).
   - [x] Hubungkan slider dengan dataset 5 program kerja unggulan resmi HIMATIKA:
-    1. `T-CAMP 2026: SOLIDARITAS & KEPEMIMPINAN` (`/image/tcamp2024.jpg`) — Tag: `KOLABORASI SEMUA DIVISI`
+    1. `T-CAMP 2026: SOLIDARITAS & KEPEMIMPINAN` (`/image/tcamp2024.jpg`) — Tag: `KOLABORASI HIMPUNAN`
     2. `TRILOGI IT EXPO & INNOVATION FEST` (`/image/t-expo.jpg`) — Tag: `PENGEMBANGAN MINAT & BAKAT`
     3. `TECH WORKSHOP & CODING BOOTCAMP` (`/image/workshop.webp`) — Tag: `RISET & KEILMUAN`
     4. `INDUSTRIAL IMMERSION & COMPANY VISIT` (`/image/Company Visit MNC.jpg`) — Tag: `HUBUNGAN MASYARAKAT`
-    5. `KOLABORASI TEKNOLOGI & KOMUNITAS` (`/image/kolaborasi.png`) — Tag: `KOLABORASI SEMUA DIVISI`
+    5. `KOLABORASI TEKNOLOGI & KOMUNITAS` (`/image/kolaborasi.png`) — Tag: `KOLABORASI HIMPUNAN`
   - [x] Tampilkan nomor urut monospaced ringkas (`01 / 05` hingga `05 / 05`), judul proker, dan ringkasan.
   - [x] Wadah latar putih bersih khusus untuk logo `kolaborasi.png` dengan `object-contain`.
-  - [x] Styling khusus badge biru lembut untuk proker berkategori `KOLABORASI SEMUA DIVISI`.
+  - [x] Styling khusus badge biru lembut untuk proker berkategori `KOLABORASI HIMPUNAN`.
   - [x] Tombol `LIHAT DETAIL PROGRAM →` dan progress bar linear dinamis.
   - [x] Dukungan touch swipe horizontal untuk pengguna smartphone.
 - [x] **Task 3.3: Seksi Quick Metrics / Statistik HIMA**
@@ -184,17 +184,17 @@
 
 - [x] **Task 5.1: Sticky Filter Bar**
   - [x] Buat bar filter status: `[Semua]`, `[Upcoming]`, `[Ongoing]`, `[Completed]`.
-  - [x] Buat filter divisi berdasarkan 8 entitas kepengurusan + filter `KOLABORASI SEMUA DIVISI`.
+  - [x] Buat filter divisi berdasarkan 8 entitas kepengurusan + filter `KOLABORASI HIMPUNAN`.
   - [x] Implementasikan query string URL (`/proker?status=upcoming&division=RISET`) agar state filter dapat di-bookmark.
 - [x] **Task 5.2: Brutalist Proker Card Grid**
   - [x] Susun layout grid 2 kolom (Desktop) dan 1 kolom (Mobile).
   - [x] Tampilkan 6 proker utama dari arsip lama:
-    1. `T-Camp` (Kaderisasi & Karakter - Kolaborasi Semua Divisi)
+    1. `T-Camp` (Kaderisasi & Karakter - Kolaborasi Himpunan)
     2. `T-Expo` (Trilogi IT Expo & Innovation Fest - PMB)
     3. `Workshop Teknologi` (Coding Bootcamp & AI - Riset)
     4. `Company Visit` (Kunjungan Industri MNC/JSC - Humas)
     5. `Dukungan Karir` (Alumni Sharing & CV Workshop - Humas/BPSDM)
-    6. `Kolaborasi Teknologi` (Kerja Sama Ormawa & Komunitas GDSC - Kolaborasi Semua Divisi)
+    6. `Kolaborasi Teknologi` (Kerja Sama Ormawa & Komunitas GDSC - Kolaborasi Himpunan)
   - [x] Tampilkan metadata badge: Status kegiatan, tanggal pelaksanaan, divisi pelaksana (dengan styling khusus untuk proker kolaboratif).
   - [x] Efek hover zoom halus pada gambar cover proker.
 - [x] **Task 5.3: Halaman Rincian Detail Proker (`/proker/[slug]`)**
@@ -261,8 +261,9 @@
 - [ ] **Task 8.2: Deploy & Build Verification ke Vercel**
   - [ ] Hubungkan repositori GitHub (`Ganshirae/himatika_web`) dengan Vercel Dashboard.
   - [ ] Pasang environment variables Supabase di Vercel Settings (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_SITE_URL`, opsional `CRON_SECRET`).
-  - [ ] Tambahkan endpoint `/api/keep-alive` (`await connection()` + query ringan ke `divisions`) & `vercel.json` cron (`0 0 */3 * *`) agar project Supabase Free Plan tidak terkena auto-pause 7 hari.
-  - [ ] Jalankan `npm run build` dan verifikasi deployment sukses di jaringan Edge Vercel.
+  - [x] Tambahkan endpoint `/api/keep-alive` (`await connection()` + query ringan ke `divisions`) & `vercel.json` cron (`0 0 */3 * *`) agar project Supabase Free Plan tidak terkena auto-pause 7 hari.
+  - [x] Jalankan `npm run build` lokal untuk verifikasi pra-deploy (termasuk [`src/lib/site-url.ts`](file:///C:/Users/Haerul/himatika_web/src/lib/site-url.ts) otomatis membaca `VERCEL_PROJECT_PRODUCTION_URL`).
+  - [ ] Verifikasi deployment sukses di jaringan Edge Vercel.
 - [ ] **Task 8.3: Serah Terima & Dokumentasi Penggunaan**
   - [ ] Uji coba login akun bendahara pertama kali di server produksi.
   - [ ] Selesai!
@@ -287,4 +288,4 @@
   - [ ] Review perubahan working tree lokal & lakukan `git commit` pada branch `Dev` (commit terakhir masih `9dcdcf3`).
   - [ ] Uji klik langsung di `/vault` (login `admin` / `bendahara` / `medkraf`) untuk tab **KELOLA TENTANG**, **KOTAK MASUK**, edit transaksi kas, dan hapus/reset foto proker.
   - [ ] Jalankan audit formal **Google Lighthouse** (> 90) di Chrome DevTools / Vercel Preview.
-  - [ ] Eksekusi **FASE 8**: tambahkan `/api/keep-alive` + `vercel.json` cron (`0 0 */3 * *`) agar Supabase Free Plan tidak auto-pause 7 hari, pasang environment variables produksi, dan deploy ke Vercel.
+  - [ ] Eksekusi sisa **FASE 8** di Vercel Dashboard: import repo (`Dev` / `main`), pasang environment variables, atur Supabase Auth URL Configuration, & verifikasi live URL + Lighthouse.

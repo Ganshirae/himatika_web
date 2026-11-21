@@ -173,7 +173,8 @@ export default function ShowcaseSlider({ prokers = FLAGSHIP_PROKERS }: ShowcaseS
                   <span className="text-muted text-base font-normal">/ {String(total).padStart(2, "0")}</span>
                 </span>
                 <span className={`font-mono text-[11px] tracking-widest uppercase border px-2.5 py-1 ${
-                  currentProker.divisionName === "KOLABORASI SEMUA DIVISI"
+                  currentProker.divisionCode === "KOLABORASI" ||
+                  currentProker.divisionName === "KOLABORASI HIMPUNAN"
                     ? "border-blue-500/50 bg-blue-500/10 text-blue-400 font-medium"
                     : "border-hairline bg-surface text-muted"
                 }`}>

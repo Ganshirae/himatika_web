@@ -38,7 +38,7 @@ function mapRowToProkerItem(row: WorkProgramRow, index: number): ProkerItem {
     title: row.title,
     slug: row.slug,
     divisionCode: row.division_code || "KOLABORASI",
-    divisionName: row.division_name || "KOLABORASI SEMUA DIVISI",
+    divisionName: row.division_name || "KOLABORASI HIMPUNAN",
     status: row.status,
     executionDate: row.execution_label || row.execution_date || "PERIODE 2026/2027",
     location: row.location || "Universitas Trilogi",

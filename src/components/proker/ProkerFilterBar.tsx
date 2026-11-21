@@ -115,9 +115,7 @@ export function ProkerFilterBar({
                 onClick={() => onDivisionChange(div.value)}
                 className={`px-3 py-1 font-mono uppercase whitespace-nowrap text-[11px] tracking-wider rounded transition-all shrink-0 ${
                   active
-                    ? div.value === "KOLABORASI"
-                      ? "bg-blue-600/30 text-blue-300 border border-blue-500 font-semibold"
-                      : "bg-white text-black font-semibold"
+                    ? "bg-white text-black font-semibold"
                     : "bg-[#0c0c0e] text-zinc-400 hover:text-zinc-200 border border-white/5 hover:border-white/20"
                 }`}
               >

@@ -1,8 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getPublicProkers } from "@/lib/data/queries";
-
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://himatika-trilogi.vercel.app";
+import { SITE_URL } from "@/lib/site-url";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const prokers = await getPublicProkers();

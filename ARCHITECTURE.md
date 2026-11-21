@@ -76,7 +76,8 @@ himatika_web/
 ├── src/
 │   ├── app/                          # Next.js App Router (16.4.6)
 │   │   ├── page.tsx                  # Beranda (Hero slideshow WebP, dynamic ShowcaseSlider)
-│   │   ├── about/page.tsx            # Tentang Kami (Visi, Misi, Logo dinamis dari site_about)
+│   │   ├── about/page.tsx            # Tentang Kami (Visi, Misi, Galeri scroll animasi, Logo dinamis dari site_about)
+│   │   ├── api/keep-alive/route.ts   # Keep-alive cron endpoint anti-pause Supabase (await connection())
 │   │   ├── struktur/page.tsx         # Halaman Mandiri Struktur & Minimalist Circuit Diagram
 │   │   ├── proker/
 │   │   │   ├── page.tsx              # Katalog seluruh program kerja + Sticky Filter Bar
@@ -113,18 +114,20 @@ himatika_web/
 │   │   │   ├── server.ts             # Cookie-based Supabase Server Client
 │   │   │   ├── storage.ts            # Shared uploadPublicAsset & removeUnusedPublicAssets
 │   │   │   └── middleware.ts         # updateSession() guard /vault & header Cache-Control privat
-│   │   └── utils.ts                  # Currency, CSV exporter, WhatsApp normalizer, date formatter
+│   │   ├── utils.ts                  # Currency, CSV exporter, WhatsApp normalizer, date formatter
+│   │   └── site-url.ts               # Resolver SITE_URL kanonik (NEXT_PUBLIC_SITE_URL / VERCEL_PROJECT_PRODUCTION_URL)
 │   ├── actions/                      # Next.js Server Actions (Zod + updateTag + revalidatePath)
 │   │   ├── auth.actions.ts           # Login jabatan/email & logout
 │   │   ├── finance.actions.ts        # CRUD transaksi kas & kuitansi vault-receipts
 │   │   ├── proker.actions.ts         # CRUD proker, galeri, hapus/reset poster, & cleanup storage
 │   │   ├── org.actions.ts            # Edit struktur divisi, tupoksi, & foto pengurus
-│   │   ├── about.actions.ts          # Update konten /about, periode, & logo (Admin BPH)
+│   │   ├── about.actions.ts          # Update konten /about, periode, & logo (Admin HIMATIKA)
 │   │   └── contact.actions.ts        # Submit kontak publik & kelola kotak masuk (Inbox)
 │   ├── types/
 │   │   ├── database.types.ts
 │   │   └── finance.types.ts
 │   └── proxy.ts                      # Next.js 16 Proxy Route Interceptor
+├── vercel.json                       # Jadwal Vercel Cron keep-alive (/api/keep-alive tiap 3 hari)
 ├── PROJECT.md
 ├── DESIGN.md
 ├── ARCHITECTURE.md
